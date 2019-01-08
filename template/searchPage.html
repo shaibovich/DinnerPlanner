@@ -1,0 +1,140 @@
+<div class="leftMenuPosition col-lg-2">
+    <div class="row buttonRow col-lg-12">
+        <h3 class="col-lg-12 menuTitle bottomBorder">
+            My List
+        </h3>
+
+        <button type="button" ng-click="saveList()"
+                class="topButton btn btn-warning  col-lg-5 offset-lg-1 shoppingButton">Save List
+        </button>
+        <button type="button" ng-click="openAddRecipeModal()"
+                class="topButton btn btn-warning col-lg-5 offset-lg-1 shoppingButton">Add Recipe
+        </button>
+    </div>
+    <div class="row">
+        <div class="shoppingListItem col-lg-12 row justify-content-between panel panel-default"
+             ng-repeat="(key, value) in myList">
+            <button ng-click="openDishModal(value)" class=" btn col-lg-9 offset-lg-1 shoppingButton text-truncate panel-heading">
+                {{value.name}}
+            </button>
+            <button type="button" class="col-lg-2 btn removeButton" ng-click="removeItem(key)"><i
+                    class="fa fa-close"></i></button>
+        </div>
+    </div>
+</div>
+<div class="col-lg-10">
+    <h1 class="modalTitle1">
+        Search Page
+    </h1>
+    <div class="border"></div>
+    <div class="container-fluid marginBottom30" id="content">
+        <h2 class="modalTitle2">
+            Search
+        </h2>
+        <div id="searchFields">
+            <div class="row col-lg-12 searchGroup ">
+                <input type="text" class="form-control col-lg-8 " aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-lg">
+                <button type="button" class="btn btn-warning btn-primary col-lg-2 offset-lg-2 shoppingButton" ng-click="startSearch()">Search</button>
+            </div>
+            <div class="accordion col-lg-12 accordionFilter" id="accordionExample">
+                <div class="card col-lg-12 cardHolder ">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn cardButton" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                    aria-expanded="false" aria-controls="collapseOne">
+                                Ingredients Filter
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse col-lg-12 container filterContainer row"
+                         aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="row col-lg-3 ingredient filterBox" ng-repeat="(key, value) in ingridents">
+                            <input class="col-lg-2 " type="checkbox" ng-change="onIngredientsFilterChange(key, value)"
+                                   ng-model="ingridents[key].checked">
+                            <span class="modalText">
+                            {{ingridents[key].name}}
+                        </span>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-12 cardHolder">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn cardButton collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Range Filter
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseTwo" class="collapse col-lg-12 container filterContainer row marginBottom5"
+                         aria-labelledby="headingTwo" data-parent="#accordion">
+
+                        <div class="form-group col-lg-12 filterBox">
+                            <label class="col-lg-2" for="caloriesRange">Calories</label>
+                            <input min="1" max="100" type="range" class="form-control-range col-lg-8"
+                                   id="caloriesRange">
+                        </div>
+
+                        <div class="form-group col-lg-12 filterBox">
+                            <label class="col-lg-2" for="cookingTimeRange">Cooking Time</label>
+                            <input min="1" max="100" type="range" class="form-control-range col-lg-8"
+                                   id="cookingTimeRange">
+                        </div>
+
+                        <div class="form-group col-lg-12 filterBox">
+                            <label class="col-lg-2" for="peopleCount">People</label>
+                            <input min="1" max="5" type="range" class="form-control-range col-lg-8"
+                                   id="peopleCount">
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <div class="border"></div>
+    <div class="container-fluid" id="content">
+        <h2 class="modalTitle2">
+            Results
+        </h2>
+        <div ng-if="!searchResult" class="col-lg-12">
+        <span class="modalText col-lg-12">
+            No results
+        </span>
+        </div>
+        <div ng-if="isLoading" class="col-lg-12">
+            <img src="vendor/images/loader.svg">
+        </div>
+        <div ng-if="searchResult && searchResult.length" class="recipe" ng-repeat="(key, value) in searchResult">
+            <div class="image">
+                <img ng-click="onChangeRecepie(value,true)" src="{{value.photoLink}}">
+                <div class="likes">
+                    <input type="checkbox" ng-change='onChangeRecepie(value, false)' ng-model="value.done">
+                </div>
+                <div class="name">
+                    <h3>
+                        {{value.name}}
+                    </h3>
+                </div>
+            </div>
+            <ul class="media">
+                <li><i class="fa fa-clock-o"></i> {{value.cookingTime}} Minutes</li>
+                <li><i class="fa fa-leaf"></i> {{value.calories}} Calories</li>
+                <li><i class="fa fa-cutlery"></i> {{value.peopleCount}} People</li>
+            </ul>
+        </div>
+        </img>
+
+    </div>
+</div>

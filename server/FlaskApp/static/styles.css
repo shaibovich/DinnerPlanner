@@ -6,7 +6,7 @@
     border-radius: 0;
     color: black;
     border: 1px solid #ced4da;
-    background: orange;
+    background: #FFFAF0;
     height: 80px;
 
 }
@@ -36,9 +36,9 @@
 }
 
 body {
-    color: #FFF;
+    background: #FFF5EE	;
     /*background:url('https://subtlepatterns.com/patterns/gplaypattern.png');*/
-    background: url('https://subtlepatterns.com/patterns/gplaypattern.png');
+    /*background: url('https://subtlepatterns.com/patterns/gplaypattern.png');*/
 }
 
 h3 {
@@ -356,7 +356,8 @@ p {
 
 .myModal {
     opacity: 1;
-    background: url('https://subtlepatterns.com/patterns/gplaypattern.png');
+    /*background: url('https://subtlepatterns.com/patterns/gplaypattern.png');*/
+    background: #F8F8F8;
 
 }
 
@@ -624,7 +625,6 @@ input {
 
 body {
     color: #666;
-    background-color: #f1f2f2;
     font: 16px/26px "Raleway", sans-serif;
 }
 
@@ -792,7 +792,7 @@ body {
 /*font-family:"Roboto", Sans-serif;*/
 
 nav {
-    background-color: white;
+    background-color: #FFFAFA;
     position: fixed;
     top: 0;
     left: 0;
@@ -845,7 +845,7 @@ h3 {
 }
 
 .firstImage {
-    background: url("./vendor/images/food1.jpg");
+    background: url("./vendor/images/newfood1.jpg");
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
@@ -853,4 +853,65 @@ h3 {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+.secondImage {
+    background: url("./vendor/images/newfood3.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.thirdImage{
+    background: url("./vendor/images/newfood6.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.slide {
+    height: 100vh;
+}
+
+#homePage h1 {
+    color:black;
+    font-size:5em;
+    text-align:center;
+    margin:auto;
+    padding-top:2em;
+    vertical-align: middle;
+    padding-right: 1em;
+    padding-left: 1em;
+    font-weight: bolder;
+}
+
+#homePage h2 {
+    color:black;
+    font-size:3.5em;
+    text-align:center;
+    margin:auto;
+    padding-top:1.5em;
+    padding-right: 1em;
+    padding-left: 1em;
+    font-weight: bolder;
+}
+
+#homePage button {
+    position:relative;
+    margin: 0 auto;
+    font-size:1.5em;
+    height: 2em;
+    opacity: 0.9;
+    background-color:transparent;
+    color:white;
+    font-weight: bolder;
+
 }
