@@ -1,0 +1,63 @@
+<div class="modal-body col-lg-12 modal-lg myModal">
+    <div class="modal-header">
+        <h3 class="modal-title modalTitle">{{title}}</h3>
+    </div>
+
+    <div class="modal-body modalText">
+        For creating of new recipe, please fill the details below
+    </div>
+    <form class="col-lg-12 modal-body">
+        <div class="form-group col-lg-12">
+            <label class="col-lg-2" for="dishInputName">Name</label>
+            <input type="text" class="form-control col-lg-7 offset-lg-3" id="dishInputName" placeholder="Dish Name"
+                   ng-model="dish.name">
+
+        </div>
+        <div class="form-group col-lg-12">
+            <label class="col-lg-2" for="dishLink">Image</label>
+            <input type="text" class="form-control col-lg-7 offset-lg-3" id="dishLink" placeholder="Dish Image Link"
+                   ng-model="dish.link">
+        </div>
+        <div class="form-group col-lg-12 row">
+            <label class="col-lg-3 " for="dishCalories">Calories</label>
+            <input type="number" class="form-control col-lg-3" id="dishCalories" placeholder="Calories"
+                   ng-model="dish.calories">
+
+            <label class="col-lg-3 " for="dishPeopleCount">People Count</label>
+            <input type="number" class="form-control col-lg-3" id="dishPeopleCount" placeholder="People"
+                   ng-model="dish.peopleCount">
+        </div>
+
+        <div class="form-group col-lg-12 col">
+
+            <textarea ng-model="dish.details" class="form-control" rows="5" id="comment" placeholder="Dish Details"></textarea>
+
+        </div>
+        <div class="col-lg-12 row">
+            <div class="col-lg-3 row" ng-repeat="(key, value) in ingredients">
+                <div class="ingredient row ">
+                    <span class="modalText">{{ingredients[key].name}}</span>
+                    <input class="" type="checkbox" ng-change="onIngredientsChange(key, value)"
+                           ng-model="ingredients[key].checked">
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <!--<div class="form-group col-lg-12 row">-->
+        <!--<div class="custom-file col-lg-8">-->
+        <!--<input type="file" class="custom-file-input col-lg-4" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">-->
+        <!--<label class="custom-file-label col-lg-4" for="inputGroupFile01">Image</label>-->
+        <!--</div>-->
+
+        <!--</div>-->
+
+
+    </form>
+    <div class="modal-footer">
+        <button class="btn btn-warning" type="button" ng-click="ok()">OK</button>
+        <button class="btn btn-secondary" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</div>
