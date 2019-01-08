@@ -8,6 +8,8 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
             param: user
         };
 
+        $http.post(req, fub)
+
         let promise = $q.defer();
         setTimeout(function () {
             if (user && user.password && user.password === "123456") {
