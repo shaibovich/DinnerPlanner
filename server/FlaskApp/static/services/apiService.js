@@ -24,14 +24,14 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
 
     this.signup = function (user) {
         let promise = $q.defer();
-        setTimeout(function () {
-            if (user && user.password && user.password === "123456") {
-                promise.resolve(user);
-            } else {
-                promise.reject("Invalid Email / Password");
-            }
+        $http.post('/signup', user)
+            .then((res)=>{
+               promise.resolve(user);
+            })
+            .catch((err)=>{
+                promise.reject(err);
+            });
 
-        }, 1000);
         return promise.promise;
     };
 

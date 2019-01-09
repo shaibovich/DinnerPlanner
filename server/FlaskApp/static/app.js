@@ -28,7 +28,7 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
                 controller:'myRecipeController'
             });
 
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/home');
 
     }])
 
@@ -71,13 +71,13 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
             $rootScope.isConnected = true;
             $rootScope.user = JSON.parse($rootScope.getLocaleStorage('user'));
         } else {
-            $state.go('login', {}, {location:'replace'})
+            $state.go('home', {}, {location:'replace'})
         }
 
         $rootScope.logOut = function(){
             $rootScope.deleteLocalStorage('user');
             $rootScope.isConnected = false;
-            $state.go('login', {}, {location:'replace'});
+            $state.go('home', {}, {location:'replace'});
         }
 
         $rootScope.alert = function (type ,errMsg){

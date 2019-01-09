@@ -4,7 +4,7 @@ angular.module('routerApp').controller('loginController', ['$rootScope' , '$scop
         $scope.user = {
             email: "",
             password: "",
-            userName: "",
+            user: "",
             rememberMe: false
         };
         $scope.loginLayout = false;

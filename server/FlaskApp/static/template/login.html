@@ -9,9 +9,9 @@
 
     <div class="tabs-content">
         <div id="signup-tab-content" class="" ng-class="{active: isLogin()}">
-            <form name="signUpForm" class="signup-form" ng-submit="validationLogin(signUpForm) && continue()">
+            <form name="signUpForm" class="signup-form" ng-submit="validationLogin(signUpForm) && signUp()">
                 <input min="2" max="50" ng-model="user.email" type="email" class="input" id="user_email" autocomplete="off" placeholder="Email" required>
-                <input min="2" max="50" ng-model="user.userName" type="text" class="input" id="user_name" autocomplete="off" placeholder="Username" required>
+                <input min="2" max="50" ng-model="user.user" type="text" class="input" id="user_name" autocomplete="off" placeholder="Username" required>
                 <input pattern="^[a-zA-Z0-9_.-]*$" min="2" max="50" ng-model="user.password" type="password" class="input" id="user_pass1" autocomplete="off" placeholder="Password" required>
                 <input type="submit" class="button shoppingButton" value="Sign Up" ng-disabled="isLoading">
             </form>
