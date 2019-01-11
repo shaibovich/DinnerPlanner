@@ -1,12 +1,5 @@
 angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', function ($http, $q) {
     this.login = function (user) {
-        let res;
-        console.log(user);
-        let req = {
-            method: 'POST',
-            url: 'http://127.0.0.1:5000/login',
-            param: user
-        };
         let promise = $q.defer();
          $http.post('/login', user).then(function(res){
             console.log('finish');
@@ -15,9 +8,7 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
          .catch(function(err){
             console.log('err');
             promise.reject(err.data);
-         })
-
-
+         });
         return promise.promise;
 
     };

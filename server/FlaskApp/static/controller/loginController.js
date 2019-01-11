@@ -16,7 +16,9 @@ angular.module('routerApp').controller('loginController', ['$rootScope' , '$scop
         $rootScope.isLoading = true;
         apiService.login($scope.user)
             .then(function response(res){
-                $rootScope.saveToLocaleStorage('user', res);
+                if ($scope.user.rememberMe) {
+                    $rootScope.saveToLocaleStorage('user', res);
+                }
                 $rootScope.isConnected = true;
                 $rootScope.setCookie($scope.user.email);
                 $rootScope.isLoading = false;
@@ -35,6 +37,7 @@ angular.module('routerApp').controller('loginController', ['$rootScope' , '$scop
             .then(function (res){
                 $rootScope.isConnected = true;
                 $rootScope.isLoading = false;
+                $rootScope.setCookie($scope.user.email);
                 $state.go('search', $scope.user, {location: 'replace'})
             }, function(err){
                 $scope.errMsg = err;
