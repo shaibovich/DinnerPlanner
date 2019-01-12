@@ -1,14 +1,14 @@
 angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', function ($http, $q) {
     this.login = function (user) {
         let promise = $q.defer();
-         $http.post('/login', user).then(function(res){
+        $http.post('/login', user).then(function (res) {
             console.log('finish');
             promise.resolve(user);
-         })
-         .catch(function(err){
-            console.log('err');
-            promise.reject(err.data);
-         });
+        })
+            .catch(function (err) {
+                console.log('err');
+                promise.reject(err.data);
+            });
         return promise.promise;
 
     };
@@ -16,10 +16,10 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
     this.signup = function (user) {
         let promise = $q.defer();
         $http.post('/signup', user)
-            .then((res)=>{
-               promise.resolve(user);
+            .then((res) => {
+                promise.resolve(user);
             })
-            .catch((err)=>{
+            .catch((err) => {
                 promise.reject(err);
             });
 
@@ -28,9 +28,14 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
 
     this.searchRecipes = function (req) {
         let promise = $q.defer();
-        setTimeout(function () {
-            promise.resolve("");
-        }, 1000);
+        $http.post('/searchDish',req)
+            .then((res)=>{
+                promise.resolve(res && res.data || []);
+            })
+            .catch((err)=>{
+                promise.reject(err);
+            });
+
         return promise.promise;
 
     };
@@ -45,9 +50,13 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
 
     this.addRecipe = function (req) {
         let promise = $q.defer();
-        setTimeout(function () {
-            promise.resolve(foodExample);
-        }, 1000);
+        $http.post('/addDish', req)
+            .then((res) => {
+                promise.resolve(req)
+            })
+            .catch((err) => {
+                promise.reject(err);
+            });
         return promise.promise;
     };
 
@@ -59,7 +68,20 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
         return promise.promise;
     };
 
-    let foodExample ={
+    this.getIngredients = function () {
+        let promise = $q.defer();
+        $http.get('/getIngredients')
+            .then((res) => {
+                promise.resolve((res && res.data) || [])
+            })
+            .catch((err) => {
+                promise.reject(err);
+            });
+
+        return promise.promise;
+    };
+
+    let foodExample = {
         name: 'Hamburger',
         desc: 'testing desc',
         img: '',

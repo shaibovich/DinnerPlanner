@@ -1,4 +1,4 @@
-angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', 'params', function($scope, $uibModalInstance, params){
+angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', 'params', 'apiService', function ($scope, $uibModalInstance, params, apiService) {
     $scope.ok = function () {
         $uibModalInstance.close($scope.dish);
     };
@@ -10,58 +10,48 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
     // $scope.dish = params;
     console.log(params);
 
-    let markIngredients = function(list){
+    let markIngredients = function (list) {
 
-        list && $scope.ingredients.forEach(function(ing){
-            if (list.indexOf(ing.name) > -1){
+        list && $scope.ingredients.forEach(function (ing) {
+            if (list.indexOf(ing.name) > -1) {
                 ing.checked = true;
             }
         })
     };
 
-    let init = function(){
+    let init = function () {
         $scope.title = params && params.isEdit ? "Edit Recipe" : "Adding New Recipe";
 
         // get ingredients list
-        $scope.ingredients = [
-
-            {
-                name: 'salt',
-                checked : false
-            },
-            {
-                name: 'paper',
-                checked : false
-            },
-            {
-                name: 'eggs',
-                checked : false
-            },
-            {
-                name: 'orange',
-                checked : false
-            }
-        ];
+        $scope.ingredients = [];
 
         $scope.dish = {
-            name : params && params.name || "",
-            calories:  params && params.calories || 0,
-            link : params && params.link || "",
+            name: params && params.name || "",
+            calories: params && params.calories || 0,
+            photoLink: params && params.link || "",
             peopleCount: params && params.peopleCount || 0,
-            details : params && params.details || "",
-            ingredients : params && params.ingredients ||  {}
+            recipe: params && params.recipe || "",
+            ingredients: params && params.ingredients || {},
+            cookingTime: params && params.cookingTime || 0
 
         };
 
-        if ($scope.dish.ingredients && Object.keys($scope.dish.ingredients).length){
-            let ingName = $scope.dish.ingredients.forEach(function(ing){
-                return ing.name;
+        apiService.getIngredients()
+            .then(function (res) {
+                $scope.ingredients = res;
+                if ($scope.dish.ingredients && Object.keys($scope.dish.ingredients).length) {
+                    let ingName = $scope.dish.ingredients.forEach(function (ing) {
+                        return ing.name;
+                    });
+                    markIngredients(ingName);
+                }
+            })
+            .catch(function (err) {
+                $scope.ingredients = [];
             });
-            markIngredients(ingName);
-        }
+
 
     };
-
 
 
     $scope.onIngredientsChange = function (key, value) {
@@ -75,11 +65,6 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
     };
 
     init();
-
-
-
-
-
 
 
 }]);

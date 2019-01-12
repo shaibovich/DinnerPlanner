@@ -22,7 +22,7 @@ def insert(user):
             'password': user['password'],
             'name': user['user']
         }
-        query = "INSERT INTO {table} VALUES('{email}','{name}','{password}')".format(table=TABLE_NAME,
+        query = "INSERT INTO {table} VALUES(0,'{email}','{name}','{password}')".format(table=TABLE_NAME,
                                                                                      email=obj['email'],
                                                                                      password=obj['password'],
                                                                                      name=obj['name'])

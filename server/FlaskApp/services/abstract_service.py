@@ -1,5 +1,7 @@
 from flask import Response
 from FlaskApp.mysql.db import sql_driver
+from flask import jsonify, json
+
 
 NOT_FOUND = 404
 SUCCESS = 200
@@ -14,7 +16,13 @@ class abstrac_service:
         self.db = db
 
     def return_response(self, status_code, err_msg):
-        return Response(err_msg, status=status_code)
+        # res = Response(err_msg, status=status_code)
+        if status_code is SUCCESS:
+
+            res = jsonify(err_msg)
+        else:
+            res = Response(status=status_code)
+        return res
 
     def return_validation_err(self, err):
         return self.return_response(VALIDATION_ERR, err)

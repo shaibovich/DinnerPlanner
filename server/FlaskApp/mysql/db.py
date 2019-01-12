@@ -14,12 +14,22 @@ class sql_driver:
 
     def insert(self, query):
         try:
-            self.cursor.execute(query)
+            db_res = self.cursor.execute(query)
             self.conn.commit()
             return True
-        except Exception:
-            print("INSERT : error received from sql for query {query}".format(query=query))
+        except Exception as e:
+            print("INSERT : error received from sql for query {query} with error {error}".format(query=query,
+                                                                                                 error=e))
             return False
+
+    def is_exists(self, query):
+        try:
+            self.cursor.execute(query)
+            result = self.cursor.fetchall()
+            return result[0][0] > 0
+        except Exception as e:
+            print("SELECT : error received from sql for query {query}".format(query=query))
+            return None
 
     def get(self, query):
         try:

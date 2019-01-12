@@ -10,26 +10,15 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
             },
             text: ""
         };
-        $scope.ingridents = [
-            {
-                name: 'milk'
-            },
-            {
-                name: 'sugar'
-            },
-            {
-                name: 'coffee'
-            },
-            {
-                name: 'salt'
-            },
-            {
-                name: 'papper'
-            },
-            {
-                name: 'olive'
-            }
-        ];
+        $scope.ingridents = [];
+        apiService.getIngredients()
+            .then(function (ingredients) {
+                $scope.ingridents = ingredients;
+            })
+            .catch(function (err) {
+                console.log("ERROR, not ing");
+                $scope.ingridents = []
+            });
         $scope.searchResult = [];
         $scope.recpies = [
             {
@@ -46,7 +35,7 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
                 calories: 175,
                 peopleCount: 2,
                 photoLink: "https://anodetomungbeans.files.wordpress.com/2013/11/dsc_0330.jpg",
-                done:false
+                done: false
             },
             {
                 name: 'Chickpea Falafel',
@@ -54,7 +43,7 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
                 calories: 85,
                 peopleCount: 6,
                 photoLink: "http://gourmandelle.com/wp-content/uploads/2013/10/Chiftelute-de-naut-Falafel-Chickpea-Patties-Recipe.jpg",
-                done:false
+                done: false
             },
             {
                 name: 'Conchiglioni with Tofu Ricotta',
@@ -102,7 +91,8 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
         $scope.isLoading = true;
         apiService.searchRecipes($scope.search)
             .then(function (res) {
-                $scope.searchResult = $scope.recpies;
+
+                $scope.searchResult = res;
                 $scope.isLoading = false;
             })
             .catch(function (err) {
@@ -113,16 +103,16 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
 
     };
 
-    let clearMyList = function(){
-        $scope.recpies.forEach((recipe)=>{
+    let clearMyList = function () {
+        $scope.recpies.forEach((recipe) => {
             recipe.done = false;
         });
         $scope.myList = [];
     };
 
     $scope.onChangeRecepie = function (value, isImg) {
-        if (isImg){
-            if (value.done){
+        if (isImg) {
+            if (value.done) {
                 delete $scope.myList[value.name];
                 value.done = false;
             } else {
@@ -149,15 +139,14 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
         uibModal.result.then(function (name) {
             console.log(name);
             apiService.saveDinner(name)
-                .then(()=>{
+                .then(() => {
                     clearMyList();
                     $rootScope.alert("success");
-                }, (err)=>{
+                }, (err) => {
                     $rootScope.alert("fail", err);
                 });
         })
     };
-
 
 
     $scope.openAddRecipeModal = function () {
@@ -177,11 +166,10 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
 
         });
         uibModal.result.then(function (res) {
-            console.log(res);
             apiService.addRecipe(res)
-                .then((res)=>{
+                .then((res) => {
                     $rootScope.alert("success");
-                }, (err)=>{
+                }, (err) => {
                     $rootScope.alert("fail", err);
                 });
         })

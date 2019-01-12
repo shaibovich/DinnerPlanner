@@ -3,6 +3,8 @@ from FlaskApp.mysql.db import sql_driver
 from FlaskApp.utils.utils import validate_request
 from FlaskApp.services.user_service import user_service as user_services
 from FlaskApp.services.meal_service import meal_service as meal_services
+from FlaskApp.services.dish_service import dish_service as dish_services
+from FlaskApp.services.ingridents_service import ingridents_service as ingridents_services
 
 app = Flask(__name__)
 my_sql_driver = sql_driver(app)
@@ -10,6 +12,9 @@ my_sql_driver = sql_driver(app)
 # HERE PLEASE ADD CONSTRUCTOR FOR SERVICES
 user_service = user_services(my_sql_driver)
 meal_service = meal_services(my_sql_driver)
+dish_service = dish_services(my_sql_driver)
+ingridents_service = ingridents_services(my_sql_driver)
+
 
 
 #####################
@@ -46,7 +51,7 @@ def signup():
 @app.route('/addMeal', methods=['POST'])
 def add_meal():
     validate_request(request)
-    meal_service.add_meal(request.json)
+    return meal_service.add_meal(request.json)
 
 
 @app.route('/getMyMeal', methods=['GET'])
@@ -65,6 +70,7 @@ def edit_meal():
 @app.route('/getIngredients', methods=['GET'])
 def get_all_ing():
     validate_request(request)
+    return ingridents_service.get_all_ingridents()
 
 
 #####################
@@ -73,6 +79,7 @@ def get_all_ing():
 @app.route('/addDish', methods=['POST'])
 def add_dish():
     validate_request(request)
+    return dish_service.add_dish(request.json)
 
 
 @app.route('/editDish', methods=['PUT'])
@@ -88,6 +95,7 @@ def delete_dish():
 @app.route('/searchDish', methods=['POST'])
 def search_dishes():
     validate_request(request)
+    return dish_service.search_dish(request.json)
 
 
 if __name__ == "__main__":

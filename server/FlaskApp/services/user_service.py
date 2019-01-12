@@ -2,6 +2,7 @@ from FlaskApp.services.abstract_service import abstrac_service
 from FlaskApp.mysql.tabels.users import get, insert
 
 
+
 class user_service(abstrac_service):
     def __init__(self, my_sql):
         abstrac_service.__init__(self, my_sql)
@@ -11,8 +12,15 @@ class user_service(abstrac_service):
         if obj is None:
             return self.return_validation_err("User is invalid : {}".format(user))
         query = get(user)
-        if self.db.get(query):
-            return self.return_success(user)
+        result = self.db.get(query)
+        if result and len(result):
+            response = {
+                'id': result[0][0],
+                'email': result[0][1],
+                'name': result[0][2],
+                'password': result[0][3]
+            }
+            return self.return_success(response)
         else:
             return self.return_internal_err("db error for query : {}".format(query))
 
