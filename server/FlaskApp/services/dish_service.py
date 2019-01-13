@@ -27,7 +27,6 @@ class dish_service(abstrac_service):
         else:
             return self.return_internal_err("db error fro query : {}".format(query))
 
-
     def search_dish(self, dish):
         query = get(dish)
         if query:
