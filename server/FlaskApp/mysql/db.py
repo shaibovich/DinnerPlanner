@@ -37,7 +37,8 @@ class sql_driver:
             result = self.cursor.fetchall()
             return result
         except Exception as e:
-            print("SELECT : error received from sql for query {query}".format(query=query))
+            print("SELECT : error received from sql for query {query} ׳with error {err}".format(query=query,
+                                                                                                err=e))
             return None
 
     def delete(self, query, params):

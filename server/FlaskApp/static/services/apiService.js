@@ -42,9 +42,13 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
 
     this.saveDinner = function (req) {
         let promise = $q.defer();
-        setTimeout(function () {
-            promise.resolve();
-        }, 1000)
+        $http.post('/', req)
+            .then((res)=>{
+                promise.resolve(res && res.data || {})
+            })
+            .catch((err)=>{
+                promise.reject(err);
+            });
         return promise.promise;
     };
 
