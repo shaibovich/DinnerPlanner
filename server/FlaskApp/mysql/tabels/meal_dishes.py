@@ -31,3 +31,12 @@ def get(meal_id):
     query = 'SELECT * FROM {table} WHERE meal_id="{meal_id}"'.format(table=TABLE_NAME,
                                                                      meal_id=meal_id)
     return query
+
+
+def remove_dish_from_meal(meal_id, dish_id):
+    if not validate_insert(meal_id, dish_id):
+        return None
+    query = 'DELETE FROM {table} WHERE(meal_id = {meal_id} AND dish_id = {dish_id})'.format(table=TABLE_NAME,
+                                                                                            meal_id=meal_id,
+                                                                                            dish_id=dish_id)
+    return query

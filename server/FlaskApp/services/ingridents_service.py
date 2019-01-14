@@ -1,5 +1,5 @@
 from FlaskApp.services.abstract_service import abstrac_service
-from FlaskApp.mysql.tabels.ingridents import insert, get_all, exits, insert_many
+from FlaskApp.mysql.tabels.ingridents import insert, get_all, exists, insert_many
 
 
 class ingridents_service(abstrac_service):
@@ -23,7 +23,7 @@ class ingridents_service(abstrac_service):
             if obj is None:
                 return self.return_validation_err("validation failed")
             else:
-                query = exits(ing_list[ing])
+                query = exists(ing_list[ing])
                 if self.db.is_exists(query) is False:
                     new_insert_list.append(ing_list[ing])
         if len(new_insert_list) == 0:

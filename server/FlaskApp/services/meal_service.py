@@ -48,25 +48,3 @@ class meal_service(abstrac_service):
                 'date': res[3],
             })
         return lst
-
-
-
- ###TODO modify##
-
-
-    def validate_and_convert_dish(self, dish):
-        if 'name' not in dish:
-            return None
-        if 'recipe' not in dish:
-            return None
-        if 'peopleCount' not in dish:
-            return None
-        if 'cookingTime' not in dish:
-            return None
-        if 'photoLink' not in dish:
-            return None
-        if 'calories' not in dish:
-            return None
-        return (
-            0, dish['name'], dish['recipe'], dish['peopleCount'], dish['cookingTime'], dish['calires'],
-            dish['photoLink'])
