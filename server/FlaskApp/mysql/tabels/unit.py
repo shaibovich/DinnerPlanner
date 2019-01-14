@@ -14,7 +14,7 @@ def get_all():
     return query
 
 
-def exits(uni):
+def exists(uni):
     if not validate_object(uni):
         return False  # error
     query = 'SELECT COUNT(*) as count FROM {table} WHERE unit_type="{unit_type}"'.format(table=TABLE_NAME,

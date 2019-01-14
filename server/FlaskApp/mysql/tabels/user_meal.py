@@ -1,5 +1,6 @@
 import datetime
 
+
 TABLE_NAME = 'user_meal'
 
 
@@ -32,3 +33,18 @@ def get(user_id):
                                                                      user_id=user_id)
     return query
 
+
+def exists(user_id, meal_id):
+    query = 'SELECT COUNT(*) as count FROM {table} WHERE user_id="{user_id}" AND meal_id="{meal_id}"'.format(table=TABLE_NAME,
+                                                                                                             user_id=user_id,
+                                                                                                             meal_id=meal_id)
+    return query
+
+
+def remove_meal(user_id, meal_id):
+    if not exists(user_id, meal_id):
+        return None
+    query = 'DELETE FROM {table} WHERE(meal_id="{meal_id}" AND user_id="{user_id}")'.format(table=TABLE_NAME,
+                                                                                            meal_id=meal_id,
+                                                                                            user_id=user_id)
+    return query
