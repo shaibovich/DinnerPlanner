@@ -1,6 +1,7 @@
 angular.module('routerApp').controller('userPageController', ['$rootScope','$scope', function($rootScope, $scope){
     $scope.showList = {};
     console.log('here');
+    // getUserRecipe();
     $scope.myList = [
         {
             name: 'dinner',
@@ -120,10 +121,29 @@ angular.module('routerApp').controller('userPageController', ['$rootScope','$sco
 
     $scope.removeItem = function(key){
         // need to remove key, add sure validation
+        console.log(key);
+        apiService.deleteDinner(key)
+            .then((res)=>{
+                $scope.myList.slice(key);
+            })
+            .catch((err)=>{
+                console.error(err);
+            })
+
+    };
+
+    let getUserRecipe = function(){
+        apiService.getMyDinners($rootScope.user.id)
+            .then((res)=>{
+                $scope.myList = res;
+            })
+            .catch((err)=>{
+                console.error(err);
+                $scope.myList = [];
+            })
     };
 
     let calculateShoppingList = function(dinner){
-        debugger;
         let tempList = {};
         dinner.foods.forEach(function(food){
             console.log(food);

@@ -15,12 +15,14 @@ angular.module('routerApp').controller('loginController', ['$rootScope' , '$scop
         console.log($scope.user);
         $rootScope.isLoading = true;
         apiService.login($scope.user)
-            .then(function response(res){
+            .then(function (res){
+
                 if ($scope.user.rememberMe) {
                     $rootScope.saveToLocaleStorage('user', res);
                 }
                 $rootScope.isConnected = true;
-                $rootScope.setCookie($scope.user.email);
+                $rootScope.user = res;
+
                 $rootScope.isLoading = false;
                 $state.go('search', $scope.user, {location: 'replace'});
             }, function (err){
@@ -37,7 +39,7 @@ angular.module('routerApp').controller('loginController', ['$rootScope' , '$scop
             .then(function (res){
                 $rootScope.isConnected = true;
                 $rootScope.isLoading = false;
-                $rootScope.setCookie($scope.user.email);
+                $rootScope.user = res;
                 $state.go('search', $scope.user, {location: 'replace'})
             }, function(err){
                 $scope.errMsg = err;

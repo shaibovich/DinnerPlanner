@@ -39,17 +39,12 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
         console.log($state);
 
         $rootScope.isLogin = function(){
-            // if ($cookies.get('user')){
-            //     return true;
-            // } else {
-            //     return false;
-            // }
-            return false;
+            // debugger;
+            // return $cookies.get('user')
+
         };
 
-        $rootScope.setCookie = function(cookie){
-            // $cookies.put("user", cookie);
-        };
+
 
         $rootScope.saveToLocaleStorage = function(key, value){
             window.localStorage[key] = JSON.stringify(value);

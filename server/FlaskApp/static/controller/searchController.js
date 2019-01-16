@@ -2,6 +2,7 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
     console.log(apiService);
     let init = function () {
         $scope.isLoading = false;
+        $scope.chooseDish = false;
         $scope.user = $stateParams.user || {email: "", password: "", name: ""};
         $scope.search = {
             filter: {
@@ -115,16 +116,20 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
             if (value.done) {
                 delete $scope.myList[value.name];
                 value.done = false;
+                $scope.chooseDish = Object.keys($scope.myList).length;
             } else {
                 value.done = true;
                 $scope.myList[value.name] = value;
+                $scope.chooseDish = true;
 
             }
         } else {
             if (value.done) {
                 $scope.myList[value.name] = value;
+                $scope.chooseDish = true;
             } else {
                 delete $scope.myList[value.name];
+                $scope.chooseDish = Object.keys($scope.myList).length;
             }
         }
 
@@ -137,8 +142,10 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
             controller: 'NameModalCtrl'
         });
         uibModal.result.then(function (name) {
-            console.log(name);
-            apiService.saveDinner(name)
+
+            apiService.saveDinner({
+                
+            })
                 .then(() => {
                     clearMyList();
                     $rootScope.alert("success");

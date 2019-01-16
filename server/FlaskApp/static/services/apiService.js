@@ -3,7 +3,7 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
         let promise = $q.defer();
         $http.post('/login', user).then(function (res) {
             console.log('finish');
-            promise.resolve(user);
+            promise.resolve(res && res.data);
         })
             .catch(function (err) {
                 console.log('err');
@@ -17,7 +17,7 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
         let promise = $q.defer();
         $http.post('/signup', user)
             .then((res) => {
-                promise.resolve(user);
+                promise.resolve(res && res.data);
             })
             .catch((err) => {
                 promise.reject(err);
@@ -51,6 +51,35 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
             });
         return promise.promise;
     };
+
+    this.deleteDinner = function(req){
+        let promise = $q.defer();
+        $http.delete('/deleteMeal')
+            .then((res)=>{
+                promise.resolve(res);
+            })
+            .catch((err)=>{
+                promise.reject(err);
+            })
+        return promise.promise;
+    };
+
+    this.getMyDinners = function (req) {
+        let promise = $q.defer();
+        $http.get('/getMeal',{
+            user_id : req
+        })
+            .then((res)=>{
+                promise.resolve(res);
+            })
+            .catch((err)=>{
+                promise.reject(err);
+            });
+        return promise.promise;
+    };
+
+
+
 
     this.addRecipe = function (req) {
         let promise = $q.defer();
@@ -88,4 +117,7 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
 
         return promise.promise;
     };
+
+
+
 }]);

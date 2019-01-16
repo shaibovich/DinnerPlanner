@@ -101,7 +101,7 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
 
             }
 
-        ]
+        ];
         $scope.showRecipe = null;
     };
 
@@ -116,6 +116,7 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
                 $rootScope.alert("fail", err);
             });
     };
+
 
 
 
