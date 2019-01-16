@@ -14,6 +14,18 @@ def insert(meal_id, dish_id):
     return query
 
 
+def insert_many(meal_id, dish_list):
+    query = 'INSERT INTO {table} (meal_id, dish_id) VALUES '.format(table=TABLE_NAME)
+    for index, dish in enumerate(dish_list):
+        query += '({meal_id}, {dish_id})'.format(meal_id=meal_id,
+                                                 dish_id=dish_list[dish]['id'])
+        if index == len(dish_list) - 1:
+            query += ';'
+        else:
+            query += ','
+    return query
+
+
 def validate_insert(meal_id, dish_id, creation_date):
     if dish_id is None or meal_id is None or creation_date is None:
         return False
