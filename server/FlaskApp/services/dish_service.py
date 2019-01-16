@@ -34,7 +34,12 @@ class dish_service(abstrac_service):
             if result is None:
                 self.return_internal_err("error")
             else:
-                return self.return_success(self.convert_result_to_obj(result))
+                obj = self.convert_result_to_obj(result)
+                for item in obj:
+                    dish_ing_list = self.ing_service.get_all_dish_ingerients(item['id'])
+                    if dish_ing_list:
+                        item['ingredients'] = dish_ing_list
+                return self.return_success(self.convert_result_to_obj(obj))
         return self.return_internal_err("error")
 
     def convert_result_to_obj(self, result):

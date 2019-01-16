@@ -35,6 +35,12 @@ def exists(ing):
     return query
 
 
+def get_by_dish_id(dish_id):
+    query = 'SELECT * FROM {table} WHERE dish_id={dish_id}'.format(table=TABLE_NAME,
+                                                                   dish_id=dish_id)
+    return query
+
+
 def validate_object(ing):
     if 'name' not in ing:
         return False

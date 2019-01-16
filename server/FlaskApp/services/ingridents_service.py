@@ -1,5 +1,5 @@
 from FlaskApp.services.abstract_service import abstrac_service
-from FlaskApp.mysql.tabels.ingridents import insert, get_all, exists, insert_many
+from FlaskApp.mysql.tabels.ingridents import insert, get_all, exists, insert_many,get_by_dish_id
 
 
 class ingridents_service(abstrac_service):
@@ -42,6 +42,14 @@ class ingridents_service(abstrac_service):
         else:
             return self.return_internal_err("db error for query : {}".format(query))
 
+    def get_all_dish_ingerients(self, dish_id):
+        query = get_by_dish_id(dish_id)
+        result = self.db.get(query)
+        if result:
+            return self.ingredients_response(result)
+        else:
+            print("db error for query : {}".format(query))
+            return None
 
 
     def validate_and_convert_ing(self, ing):
