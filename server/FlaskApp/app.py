@@ -5,7 +5,7 @@ from FlaskApp.services.user_service import user_service as user_services
 from FlaskApp.services.meal_service import meal_service as meal_services
 from FlaskApp.services.dish_service import dish_service as dish_services
 from FlaskApp.services.ingridents_service import ingridents_service as ingridents_services
-
+from FlaskApp.services.errorHandler import ErrorHandler
 app = Flask(__name__)
 my_sql_driver = sql_driver(app)
 
@@ -40,7 +40,10 @@ def login():
 @app.route('/signup', methods=['POST'])
 def signup():
     validate_request(request)
-    return user_service.signup(request.json)
+    try:
+        return user_service.signup(request.json)
+    except ErrorHandler as e:
+        return e.return_response()
 
 
 # TODO: all from here

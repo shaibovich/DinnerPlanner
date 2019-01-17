@@ -142,9 +142,14 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
             controller: 'NameModalCtrl'
         });
         uibModal.result.then(function (name) {
+            debugger;
+            let requestDinnerList = [];
+            Object.values($scope.myList).forEach((obj)=>{
+                requestDinnerList.push(obj.id)
+            });
             apiService.saveDinner({
                 name: name,
-                dinnerList: $scope.myList,
+                dinnerList: requestDinnerList,
                 user: $rootScope.user.id
             }).then(() => {
                 clearMyList();

@@ -4,7 +4,7 @@ TABLE_NAME = 'meal_dishes'
 
 
 def insert(meal_id, dish_id):
-    creation_date = datetime.date.now()
+    creation_date = datetime.date.today()
     if not validate_insert(meal_id, dish_id, creation_date):
         return None
     query = 'INSERT INTO {table} VALUES({meal_id}, {dish_id}, {creation_date})'.format(table=TABLE_NAME,

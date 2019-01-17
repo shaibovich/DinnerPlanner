@@ -1,5 +1,5 @@
 from FlaskApp.services.abstract_service import abstrac_service
-from FlaskApp.mysql.tabels.ingridents import insert, get_all, exists, insert_many,get_by_dish_id
+from FlaskApp.mysql.tabels.ingridents import insert, get_all, exists, insert_many, get_by_dish_id
 
 
 class ingridents_service(abstrac_service):
@@ -19,17 +19,15 @@ class ingridents_service(abstrac_service):
     def add_ingridents(self, ing_list):
         new_insert_list = []
         for ing in ing_list:
-            obj = self.validate_and_convert_ing(ing_list[ing])
-            if obj is None:
-                return self.return_validation_err("validation failed")
-            else:
-                query = exists(ing_list[ing])
-                if self.db.is_exists(query) is False:
-                    new_insert_list.append(ing_list[ing])
+            self.validate_and_convert_ing(ing_list[ing])
+            query = exists(ing_list[ing])
+            if self.db.is_exists(query) is False:
+                new_insert_list.append(ing_list[ing])
         if len(new_insert_list) == 0:
             return None
         query = insert_many(new_insert_list)
-        if self.db.insert(query):
+        res = self.db.insert(query)
+        if res:
             return self.return_success(new_insert_list)
         else:
             return self.return_internal_err("db error for query : {}".format(query))
@@ -37,42 +35,33 @@ class ingridents_service(abstrac_service):
     def get_all_ingridents(self):
         query = get_all()
         result = self.db.get(query)
-        if result:
-            return self.return_success(self.ingredients_response(result))
-        else:
-            return self.return_internal_err("db error for query : {}".format(query))
+        return self.return_success(self.ingredients_response(result))
 
     def get_all_dish_ingerients(self, dish_id):
         query = get_by_dish_id(dish_id)
         result = self.db.get(query)
-        if result:
-            return self.convert_dish_ingerdient_to_list(result)
-        else:
-            print("db error for query : {}".format(query))
-            return None
-
+        return self.convert_dish_ingerdient_to_list(result)
 
     def convert_dish_ingerdient_to_list(self, result):
         lst = []
         for res in result:
             lst.append({
-                'id':res[0],
-                'name':res[1],
-                'count':res[2]
+                'id': res[0],
+                'name': res[1],
+                'count': res[2]
             })
         return lst
 
-
     def validate_and_convert_ing(self, ing):
         if 'name' not in ing:
-            return None
-        return (0, ing['name'])
+            self.return_validation_err("ing not valid")
+
 
     def ingredients_response(self, result_lst):
         list = []
         for res in result_lst:
             list.append({
-                'id':res[0],
-                'name':res[1]
+                'id': res[0],
+                'name': res[1]
             })
         return list

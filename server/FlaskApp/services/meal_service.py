@@ -1,7 +1,8 @@
 from FlaskApp.services.abstract_service import abstrac_service
-from FlaskApp.mysql.tabels.meal_dishes import insert, get
 from FlaskApp.services.dish_service import dish_service as dish_services
 from FlaskApp.mysql.tabels import meal_dishes
+from FlaskApp.mysql.tabels import user_meal
+
 
 ## TODO check
 class meal_service(abstrac_service):
@@ -10,13 +11,9 @@ class meal_service(abstrac_service):
         self.dish_service = dish_services(my_sql)
 
     def add_meal(self, meal):
-        return self.return_internal_err("not implemented")  # TODO: implement
-
-    def add_meal(self, meal):
-        query = insert(meal)
+        query = user_meal.insert(meal['user'])
         if query and self.db.insert(query):
-            # here we need to add all the dishes to meal
-            my_meal = self.db.get(get(meal))[0][0]
+            my_meal = self.db.get(user_meal.get(meal['user']))[0][0]
             if len(list(meal['dishes'])):
                 query = meal_dishes.insert(my_meal, meal['dishes'])
                 if self.db.insert(query):
@@ -29,7 +26,7 @@ class meal_service(abstrac_service):
             return self.return_internal_err("db error fro query : {}".format(query))
 
     def search_meal(self, meal):
-        query = get(meal)
+        query = user_meal.get(meal)
         if query:
             result = self.db.get(query)
             if result is None:

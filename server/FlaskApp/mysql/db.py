@@ -1,5 +1,5 @@
 from flaskext.mysql import MySQL
-
+from FlaskApp.services.errorHandler import ErrorHandler
 
 class sql_driver:
     def __init__(self, app):
@@ -14,9 +14,9 @@ class sql_driver:
 
     def insert(self, query):
         try:
-            db_res = self.cursor.execute(query)
+            self.cursor.execute(query)
             self.conn.commit()
-            return True
+            return self.conn.insert_id()
         except Exception as e:
             print("INSERT : error received from sql for query {query} with error {error}".format(query=query,
                                                                                                  error=e))
@@ -33,18 +33,19 @@ class sql_driver:
 
     def get(self, query):
         try:
-            res = self.cursor.execute(query)
+            self.cursor.execute(query)
             result = self.cursor.fetchall()
             return result
         except Exception as e:
             print("SELECT : error received from sql for query {query} ׳with error {err}".format(query=query,
                                                                                                 err=e))
-            return None
+            raise ErrorHandler(500, e)
 
     def delete(self, query, params):
         try:
             self.cursor.execute(query, params)
             self.conn.commit()
             return True
-        except Exception:
+        except Exception as e:
             print("DELETE : error received from sql for query {query}".format(query=query))
+            raise ErrorHandler(500, e)

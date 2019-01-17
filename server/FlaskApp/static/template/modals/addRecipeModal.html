@@ -43,11 +43,13 @@
         <div class="col-lg-12 row">
             <div class="col-lg-3 row" ng-repeat="(key, value) in ingredients">
                 <div class="ingredient row ">
-                    <span class="modalText">{{ingredients[key].name}}</span>
-                    <input class="" type="checkbox" ng-change="onIngredientsChange(key, value)"
-                           ng-model="ingredients[key].checked">
-                    <input class="" type="number" , ng-modal="ingredients[key].count"
-                           ng-disabeled="ingredients[key].checked" placeholder="Count">
+                    <!--<label class="modalText">{{ingredients[key].name}}</label>-->
+                    <!--<input class="" type="checkbox" ng-change="onIngredientsChange(key, value)"-->
+                           <!--ng-model="ingredients[key].checked">-->
+                    <label class="col-lg-2" for="ingInputName">{{ingredients[key].name}}</label>
+                    <input type="text" class="form-control col-lg-7 offset-lg-3" id="ingInputName" placeholder="Dish Name"
+                           ng-model="ingredients[key].count">
+
                 </div>
             </div>
         </div>

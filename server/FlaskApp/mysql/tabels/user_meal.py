@@ -1,24 +1,22 @@
 import datetime
 
-
 TABLE_NAME = 'user_meal'
 
 
-def insert(user_id,meal_id):
-    creation_date = datetime.date.now()
-    if not validate_insert(user_id, meal_id, creation_date):
+def insert(user_id):
+    creation_date = datetime.date.today()
+    if not validate_insert(user_id, creation_date):
         return None
-    query = 'INSERT INTO {table} VALUES( {user_id}, {meal_id}, {creation_date})'.format(table=TABLE_NAME,
-                                                                                        user_id=user_id,
-                                                                                        meal_id=meal_id,
-                                                                                        creation_date=creation_date)
+    query = 'INSERT INTO {table} VALUES( {user_id}, NULL, {creation_date})'.format(table=TABLE_NAME,
+                                                                                   user_id=user_id,
+                                                                                   creation_date=creation_date)
     return query
 
 
-def validate_insert(user_id, meal_id, creation_date):
-    if user_id is None or meal_id is None or creation_date is None:
+def validate_insert(user_id, creation_date):
+    if user_id is None or creation_date is None:
         return False
-    return isinstance(user_id, int) and isinstance(meal_id, int) and isinstance(creation_date, datetime)
+    return isinstance(user_id, int)
 
 
 def validate_get(user_id):
@@ -33,11 +31,16 @@ def get(user_id):
                                                                      user_id=user_id)
     return query
 
+def get_meal_id(user_id):
+    validate_get(user_id)
+    query = 'SELECT meal_id FROM {table} WHERE user_id={'
+
 
 def exists(user_id, meal_id):
-    query = 'SELECT COUNT(*) as count FROM {table} WHERE user_id="{user_id}" AND meal_id="{meal_id}"'.format(table=TABLE_NAME,
-                                                                                                             user_id=user_id,
-                                                                                                             meal_id=meal_id)
+    query = 'SELECT COUNT(*) as count FROM {table} WHERE user_id="{user_id}" AND meal_id="{meal_id}"'.format(
+        table=TABLE_NAME,
+        user_id=user_id,
+        meal_id=meal_id)
     return query
 
 
