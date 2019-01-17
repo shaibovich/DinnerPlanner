@@ -1,4 +1,4 @@
-TABLE_NAME = 'dish_ingrident'
+TABLE_NAME = 'Dish_ingredients'
 
 
 def insert(dish_id, ing_id, amount):

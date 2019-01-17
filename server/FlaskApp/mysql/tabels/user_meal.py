@@ -1,6 +1,6 @@
 import datetime
 
-TABLE_NAME = 'user_meal'
+TABLE_NAME = 'User_meals'
 
 
 def insert(user_id):
