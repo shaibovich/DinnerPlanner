@@ -1,5 +1,13 @@
 angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', 'params', 'apiService', function ($scope, $uibModalInstance, params, apiService) {
     $scope.ok = function () {
+        let ingList = [];
+        debugger;
+        $scope.ingredients.forEach((ing)=>{
+           if (ing && ing.count){
+               ingList.push(ing);
+           }
+        });
+        $scope.dish.ingredients = ingList;
         $uibModalInstance.close($scope.dish);
     };
 
@@ -7,14 +15,13 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
         $uibModalInstance.dismiss('cancel');
     };
 
-    // $scope.dish = params;
+
     console.log(params);
 
     let markIngredients = function (list) {
-
         list && $scope.ingredients.forEach(function (ing) {
             if (list.indexOf(ing.name) > -1) {
-                ing.checked = true;
+                ing.count = list.get(ing.name).count;
             }
         })
     };
@@ -48,8 +55,6 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
             .catch(function (err) {
                 $scope.ingredients = [];
             });
-
-
     };
 
 
