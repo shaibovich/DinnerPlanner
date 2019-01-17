@@ -14,9 +14,9 @@ def insert(dish_id, ing_id, amount):
 def insert_many(dish_id, ing_list):
     query = 'INSERT INTO {table} (ing_id, dish_id, amount) VALUES '.format(table=TABLE_NAME)
     for index, ing in enumerate(ing_list):
-        query += '({ing_id}, {dish_id}, {amount})'.format(ing_id=ing_list[ing]['id'],
+        query += '({ing_id}, {dish_id}, {amount})'.format(ing_id=ing['id'],
                                                           dish_id=dish_id,
-                                                          amount=2)
+                                                          amount=ing['count'])
         if index == len(ing_list) - 1:
             query += ';'
         else:

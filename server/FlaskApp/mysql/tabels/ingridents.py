@@ -36,8 +36,8 @@ def exists(ing):
 
 
 def get_by_dish_id(dish_id):
-    query = 'SELECT I.id, I.name, {table}.amount FROM {table}, Ingridents as I WHERE {table}.dish_id={dish_id} AND {table}.ing_id = I.id'.format(
-        table='dish_ingrident',
+    query = 'SELECT I.ing_id, I.name, {table}.amount FROM {table}, Ingredients as I WHERE {table}.dish_id={dish_id} AND {table}.ing_id = I.ing_id'.format(
+        table='Dish_ingredients',
         dish_id=dish_id)
     return query
 

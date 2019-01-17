@@ -33,13 +33,11 @@ class user_service(abstrac_service):
         }
         return self.return_success(response)
 
-
     def validate_login_and_convert(self, user):
         if 'email' not in user:
             self.return_validation_err("validation error for login")
         if 'password' not in user:
             self.return_validation_err("validation error for login")
-
 
     def validate_signup(self, user):
         if 'email' not in user:

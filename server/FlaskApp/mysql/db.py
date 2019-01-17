@@ -16,11 +16,11 @@ class sql_driver:
         try:
             self.cursor.execute(query)
             self.conn.commit()
-            return self.conn.insert_id()
+            return self.cursor.lastrowid
         except Exception as e:
             print("INSERT : error received from sql for query {query} with error {error}".format(query=query,
                                                                                                  error=e))
-            return False
+            raise ErrorHandler(500, e)
 
     def is_exists(self, query):
         try:
@@ -29,7 +29,7 @@ class sql_driver:
             return result[0][0] > 0
         except Exception as e:
             print("SELECT : error received from sql for query {query}".format(query=query))
-            return None
+            raise ErrorHandler(500, e)
 
     def get(self, query):
         try:

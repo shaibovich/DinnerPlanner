@@ -1,3 +1,4 @@
+from FlaskApp.services.errorHandler import ErrorHandler
 import datetime
 
 TABLE_NAME = 'User_meals'
@@ -15,13 +16,13 @@ def insert(user_id):
 
 def validate_insert(user_id, creation_date):
     if user_id is None or creation_date is None:
-        return False
+        raise ErrorHandler(403, "validation error insert")
     return isinstance(user_id, int)
 
 
 def validate_get(user_id):
     if user_id is None:
-        return False
+        raise ErrorHandler(403, "validation error get")
     return isinstance(user_id, int)
 
 
@@ -30,10 +31,6 @@ def get(user_id):
     query = 'SELECT * FROM {table} WHERE user_id="{user_id}"'.format(table=TABLE_NAME,
                                                                      user_id=user_id)
     return query
-
-def get_meal_id(user_id):
-    validate_get(user_id)
-    query = 'SELECT meal_id FROM {table} WHERE user_id={'
 
 
 def exists(user_id, meal_id):
@@ -45,8 +42,6 @@ def exists(user_id, meal_id):
 
 
 def remove_meal(user_id, meal_id):
-    if not exists(user_id, meal_id):
-        return None
     query = 'DELETE FROM {table} WHERE(meal_id="{meal_id}" AND user_id="{user_id}")'.format(table=TABLE_NAME,
                                                                                             meal_id=meal_id,
                                                                                             user_id=user_id)

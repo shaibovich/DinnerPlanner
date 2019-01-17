@@ -27,7 +27,7 @@ class unit_service(abstrac_service):
 
     def validate_and_convert_ing(self, unit):
         if 'unit_type' not in unit:
-            return None
+            return self,
         return (0, unit['unit_type'])
 
     def units_response(self, result_lst):

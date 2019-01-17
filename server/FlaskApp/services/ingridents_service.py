@@ -7,14 +7,11 @@ class ingridents_service(abstrac_service):
         abstrac_service.__init__(self, my_sql)
 
     def add_ingrident(self, ing):
-        obj = self.validate_and_convert_ing(ing)
-        if obj is None:
-            return self.return_validation_err("Ing is invalid : {}".format(ing))
+        self.validate_and_convert_ing(ing)
         query = insert(ing)
-        if self.db.insert(query):
-            return self.return_success(ing)
-        else:
-            return self.return_internal_err("db error for query : {}".format(query))
+        id = self.db.insert(query)
+        ing['id'] = id
+        return self.return_success(ing)
 
     def add_ingridents(self, ing_list):
         new_insert_list = []
@@ -55,7 +52,6 @@ class ingridents_service(abstrac_service):
     def validate_and_convert_ing(self, ing):
         if 'name' not in ing:
             self.return_validation_err("ing not valid")
-
 
     def ingredients_response(self, result_lst):
         list = []

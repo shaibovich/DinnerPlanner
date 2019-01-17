@@ -10,37 +10,23 @@ class dish_service(abstrac_service):
         self.ing_service = ingridents_services(my_sql)
 
     def add_dish(self, dish):
-        # response = self.ing_service.add_ingridents(dish['ingredients'])
-        # if response.status_code == 200:
         query = insert(dish)
-        if query and self.db.insert(query):
-            # here we need to add all the ing to meal
-            my_dish = self.db.get(get_dish_id(dish))[0][0]
-            if len(list(dish['ingredients'])):
-                query = dish_ingridents.insert_many(my_dish, dish['ingredients'])
-                if self.db.insert(query):
-                    return self.return_success(dish)
-                else:
-                    return self.return_internal_err("db error for query : {}".format(query))
-
-            return self.return_success(dish)
-        else:
-            return self.return_internal_err("db error fro query : {}".format(query))
+        id = self.db.insert(query)
+        if len(list(dish['ingredients'])):
+            query = dish_ingridents.insert_many(id, dish['ingredients'])
+            self.db.insert(query)
+        return self.return_success(dish)
 
     def search_dish(self, dish):
         query = get(dish)
-        if query:
-            result = self.db.get(query)
-            if result is None:
-                self.return_internal_err("error")
-            else:
-                obj = self.convert_result_to_obj(result)
-                for item in obj:
-                    dish_ing_list = self.ing_service.get_all_dish_ingerients(item['id'])
-                    if dish_ing_list:
-                        item['ingredients'] = dish_ing_list
-                return self.return_success(obj)
-        return self.return_internal_err("error")
+        result = self.db.get(query)
+        obj = self.convert_result_to_obj(result)
+        for item in obj:
+            dish_ing_list = self.ing_service.get_all_dish_ingerients(item['id'])
+            if dish_ing_list:
+                item['ingredients'] = dish_ing_list
+        return self.return_success(obj)
+
 
     def convert_result_to_obj(self, result):
         lst = []

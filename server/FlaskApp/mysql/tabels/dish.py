@@ -1,3 +1,4 @@
+from FlaskApp.services.errorHandler import ErrorHandler
 TABLE_NAME = 'Dish'
 
 
@@ -23,18 +24,15 @@ def get_dish_id(dish):
 
 
 def get(dish):
-    if not validate_dish_search(dish):
-        return False
+    validate_dish_search(dish)
     query = 'SELECT * FROM {table} WHERE name="{name}"'.format(table=TABLE_NAME,
                                                                name=dish['text'])
-
     return query
 
 
 def validate_dish_search(dish):
     if 'text' not in dish:
-        return False
-    return True
+        raise ErrorHandler(403, "validation failed")
 
 
 def validate_dish(dish):
