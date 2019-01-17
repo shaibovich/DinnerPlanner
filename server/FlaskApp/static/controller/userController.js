@@ -1,176 +1,74 @@
-angular.module('routerApp').controller('userPageController', ['$rootScope','$scope', function($rootScope, $scope){
-    $scope.showList = {};
-    console.log('here');
-    // getUserRecipe();
-    $scope.myList = [
-        {
-            name: 'dinner',
-            foods : [
-                {
-                    name:'Hamburger',
-                    desc:'testing desc',
-                    img :'',
-                    ingredients : [
-                        {
-                            name: 'salt',
-                            count: 2,
-                            type: "cups"
-                        },
-                        {
-                            name: 'salt',
-                            count: 2,
-                            type: "cups"
-                        },
-                        {
-                            name: 'salt',
-                            count: 2,
-                            type: "cups"
-                        },
-                        {
-                            name: 'salt',
-                            count: 2,
-                            type: "cups"
-                        }
+angular.module('routerApp').controller('userPageController', ['$rootScope', '$scope', 'apiService', function ($rootScope, $scope, apiService) {
 
-                    ],
-                    cookingTime:30,
-                    peopleCount:4,
-                    calories:320,
-                    newRecipe :[
-                        'In a bowl, mix ground beef, egg, onion, bread crumbs, Worcestershire, garlic, 1/2 teaspoon salt, and 1/4 teaspoon pepper until well blended. Divide mixture into four equal portions and shape each into a patty about 4 inches wide.',
-                        'Lay burgers on an oiled barbecue grill over a solid bed of hot coals or high heat on a gas grill (you can hold your hand at grill level only 2 to 3 seconds); close lid on gas grill. Cook burgers, turning once, until browned on both sides and no longer pink inside (cut to test), 7 to 8 minutes total. Remove from grill.\n',
-                        'Lay buns, cut side down, on grill and cook until lightly toasted, 30 seconds to 1 minute.',
-                        'Spread mayonnaise and ketchup on bun bottoms. Add lettuce, tomato, burger, onion, and salt and pepper to taste. Set bun tops in place.'
-                    ],
-                    recipe:'Step 1\n' +
-                        'In a bowl, mix ground beef, egg, onion, bread crumbs, Worcestershire, garlic, 1/2 teaspoon salt, and 1/4 teaspoon pepper until well blended. Divide mixture into four equal portions and shape each into a patty about 4 inches wide.\n' +
-                        '\n' +
-                        'Step 2\n' +
-                        'Lay burgers on an oiled barbecue grill over a solid bed of hot coals or high heat on a gas grill (you can hold your hand at grill level only 2 to 3 seconds); close lid on gas grill. Cook burgers, turning once, until browned on both sides and no longer pink inside (cut to test), 7 to 8 minutes total. Remove from grill.\n' +
-                        '\n' +
-                        'Step 3\n' +
-                        'Lay buns, cut side down, on grill and cook until lightly toasted, 30 seconds to 1 minute.\n' +
-                        '\n' +
-                        'Step 4\n' +
-                        'Spread mayonnaise and ketchup on bun bottoms. Add lettuce, tomato, burger, onion, and salt and pepper to taste. Set bun tops in place.',
+    let init = function () {
+        $scope.showList = {};
+        $scope.myList = [];
+        getUserRecipe();
+    };
 
-                },
-                {
-                    name:'Hamburger',
-                    desc:'testing desc',
-                    img :'',
-                    cookingTime:30,
-                    peopleCount:4,
-                    calories:320,
-                    newRecipe :[
-                        'In a bowl, mix ground beef, egg, onion, bread crumbs, Worcestershire, garlic, 1/2 teaspoon salt, and 1/4 teaspoon pepper until well blended. Divide mixture into four equal portions and shape each into a patty about 4 inches wide.',
-                        'Lay burgers on an oiled barbecue grill over a solid bed of hot coals or high heat on a gas grill (you can hold your hand at grill level only 2 to 3 seconds); close lid on gas grill. Cook burgers, turning once, until browned on both sides and no longer pink inside (cut to test), 7 to 8 minutes total. Remove from grill.\n',
-                        'Lay buns, cut side down, on grill and cook until lightly toasted, 30 seconds to 1 minute.',
-                        'Spread mayonnaise and ketchup on bun bottoms. Add lettuce, tomato, burger, onion, and salt and pepper to taste. Set bun tops in place.'
-                    ],
-                    recipe:'Step 1\n' +
-                        'In a bowl, mix ground beef, egg, onion, bread crumbs, Worcestershire, garlic, 1/2 teaspoon salt, and 1/4 teaspoon pepper until well blended. Divide mixture into four equal portions and shape each into a patty about 4 inches wide.\n' +
-                        '\n' +
-                        'Step 2\n' +
-                        'Lay burgers on an oiled barbecue grill over a solid bed of hot coals or high heat on a gas grill (you can hold your hand at grill level only 2 to 3 seconds); close lid on gas grill. Cook burgers, turning once, until browned on both sides and no longer pink inside (cut to test), 7 to 8 minutes total. Remove from grill.\n' +
-                        '\n' +
-                        'Step 3\n' +
-                        'Lay buns, cut side down, on grill and cook until lightly toasted, 30 seconds to 1 minute.\n' +
-                        '\n' +
-                        'Step 4\n' +
-                        'Spread mayonnaise and ketchup on bun bottoms. Add lettuce, tomato, burger, onion, and salt and pepper to taste. Set bun tops in place.',
-
-                }
-            ],
-            ingredients : [
-                {
-                    name:"salt",
-                    count:2
-                },
-                {
-                    name:'sugar',
-                    count:10
-                },
-                {
-                    name:'paper',
-                    count:20
-                }
-            ]
-        }
-    ];
-
-    $scope.ingredients = [
-        {
-            name:"salt",
-            count:2
-        },
-        {
-            name:'sugar',
-            count:10
-        },
-        {
-            name:'paper',
-            count:20
-        }
-    ]
 
     $scope.showDinnerList = function (dinnerRow) {
         $scope.showList = dinnerRow;
         calculateShoppingList(dinnerRow)
     };
 
-    $scope.removeItem = function(key){
+    $scope.removeItem = function (key) {
         // need to remove key, add sure validation
         console.log(key);
-        apiService.deleteDinner(key)
-            .then((res)=>{
-                $scope.myList.slice(key);
+        let toDelete = $scope.myList[key];
+        apiService.deleteDinner({
+            'meal_id': toDelete.meal_id,
+            'user_id': $rootScope.user.id
+        })
+            .then((res) => {
+                if ($scope.myList.length==1){
+                    $scope.myList = [];
+                    $scope.showList = {};
+                } else {
+                    $scope.myList = $scope.myList.slice(key)
+                }
+
             })
-            .catch((err)=>{
+            .catch((err) => {
                 console.error(err);
             })
 
     };
 
-    let getUserRecipe = function(){
+    let getUserRecipe = function () {
         apiService.getMyDinners($rootScope.user.id)
-            .then((res)=>{
+
+            .then((res) => {
                 $scope.myList = res;
+                console.log(res);
             })
-            .catch((err)=>{
+            .catch((err) => {
                 console.error(err);
                 $scope.myList = [];
             })
     };
 
-    let calculateShoppingList = function(dinner){
+
+    let calculateShoppingList = function (dinner) {
         let tempList = {};
-        dinner.foods.forEach(function(food){
+        dinner.foods.forEach(function (food) {
             console.log(food);
-            food && food.ingredients && food.ingredients.forEach(function(ing){
-                if (tempList[ing.name]){
+            food && food.ingredients && food.ingredients.forEach(function (ing) {
+                if (tempList[ing.name]) {
                     tempList[ing.name].count += ing.count;
                 } else {
                     tempList[ing.name] = {
-                        name:ing.name,
-                        count:ing.count
+                        name: ing.name,
+                        count: ing.count
                     }
 
                 }
 
             })
         });
+    };
 
-        // $scope.ingredients = tempList.forEach(function(ing){
-        //     return {
-        //         name: ing.name,
-        //         count:ing.count
-        //     }
-        // })
-        // console.log($scope.ingredients);
-        // for
+    init();
 
-
-    }
 
 }]);

@@ -54,7 +54,9 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
 
     this.deleteDinner = function(req){
         let promise = $q.defer();
-        $http.delete('/deleteMeal')
+        $http.delete('/deleteMeal', {
+            params: req
+        })
             .then((res)=>{
                 promise.resolve(res);
             })
@@ -66,11 +68,11 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
 
     this.getMyDinners = function (req) {
         let promise = $q.defer();
-        $http.get('/getMeal',{
-            user_id : req
+        $http.get('/getMyMeal',{
+            params : { user_id: req}
         })
             .then((res)=>{
-                promise.resolve(res);
+                promise.resolve(res && res.data);
             })
             .catch((err)=>{
                 promise.reject(err);

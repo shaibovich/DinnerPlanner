@@ -18,11 +18,16 @@ def insert_many(meal_id, dish_list):
     query = 'INSERT INTO {table} (meal_id, dish_id) VALUES '.format(table=TABLE_NAME)
     for index, dish in enumerate(dish_list):
         query += '({meal_id}, {dish_id})'.format(meal_id=meal_id,
-                                                 dish_id=dish_list[dish]['id'])
+                                                 dish_id=dish)
         if index == len(dish_list) - 1:
             query += ';'
         else:
             query += ','
+    return query
+
+def delete_all_meal_dishes(meal_id):
+    query = 'DELETE FROM {table} WHERE meal_id={meal_id}'.format(table=TABLE_NAME,
+                                                                 meal_id=meal_id)
     return query
 
 
@@ -36,9 +41,9 @@ def validate_get(meal_id):
         raise ErrorHandler(403, "validation error")
 
 
-def get(meal_id):
+def get_dishes(meal_id):
     validate_get(meal_id)
-    query = 'SELECT * FROM {table} WHERE meal_id="{meal_id}"'.format(table=TABLE_NAME,
+    query = 'SELECT Dish.dish_id,  Dish.name, Dish.calories, Dish.recipe, Dish.peopleCount, Dish.cookingTime, Dish.photoLink FROM {table}, Dish  WHERE {table}.meal_id={meal_id} AND {table}.dish_id = Dish.dish_id '.format(table=TABLE_NAME,
                                                                      meal_id=meal_id)
     return query
 

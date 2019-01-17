@@ -45,7 +45,6 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
                 $rootScope.user = localUser;
                 $state.go('search', {}, {location:'replace'});
             }
-
         };
 
 
@@ -69,6 +68,7 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
         if ($rootScope.getLocaleStorage('user')) {
             $rootScope.isConnected = true;
             $rootScope.user = JSON.parse($rootScope.getLocaleStorage('user'));
+            $state.go('search', {} ,{location:'replace'})
         } else {
             $state.go('home', {}, {location:'replace'})
         }

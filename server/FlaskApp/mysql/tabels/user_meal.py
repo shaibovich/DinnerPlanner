@@ -43,7 +43,7 @@ def exists(user_id, meal_id):
 
 
 def remove_meal(user_id, meal_id):
-    query = 'DELETE FROM {table} WHERE(meal_id="{meal_id}" AND user_id="{user_id}")'.format(table=TABLE_NAME,
+    query = 'DELETE FROM {table} WHERE meal_id="{meal_id}" AND user_id="{user_id}"'.format(table=TABLE_NAME,
                                                                                             meal_id=meal_id,
                                                                                             user_id=user_id)
     return query

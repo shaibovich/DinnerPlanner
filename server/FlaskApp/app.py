@@ -59,7 +59,16 @@ def add_meal():
 
 @app.route('/getMyMeal', methods=['GET'])
 def get_user_meals():
-    validate_request(request)
+    print(request.args)
+    return meal_service.get_user_meals(request.args.get('user_id'))
+
+
+@app.route('/deleteMeal', methods=['DELETE'])
+def delete_user_meal():
+    print(request.args)
+    meal_id = request.args.get('meal_id')
+    user_id = request.args.get('user_id')
+    return meal_service.delete_user_meal(meal_id, user_id)
 
 
 @app.route('/editMeal', methods=['PUT'])

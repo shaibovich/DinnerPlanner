@@ -41,9 +41,9 @@ class sql_driver:
                                                                                                 err=e))
             raise ErrorHandler(500, e)
 
-    def delete(self, query, params):
+    def delete(self, query):
         try:
-            self.cursor.execute(query, params)
+            self.cursor.execute(query)
             self.conn.commit()
             return True
         except Exception as e:
