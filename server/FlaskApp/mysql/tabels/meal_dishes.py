@@ -1,16 +1,16 @@
+from FlaskApp.services.errorHandler import ErrorHandler
 import datetime
 
 TABLE_NAME = 'Meal_dishes'
 
 
 def insert(meal_id, dish_id):
-    creation_date = datetime.date.today()
-    if not validate_insert(meal_id, dish_id, creation_date):
-        return None
-    query = 'INSERT INTO {table} VALUES({meal_id}, {dish_id}, {creation_date})'.format(table=TABLE_NAME,
-                                                                                       meal_id=meal_id,
-                                                                                       dish_id=dish_id,
-                                                                                       creation_date=creation_date)
+    creation_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    validate_insert(meal_id, dish_id, creation_date)
+    query = 'INSERT INTO {table} VALUES({meal_id}, {dish_id}, "{creation_date}")'.format(table=TABLE_NAME,
+                                                                                         meal_id=meal_id,
+                                                                                         dish_id=dish_id,
+                                                                                         creation_date=creation_date)
     return query
 
 
@@ -28,14 +28,12 @@ def insert_many(meal_id, dish_list):
 
 def validate_insert(meal_id, dish_id, creation_date):
     if dish_id is None or meal_id is None or creation_date is None:
-        return False
-    return isinstance(dish_id, int) and isinstance(meal_id, int) and isinstance(creation_date, datetime)
+        raise ErrorHandler(403, "validation error")
 
 
 def validate_get(meal_id):
     if meal_id is None:
-        return False
-    return isinstance(meal_id, int)
+        raise ErrorHandler(403, "validation error")
 
 
 def get(meal_id):

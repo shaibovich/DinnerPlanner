@@ -4,13 +4,14 @@ import datetime
 TABLE_NAME = 'User_meals'
 
 
-def insert(user_id):
-    creation_date = datetime.date.today()
+def insert(user_id, name):
+    creation_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     if not validate_insert(user_id, creation_date):
         return None
-    query = 'INSERT INTO {table} VALUES( {user_id}, NULL, {creation_date})'.format(table=TABLE_NAME,
-                                                                                   user_id=user_id,
-                                                                                   creation_date=creation_date)
+    query = 'INSERT INTO {table} VALUES( {user_id}, 0, "{name}",  "{creation_date}")'.format(table=TABLE_NAME,
+                                                                                           user_id=user_id,
+                                                                                           name=name,
+                                                                                           creation_date=creation_date)
     return query
 
 

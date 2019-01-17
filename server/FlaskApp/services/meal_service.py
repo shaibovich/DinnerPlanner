@@ -11,10 +11,10 @@ class meal_service(abstrac_service):
         self.dish_service = dish_services(my_sql)
 
     def add_meal(self, meal):
-        query = user_meal.insert(meal['user'])
+        query = user_meal.insert(meal['user'], meal['name'])
         my_meal = self.db.insert(query)
-        if len(list(meal['dishes'])):
-            query = meal_dishes.insert(my_meal, meal['dishes'])
+        if 'dinnerList' in meal and len(list(meal['dinnerList'])):
+            query = meal_dishes.insert_many(my_meal, meal['dinnerList'])
             query_res = self.db.insert(query)
             return self.return_success(meal)
 
