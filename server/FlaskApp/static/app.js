@@ -39,8 +39,12 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
         console.log($state);
 
         $rootScope.isLogin = function(){
-            // debugger;
-            // return $cookies.get('user')
+            let localUser = $rootScope.getLocaleStorage('user');
+            if (localUser && localUser.id){
+                $rootScope.isConnected = true;
+                $rootScope.user = localUser;
+                $state.go('search', {}, {location:'replace'});
+            }
 
         };
 
@@ -73,7 +77,7 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
             $rootScope.deleteLocalStorage('user');
             $rootScope.isConnected = false;
             $state.go('home', {}, {location:'replace'});
-        }
+        };
 
         $rootScope.alert = function (type ,errMsg){
             $uibModal.open({

@@ -22,7 +22,6 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
     let init = function () {
         $scope.title = params && params.isEdit ? "Edit Recipe" : "Adding New Recipe";
 
-        // get ingredients list
         $scope.ingredients = [];
 
         $scope.dish = {
@@ -62,6 +61,10 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
             $scope.dish.ingredients[key] = {};
             delete $scope.dish.ingredients[key];
         }
+    };
+
+    $scope.validationAddRecipe = function (form){
+        return form.$valid;
     };
 
     init();

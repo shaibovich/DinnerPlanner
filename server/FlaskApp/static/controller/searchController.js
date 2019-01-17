@@ -17,7 +17,7 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
                 $scope.ingridents = ingredients;
             })
             .catch(function (err) {
-                console.log("ERROR, not ing");
+                console.error("ERROR, not ing with" + err);
                 $scope.ingridents = []
             });
         $scope.searchResult = [];
@@ -90,9 +90,9 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
 
     $scope.startSearch = function () {
         $scope.isLoading = true;
+        $scope.search.user = $rootScope.user.id;
         apiService.searchRecipes($scope.search)
             .then(function (res) {
-
                 $scope.searchResult = res;
                 $scope.isLoading = false;
             })
@@ -142,16 +142,16 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
             controller: 'NameModalCtrl'
         });
         uibModal.result.then(function (name) {
-
             apiService.saveDinner({
-                
-            })
-                .then(() => {
-                    clearMyList();
-                    $rootScope.alert("success");
-                }, (err) => {
-                    $rootScope.alert("fail", err);
-                });
+                name: name,
+                dinnerList: $scope.myList,
+                user: $rootScope.user.id
+            }).then(() => {
+                clearMyList();
+                $rootScope.alert("success");
+            }, (err) => {
+                $rootScope.alert("fail", err);
+            });
         })
     };
 
@@ -169,10 +169,9 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
                 }
             },
             size: 'lg'
-
-
         });
         uibModal.result.then(function (res) {
+            res.user = $rootScope.user.id;
             apiService.addRecipe(res)
                 .then((res) => {
                     $rootScope.alert("success");
@@ -194,7 +193,7 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
     };
 
     $scope.openDishModal = function (value) {
-        let uibModal = $uibModal.open({
+        $uibModal.open({
             templateUrl: './static/template/modals/dishDetailsModal.html',
             controller: 'dishDetailsModalController',
             resolve: {

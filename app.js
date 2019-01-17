@@ -38,14 +38,7 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
         $rootScope.isConnected = false;
         console.log($state);
 
-        $rootScope.isLogin = function(){
-            // if ($cookies.get('user')){
-            //     return true;
-            // } else {
-            //     return false;
-            // }
-            return false;
-        };
+
 
         $rootScope.setCookie = function(cookie){
             // $cookies.put("user", cookie);

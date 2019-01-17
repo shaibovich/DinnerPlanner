@@ -46,10 +46,21 @@ class ingridents_service(abstrac_service):
         query = get_by_dish_id(dish_id)
         result = self.db.get(query)
         if result:
-            return self.ingredients_response(result)
+            return self.convert_dish_ingerdient_to_list(result)
         else:
             print("db error for query : {}".format(query))
             return None
+
+
+    def convert_dish_ingerdient_to_list(self, result):
+        lst = []
+        for res in result:
+            lst.append({
+                'id':res[0],
+                'name':res[1],
+                'count':res[2]
+            })
+        return lst
 
 
     def validate_and_convert_ing(self, ing):

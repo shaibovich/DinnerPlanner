@@ -157,6 +157,10 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
         })
     };
 
+    let getMyRecipes = function() {
+
+    };
+
 
     $scope.editRecipe = function () {
         let uibModal = $uibModal.open({
