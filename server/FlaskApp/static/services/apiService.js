@@ -28,11 +28,11 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
 
     this.searchRecipes = function (req) {
         let promise = $q.defer();
-        $http.post('/searchDish',req)
-            .then((res)=>{
+        $http.post('/searchDish', req)
+            .then((res) => {
                 promise.resolve(res && res.data || []);
             })
-            .catch((err)=>{
+            .catch((err) => {
                 promise.reject(err);
             });
 
@@ -43,24 +43,24 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
     this.saveDinner = function (req) {
         let promise = $q.defer();
         $http.post('/addMeal', req)
-            .then((res)=>{
+            .then((res) => {
                 promise.resolve(res && res.data || {})
             })
-            .catch((err)=>{
+            .catch((err) => {
                 promise.reject(err);
             });
         return promise.promise;
     };
 
-    this.deleteDinner = function(req){
+    this.deleteDinner = function (req) {
         let promise = $q.defer();
         $http.delete('/deleteMeal', {
             params: req
         })
-            .then((res)=>{
+            .then((res) => {
                 promise.resolve(res);
             })
-            .catch((err)=>{
+            .catch((err) => {
                 promise.reject(err);
             })
         return promise.promise;
@@ -68,19 +68,17 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
 
     this.getMyDinners = function (req) {
         let promise = $q.defer();
-        $http.get('/getMyMeal',{
-            params : { user_id: req}
+        $http.get('/getMyMeal', {
+            params: {user_id: req}
         })
-            .then((res)=>{
+            .then((res) => {
                 promise.resolve(res && res.data);
             })
-            .catch((err)=>{
+            .catch((err) => {
                 promise.reject(err);
             });
         return promise.promise;
     };
-
-
 
 
     this.addRecipe = function (req) {
@@ -98,10 +96,10 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
     this.deleteRecipe = function (req) {
         let promise = $q.defer();
         $http.delete('/deleteDish', req)
-            .then((res)=>{
+            .then((res) => {
                 promise.resolve(res);
             })
-            .catch((err)=>{
+            .catch((err) => {
                 promise.reject(err);
             });
         return promise.promise;
@@ -120,6 +118,20 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
         return promise.promise;
     };
 
+
+    this.getMyRecipes = function (req) {
+        let promise = $q.defer();
+        $http.get('/getMyRecipes', {
+            params: {user_id: req}
+        })
+            .then(res => {
+                promise.resolve(res && res.data);
+            })
+            .catch(err => {
+                promise.reject(err);
+            });
+        return promise.promise;
+    };
 
 
 }]);

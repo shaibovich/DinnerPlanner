@@ -158,7 +158,13 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
     };
 
     let getMyRecipes = function() {
-
+        apiService.getMyRecipes($rootScope.user.id)
+            .then(res=>{
+                console.log(res);
+            })
+            .catch(err=>{
+               console.error(err);
+            });
     };
 
 

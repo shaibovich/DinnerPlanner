@@ -1,6 +1,7 @@
 from FlaskApp.services.abstract_service import abstrac_service
 from FlaskApp.mysql.tabels.dish import insert, get_dish_id, get
 from FlaskApp.mysql.tabels import dish_ingridents
+from FlaskApp.mysql.tabels import user_recipe
 from FlaskApp.services.ingridents_service import ingridents_service as ingridents_services
 
 
@@ -12,6 +13,8 @@ class dish_service(abstrac_service):
     def add_dish(self, dish):
         query = insert(dish)
         id = self.db.insert(query)
+        query = user_recipe.insert(dish['user'], id, dish['recipe'])
+        self.db.insert(query)
         if len(list(dish['ingredients'])):
             query = dish_ingridents.insert_many(id, dish['ingredients'])
             self.db.insert(query)
@@ -27,6 +30,23 @@ class dish_service(abstrac_service):
                 item['ingredients'] = dish_ing_list
         return self.return_success(obj)
 
+
+    def get_user_recipes(self, user_id):
+        query = user_recipe.get_all_user_recipes(user_id)
+        result = self.to_recipes_list(self.db.get(query))
+
+
+
+    def to_recipes_list(self, recipes):
+        lst = []
+        for recipe in recipes:
+            lst.append({
+                'id':recipe[0],
+                'name':recipe[1],
+                'calories':recipe[2]
+            })
+
+        return lst
 
     def convert_result_to_obj(self, result):
         lst = []

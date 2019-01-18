@@ -6,6 +6,7 @@ from FlaskApp.services.meal_service import meal_service as meal_services
 from FlaskApp.services.dish_service import dish_service as dish_services
 from FlaskApp.services.ingridents_service import ingridents_service as ingridents_services
 from FlaskApp.services.errorHandler import ErrorHandler
+
 app = Flask(__name__)
 my_sql_driver = sql_driver(app)
 
@@ -14,7 +15,6 @@ user_service = user_services(my_sql_driver)
 meal_service = meal_services(my_sql_driver)
 dish_service = dish_services(my_sql_driver)
 ingridents_service = ingridents_services(my_sql_driver)
-
 
 
 #####################
@@ -71,11 +71,6 @@ def delete_user_meal():
     return meal_service.delete_user_meal(meal_id, user_id)
 
 
-@app.route('/editMeal', methods=['PUT'])
-def edit_meal():
-    validate_request(request)
-
-
 #####################
 #    INGREDIENTS    #
 #####################
@@ -109,6 +104,15 @@ def search_dishes():
     validate_request(request)
     return dish_service.search_dish(request.json)
 
+
+@app.route('/getMyRecipes', methods=['GET'])
+def search_user_recipes():
+    return dish_service.get_user_recipes(request.json)
+
+@app.errorhandler(ErrorHandler)
+def all_exception_handler(error):
+
+   return error.return_response()
 
 if __name__ == "__main__":
     app.run(debug=True)

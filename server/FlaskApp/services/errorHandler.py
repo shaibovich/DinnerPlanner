@@ -1,5 +1,5 @@
-from flask import Response
-from flask import jsonify, json
+from flask import jsonify
+
 NOT_FOUND = 404
 SUCCESS = 200
 VALIDATION_ERR = 403
@@ -13,4 +13,6 @@ class ErrorHandler(Exception):
         self.err = msg
 
     def return_response(self):
-        return Response(status=self.status_code)
+        response = jsonify({'err': self.err})
+        response.status_code = self.status_code
+        return response
