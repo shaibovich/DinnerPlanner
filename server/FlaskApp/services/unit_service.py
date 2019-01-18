@@ -1,5 +1,5 @@
 from FlaskApp.services.abstract_service import abstrac_service
-from FlaskApp.mysql.tabels.unit import insert, get_all, exits
+from FlaskApp.mysql.tabels.unit import insert, get_all, exists
 
 
 class unit_service(abstrac_service):

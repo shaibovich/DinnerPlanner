@@ -2,6 +2,7 @@ from FlaskApp.services.abstract_service import abstrac_service
 from FlaskApp.mysql.tabels.dish import insert, get_dish_id, get
 from FlaskApp.mysql.tabels import dish_ingridents
 from FlaskApp.mysql.tabels import user_recipe
+from FlaskApp.mysql.tabels.dish_ingridents import get_dish_with_ing
 from FlaskApp.services.ingridents_service import ingridents_service as ingridents_services
 
 
@@ -78,3 +79,25 @@ class dish_service(abstrac_service):
         return (
             0, dish['name'], dish['recipe'], dish['peopleCount'], dish['cookingTime'], dish['calires'],
             dish['photoLink'])
+
+
+#### TODO ###
+
+    def search_dish_without_ings(self, dish, ing_lst):
+        if ing_lst is None:
+            return self.search_dish(self, dish)
+        query = get(dish)
+        result = self.db.get(query)
+        obj = self.convert_result_to_obj(result)
+        for ing in ing_lst:
+            query2 = get_dish_with_ing(ing)
+            result2 = self.db.get(query2)
+            obj2 = self.convert_result_to_obj(result2)
+            for res in result:
+                if res[0] 
+
+        for item in obj:
+            dish_ing_list = self.ing_service.get_all_dish_ingerients(item['id'])
+            if dish_ing_list:
+                item['ingredients'] = dish_ing_list
+        return self.return_success(obj)
