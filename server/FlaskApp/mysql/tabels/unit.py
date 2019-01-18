@@ -1,3 +1,4 @@
+from FlaskApp.services.errorHandler import ErrorHandler
 TABLE_NAME = "Unit"
 
 
