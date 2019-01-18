@@ -28,12 +28,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FlaskApp/services/errorHandler.py">
+        <entry file="file://$PROJECT_DIR$/FlaskApp/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="102">
+              <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -50,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FlaskApp/mysql/tabels/dish.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="27" column="61" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="61" />
+            <state relative-caret-position="330">
+              <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
             </state>
           </provider>
         </entry>
@@ -83,7 +81,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FlaskApp/mysql/tabels/dish_ingridents.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="313">
@@ -183,13 +181,13 @@
         <option value="$PROJECT_DIR$/FlaskApp/services/ingridents_service.py" />
         <option value="$PROJECT_DIR$/FlaskApp/mysql/tabels/meal_dishes.py" />
         <option value="$PROJECT_DIR$/FlaskApp/mysql/tabels/user_meal.py" />
-        <option value="$PROJECT_DIR$/FlaskApp/mysql/tabels/dish.py" />
         <option value="$PROJECT_DIR$/FlaskApp/mysql/tabels/users.py" />
         <option value="$PROJECT_DIR$/FlaskApp/mysql/tabels/unit.py" />
         <option value="$PROJECT_DIR$/FlaskApp/mysql/tabels/ingridents.py" />
         <option value="$PROJECT_DIR$/FlaskApp/services/unit_service.py" />
         <option value="$PROJECT_DIR$/FlaskApp/services/dish_service.py" />
         <option value="$PROJECT_DIR$/FlaskApp/mysql/tabels/dish_ingridents.py" />
+        <option value="$PROJECT_DIR$/FlaskApp/mysql/tabels/dish.py" />
       </list>
     </option>
   </component>
@@ -662,13 +660,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FlaskApp/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FlaskApp/mysql/tabels/users.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -776,13 +767,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FlaskApp/mysql/tabels/dish.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="27" column="61" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FlaskApp/mysql/tabels/dish_ingridents.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="313">
@@ -790,6 +774,20 @@
           <folding>
             <element signature="e#0#55#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FlaskApp/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FlaskApp/mysql/tabels/dish.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
         </state>
       </provider>
     </entry>
