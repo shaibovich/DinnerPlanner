@@ -57,6 +57,23 @@ def get_dish_without_ing(ing_id):
 def get_dish_without_ings(ing_ids_lst):
     if ing_ids_lst is None:
         return False  # maybe change to the simple get dish#
+    first = True
+    query = 'SELECT DISTINCT id FROM {table}'.format(table=TABLE_NAME)
+    query += 'EXCEPT ('
+    for ing_id in ing_ids_lst:
+        if first is False:
+            query += ' UNION '
+        else:
+            first = False
+        query += '(SELECT DISTINCT id FROM {table} WHERE ing_id="{ing_id}")'.format(table=TABLE_NAME,
+                                                                                    ing_id=ing_id['ing_id'])
+    query += ')'
+    return query
+
+
+def get_dish_without_ingsV2(ing_ids_lst):
+    if ing_ids_lst is None:
+        return False  # maybe change to the simple get dish#
     query = 'SELECT DISTINCT id FROM {table}'.format(table=TABLE_NAME)
     for ing_id in ing_ids_lst:
         query += 'EXCEPT SELECT DISTINCT id FROM {table} WHERE ing_id="{ing_id}"'.format(table=TABLE_NAME,
