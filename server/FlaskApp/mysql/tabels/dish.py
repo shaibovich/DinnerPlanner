@@ -80,9 +80,9 @@ def get_dish_with_cooking_time_range(min_cooking, max_cooking):
     min_query = ''
     max_query = ''
     if min_cooking != '' and min_cooking > 0:
-        min_query = ' AND cookingTime > {min}'.format(min=min_cooking)
+        min_query = ' AND cookingTime > {min} '.format(min=min_cooking)
     if max_cooking != '' and max_cooking > 0:
-        max_query = ' AND cookingTime < {max}'.format(max=max_cooking)
+        max_query = ' AND cookingTime < {max} '.format(max=max_cooking)
     return min_query + max_query
 
 
