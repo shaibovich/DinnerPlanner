@@ -42,7 +42,7 @@ def get_by_dish_id(dish_id):
     return query
 
 def get_by_name(name):
-    query = 'SELECT * FROM {table} where name="{name}"'.format(table=TABLE_NAME,
+    query = 'SELECT * FROM {table} where name LIKE "%{name}%"'.format(table=TABLE_NAME,
                                                              name=name)
     return query
 

@@ -67,7 +67,6 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
         $scope.title = $scope.isEdit ? "Edit Recipe" : "Adding New Recipe";
         $scope.ingredients = [];
         $scope.searchForIng = "";
-        $scope.getIngredients();
         $scope.dish = {
             name: params && params.name || "",
             calories: params && params.calories || 0,
