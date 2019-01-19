@@ -47,6 +47,29 @@ def get_dishes(meal_id):
                                                                      meal_id=meal_id)
     return query
 
+def add_edited_dishes(user_id, query):
+    query = '(' + query + 'AND Dish.dish_id '
+    query += 'NOT IN (SELECT dish_id FROM User_recipe WHERE user_id={user_id}))'.format(user_id=user_id)
+    query += ' UNION '
+    query += '(SELECT Dish.dish_id, Dish.name, User_recipe.calories, User_recipe.recipe, User_recipe.peopleCount, User_recipe.cookingTime, User_recipe.photoLink FROM User_recipe, Dish WHERE user_id={user_id} AND Dish.dish_id = User_recipe.dish_id)'.format(user_id=user_id)
+    return query
+
+# (SELECT Dish.dish_id,  Dish.name, Dish.calories, Dish.recipe, Dish.peopleCount, Dish.cookingTime, Dish.photoLink
+#  FROM Meal_dishes, Dish
+#  WHERE Meal_dishes.meal_id=15
+#    AND Meal_dishes.dish_id = Dish.dish_id
+#    AND Dish.dish_id NOT IN
+#        (SELECT dish_id
+#         FROM User_recipe
+#         WHERE user_id=2))
+# UNION
+#     (SELECT User_recipe.dish_id, Dish.name, User_recipe.calories, User_recipe.recipe, User_recipe.peopleCount, User_recipe.cookingTime, User_recipe.photoLink
+#       FROM User_recipe, Dish
+#       WHERE user_id=2
+#         AND User_recipe.dish_id = Dish.dish_id)
+
+
+
 
 def remove_dish_from_meal(meal_id, dish_id):
     if not validate_insert(meal_id, dish_id):

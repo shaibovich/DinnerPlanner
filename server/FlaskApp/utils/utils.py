@@ -1,34 +1,22 @@
 # This file will be the util file for the server
+from FlaskApp.services.errorHandler import ErrorHandler
 
 
 def validate_user(user):
-    #here we need to validate the user data
+    # here we need to validate the user data
     print(user)
     return 1
 
 
 def validate_request(request):
     if not request.is_json:
-        return False
+        raise ErrorHandler(403, "no object supply")
     if request.json is None:
-        return False
-    return True
-
-def validate_signup(user):
-    if 'email' not in user:
-        return False
-    if 'password' not in user:
-        return False
-    if 'user' not in user:
-        return False
-    del user['rememberMe']
-    return True
+        raise ErrorHandler(403, "no object supply")
 
 
+def validate_get_request(request, params):
+    for param in params:
+        if request.args.get(param) is None:
+            raise ErrorHandler(403, "no param : {}".format(param))
 
-def validate_login(user):
-    if 'email' not in user:
-        return False
-    if 'password' not in user:
-        return False
-    return True

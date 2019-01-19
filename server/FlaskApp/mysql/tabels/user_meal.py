@@ -34,6 +34,8 @@ def get(user_id):
     return query
 
 
+
+
 def exists(user_id, meal_id):
     query = 'SELECT COUNT(*) as count FROM {table} WHERE user_id="{user_id}" AND meal_id="{meal_id}"'.format(
         table=TABLE_NAME,

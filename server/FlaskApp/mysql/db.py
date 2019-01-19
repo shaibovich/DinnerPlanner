@@ -26,7 +26,7 @@ class sql_driver:
         try:
             self.cursor.execute(query)
             result = self.cursor.fetchall()
-            return result[0][0] > 0
+            return len(result) > 0
         except Exception as e:
             print("SELECT : error received from sql for query {query}".format(query=query))
             raise ErrorHandler(500, e)

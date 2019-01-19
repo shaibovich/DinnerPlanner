@@ -3,7 +3,7 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
 
         $stateProvider
             .state('home', {
-                url: 'home',
+                url: '/home',
                 templateUrl: './static/template/homePage.html',
                 controller: 'mainController'
             })
@@ -64,7 +64,7 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
             }
         };
 
-
+        debugger;
         if ($rootScope.getLocaleStorage('user')) {
             $rootScope.isConnected = true;
             $rootScope.user = JSON.parse($rootScope.getLocaleStorage('user'));

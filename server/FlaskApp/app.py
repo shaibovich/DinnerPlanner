@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request
 from FlaskApp.mysql.db import sql_driver
-from FlaskApp.utils.utils import validate_request
+from FlaskApp.utils.utils import validate_request, validate_get_request
 from FlaskApp.services.user_service import user_service as user_services
 from FlaskApp.services.meal_service import meal_service as meal_services
 from FlaskApp.services.dish_service import dish_service as dish_services
 from FlaskApp.services.ingridents_service import ingridents_service as ingridents_services
+from FlaskApp.services.user_recipe_service import user_recipe_service as user_recipe_services
 from FlaskApp.services.errorHandler import ErrorHandler
 
 app = Flask(__name__)
@@ -15,6 +16,7 @@ user_service = user_services(my_sql_driver)
 meal_service = meal_services(my_sql_driver)
 dish_service = dish_services(my_sql_driver)
 ingridents_service = ingridents_services(my_sql_driver)
+user_recipe_service = user_recipe_services(my_sql_driver)
 
 
 #####################
@@ -59,7 +61,7 @@ def add_meal():
 
 @app.route('/getMyMeal', methods=['GET'])
 def get_user_meals():
-    print(request.args)
+    validate_get_request(request, ['user_id'])
     return meal_service.get_user_meals(request.args.get('user_id'))
 
 
@@ -76,7 +78,6 @@ def delete_user_meal():
 #####################
 @app.route('/getIngredients', methods=['GET'])
 def get_all_ing():
-    validate_request(request)
     return ingridents_service.get_all_ingridents()
 
 
@@ -89,14 +90,16 @@ def add_dish():
     return dish_service.add_dish(request.json)
 
 
-@app.route('/editDish', methods=['PUT'])
-def edit_dish():
+@app.route('/addEditRecipe', methods=['PUT'])
+def edit_recipe():
     validate_request(request)
+    return user_recipe_service.add_or_update_dish(request.json)
 
 
 @app.route('/deleteDish', methods=['DELETE'])
 def delete_dish():
-    validate_request(request)
+    validate_get_request(request, ['user_id', 'dish_id'])
+    # return dish_service.delee
 
 
 @app.route('/searchDish', methods=['POST'])
@@ -107,12 +110,14 @@ def search_dishes():
 
 @app.route('/getMyRecipes', methods=['GET'])
 def search_user_recipes():
-    return dish_service.get_user_recipes(request.json)
+    validate_get_request(request, ['user_id'])
+    return meal_service.get_user_edited_dishes(request.args.get('user_id'))
+
 
 @app.errorhandler(ErrorHandler)
 def all_exception_handler(error):
+    return error.return_response()
 
-   return error.return_response()
 
 if __name__ == "__main__":
     app.run(debug=True)
