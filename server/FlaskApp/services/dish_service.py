@@ -1,5 +1,5 @@
 from FlaskApp.services.abstract_service import abstrac_service
-from FlaskApp.mysql.tabels.dish import insert, get_dish_id, get
+from FlaskApp.mysql.tabels.dish import insert, get_dish_id, get, full_get_dish
 from FlaskApp.mysql.tabels import dish_ingridents
 from FlaskApp.mysql.tabels import user_recipe
 from FlaskApp.mysql.tabels.dish_ingridents import get_dish_with_ing
@@ -22,7 +22,7 @@ class dish_service(abstrac_service):
         return self.return_success(dish)
 
     def search_dish(self, dish):
-        query = get(dish)
+        query = full_get_dish(dish, dish['filter']['calories'], dish['filter']['cookingTime'],dish['filter']['withIngredient'], dish['filter']['withoutIngredient'])
         result = self.db.get(query)
         obj = self.convert_result_to_obj(result)
         for item in obj:

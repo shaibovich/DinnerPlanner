@@ -6,85 +6,48 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
         $scope.user = $stateParams.user || {email: "", password: "", name: ""};
         $scope.search = {
             filter: {
-                ingridents: []
+                withIngredient: [],
+                withoutIngredient: [],
+                cookingTime: {
+                    max: '',
+                    min: ''
+                },
+                calories: {
+                    max: '',
+                    min: ''
+                }
 
             },
             text: ""
         };
-        $scope.ingridents = [];
+        $scope.withoutIngredient = [];
+        $scope.withIngredient = [];
         apiService.getIngredients()
             .then(function (ingredients) {
-                $scope.ingridents = ingredients;
+                $scope.withIngredient = ingredients;
+                $scope.withoutIngredient = angular.copy(ingredients);
+
             })
             .catch(function (err) {
                 console.error("ERROR, not ing with" + err);
-                $scope.ingridents = []
             });
         $scope.searchResult = [];
-        $scope.recpies = [
-            {
-                name: 'Conchiglioni with Tofu Ricotta',
-                cookingTime: 30,
-                calories: 250,
-                peopleCount: 4,
-                photoLink: 'http://media-cache-ak0.pinimg.com/736x/1d/00/01/1d0001fa63225bff898025658a90bece.jpg',
-                done: false
-            },
-            {
-                name: 'Cauliflower Rice Sushi',
-                cookingTime: 45,
-                calories: 175,
-                peopleCount: 2,
-                photoLink: "https://anodetomungbeans.files.wordpress.com/2013/11/dsc_0330.jpg",
-                done: false
-            },
-            {
-                name: 'Chickpea Falafel',
-                cookingTime: 75,
-                calories: 85,
-                peopleCount: 6,
-                photoLink: "http://gourmandelle.com/wp-content/uploads/2013/10/Chiftelute-de-naut-Falafel-Chickpea-Patties-Recipe.jpg",
-                done: false
-            },
-            {
-                name: 'Conchiglioni with Tofu Ricotta',
-                cookingTime: 30,
-                calories: 250,
-                peopleCount: 4,
-                photoLink: 'http://media-cache-ak0.pinimg.com/736x/1d/00/01/1d0001fa63225bff898025658a90bece.jpg',
-                done: false
-            },
-            {
-                name: 'Conchiglioni with Tofu Ricotta',
-                cookingTime: 30,
-                calories: 250,
-                peopleCount: 4,
-                photoLink: 'http://media-cache-ak0.pinimg.com/736x/1d/00/01/1d0001fa63225bff898025658a90bece.jpg',
-                done: false
-            },
-            {
-                name: 'Conchiglioni with Tofu Ricotta',
-                cookingTime: 30,
-                calories: 250,
-                peopleCount: 4,
-                photoLink: 'http://media-cache-ak0.pinimg.com/736x/1d/00/01/1d0001fa63225bff898025658a90bece.jpg',
-                done: false
-            },
-            {
-                name: 'Conchiglioni with Tofu Ricotta',
-                cookingTime: 30,
-                calories: 250,
-                peopleCount: 4,
-                photoLink: 'http://media-cache-ak0.pinimg.com/736x/1d/00/01/1d0001fa63225bff898025658a90bece.jpg',
-                done: false
-            }
-        ];
         $scope.myList = {};
     }
 
 
-    $scope.onIngredientsFilterChange = function (key, value) {
-        console.log(key, value);
+    $scope.onIngredientsFilterChange = function (key, value, type) {
+        let filter = type === 'with' ? $scope.search.filter.withIngredient : $scope.search.filter.withoutIngredient;
+        let index = filter.indexOf(value.id);
+        if (index === -1) {
+            filter.push(value.id);
+        } else {
+            let first = filter.slice(0, index);
+            let second = filter.slice(index + 1, filter.length);
+
+            type === 'with' ? $scope.search.filter.withIngredient = first.concat(second) : $scope.search.filter.withoutIngredient = first.concat(second);
+        }
+
     };
 
 
@@ -143,7 +106,7 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
         });
         uibModal.result.then(function (name) {
             let requestDinnerList = [];
-            Object.values($scope.myList).forEach((obj)=>{
+            Object.values($scope.myList).forEach((obj) => {
                 requestDinnerList.push(obj.id)
             });
             apiService.saveDinner({
@@ -215,6 +178,26 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
 
         });
     };
+
+    // $scope.viewby = 10;
+    // $scope.totalItems = 0;
+    // $scope.currentPage = 4;
+    // $scope.itemsPerPage = $scope.viewby;
+    // $scope.maxSize = 5; //Number of pager buttons to show
+    //
+    // $scope.setPage = function (pageNo) {
+    //     $scope.currentPage = pageNo;
+    // };
+    //
+    // $scope.pageChanged = function() {
+    //     console.log('Page changed to: ' + $scope.currentPage);
+    // };
+    //
+    // $scope.setItemsPerPage = function(num) {
+    //     $scope.itemsPerPage = num;
+    //     $scope.currentPage = 1; //reset to first page
+    // }
+
 
     init();
 
