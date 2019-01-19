@@ -64,7 +64,7 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
             }
         };
 
-        debugger;
+
         if ($rootScope.getLocaleStorage('user')) {
             $rootScope.isConnected = true;
             $rootScope.user = JSON.parse($rootScope.getLocaleStorage('user'));

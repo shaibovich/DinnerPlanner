@@ -8,12 +8,18 @@ angular.module('routerApp').controller('userPageController', ['$rootScope', '$sc
 
 
     $scope.showDinnerList = function (dinnerRow) {
+        console.log(dinnerRow);
+        dinnerRow.foods.forEach(dinner => {
+            if (dinner && dinner.recipe && typeof(dinner.recipe) === "string"){
+                dinner.recipe = dinner.recipe.split('.')
+            }
+        });
         $scope.showList = dinnerRow;
-        calculateShoppingList(dinnerRow)
+
+
     };
 
     $scope.removeItem = function (key) {
-        // need to remove key, add sure validation
         console.log(key);
         let toDelete = $scope.myList[key];
         apiService.deleteDinner({
@@ -21,11 +27,12 @@ angular.module('routerApp').controller('userPageController', ['$rootScope', '$sc
             'user_id': $rootScope.user.id
         })
             .then((res) => {
-                if ($scope.myList.length==1){
+                if ($scope.myList.length == 1) {
                     $scope.myList = [];
                     $scope.showList = {};
                 } else {
-                    $scope.myList = $scope.myList.slice(key)
+                    $scope.showList = {};
+                    getUserRecipe();
                 }
 
             })
@@ -48,25 +55,6 @@ angular.module('routerApp').controller('userPageController', ['$rootScope', '$sc
             })
     };
 
-
-    let calculateShoppingList = function (dinner) {
-        let tempList = {};
-        dinner.foods.forEach(function (food) {
-            console.log(food);
-            food && food.ingredients && food.ingredients.forEach(function (ing) {
-                if (tempList[ing.name]) {
-                    tempList[ing.name].count += ing.count;
-                } else {
-                    tempList[ing.name] = {
-                        name: ing.name,
-                        count: ing.count
-                    }
-
-                }
-
-            })
-        });
-    };
 
     init();
 

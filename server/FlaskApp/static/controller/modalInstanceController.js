@@ -1,11 +1,10 @@
 angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', 'params', 'apiService', function ($scope, $uibModalInstance, params, apiService) {
     $scope.ok = function () {
         let ingList = [];
-        debugger;
-        $scope.ingredients.forEach((ing)=>{
-           if (ing && ing.count){
-               ingList.push(ing);
-           }
+        $scope.ingredients.forEach((ing) => {
+            if (ing && ing.count) {
+                ingList.push(ing);
+            }
         });
         $scope.dish.ingredients = ingList;
         $uibModalInstance.close($scope.dish);
@@ -16,7 +15,6 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
     };
 
 
-    console.log(params);
 
     let markIngredients = function (list) {
         list && $scope.ingredients.forEach(function (ing) {
@@ -68,7 +66,7 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
         }
     };
 
-    $scope.validationAddRecipe = function (form){
+    $scope.validationAddRecipe = function (form) {
         return form.$valid;
     };
 

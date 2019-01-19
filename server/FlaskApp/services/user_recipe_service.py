@@ -1,5 +1,5 @@
 from FlaskApp.services.abstract_service import abstrac_service
-from FlaskApp.mysql.tabels import user_recipe
+from FlaskApp.mysql.tabels import user_recipe, meal_dishes
 
 class user_recipe_service(abstrac_service):
     def __init__(self, my_sql):
@@ -14,4 +14,11 @@ class user_recipe_service(abstrac_service):
             query = user_recipe.insert(request)
         result = self.db.insert(query)
         return self.return_success(result)
+
+
+    def delete_dish_recipe(self, user_id, dish_id):
+        query = user_recipe.delete_user_recipe(user_id,dish_id)
+        self.db.delete(query)
+        return self.return_success('success')
+
 

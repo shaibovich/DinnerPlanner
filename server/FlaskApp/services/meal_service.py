@@ -2,7 +2,7 @@ from FlaskApp.services.abstract_service import abstrac_service
 from FlaskApp.services.dish_service import dish_service as dish_services
 from FlaskApp.services.ingridents_service import ingridents_service as ingridents_services
 from FlaskApp.mysql.tabels import meal_dishes
-from FlaskApp.mysql.tabels import user_meal
+from FlaskApp.mysql.tabels import user_meal, dish_ingridents
 
 
 class meal_service(abstrac_service):
@@ -37,6 +37,9 @@ class meal_service(abstrac_service):
                         dish['ingredients'] = dish_ing_list
                     lst.append(dish)
                 res['foods'] = lst
+                query = dish_ingridents.meal_ingredients(res['meal_id'])
+                meal_ing = self.convert_meal_ing(self.db.get(query))
+                res['ingList'] = meal_ing
 
         return self.return_success(result)
 
@@ -89,5 +92,15 @@ class meal_service(abstrac_service):
                 'meal_id': int(res[1]),
                 'meal': res[2],
                 'creation_date': res[3],
+            })
+        return lst
+
+    def convert_meal_ing(self, result):
+        lst = []
+        for res in result:
+            lst.append({
+                'ing_id':res[1],
+                'name':int(res[2]),
+                'sum':res[3]
             })
         return lst

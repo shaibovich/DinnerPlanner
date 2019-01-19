@@ -93,14 +93,14 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
         return promise.promise;
     };
 
-    this.editRecipe = function(req){
+    this.editRecipe = function (req) {
         let promise = $q.defer();
-        debugger;
+
         $http.put('/addEditRecipe', req)
-            .then(res=>{
+            .then(res => {
                 promise.resolve(res && res.data);
             })
-            .catch(err=>{
+            .catch(err => {
                 promise.reject(err);
             })
 
@@ -109,7 +109,7 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
 
     this.deleteRecipe = function (req) {
         let promise = $q.defer();
-        $http.delete('/deleteDish', req)
+        $http.delete('/deleteRecipe', {params: req})
             .then((res) => {
                 promise.resolve(res);
             })

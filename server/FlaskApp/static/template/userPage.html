@@ -34,10 +34,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="(key,value) in showList.ingredients">
+                <tr ng-repeat="(key,value) in showList.ingList">
                     <th class="modalText" scope="row">{{key}}</th>
-                    <td class="modalText">{{ingredients[key].name}}</td>
-                    <td class="modalText">{{ingredients[key].count}}</td>
+                    <td class="modalText">{{value.name}}</td>
+                    <td class="modalText">{{value.sum}}</td>
                 </tr>
                 </tbody>
             </table>

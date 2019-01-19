@@ -4,6 +4,8 @@ from FlaskApp.mysql.tabels import dish_ingridents
 from FlaskApp.mysql.tabels import user_recipe
 from FlaskApp.mysql.tabels.dish_ingridents import get_dish_with_ing
 from FlaskApp.services.ingridents_service import ingridents_service as ingridents_services
+
+
 # from FlaskApp.services.meal_service import meal_service
 
 
@@ -42,8 +44,6 @@ class dish_service(abstrac_service):
 
     # def delete_user_recipe(self, user_id, dish_id):
     #     query =
-
-
 
     def to_recipes_list(self, recipes):
         lst = []
@@ -87,7 +87,6 @@ class dish_service(abstrac_service):
             0, dish['name'], dish['recipe'], dish['peopleCount'], dish['cookingTime'], dish['calires'],
             dish['photoLink'])
 
-
     def search_dish_without_ings(self, dish, ing_lst):
         if ing_lst is None:
             return self.search_dish(dish)
@@ -106,5 +105,3 @@ class dish_service(abstrac_service):
             if dish_ing_list:
                 item['ingredients'] = dish_ing_list
         return self.return_success(obj)
-
-

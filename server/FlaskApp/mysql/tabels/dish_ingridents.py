@@ -1,6 +1,9 @@
 from FlaskApp.services.errorHandler import ErrorHandler
 from FlaskApp.mysql.tabels.dish import get_dish_id, get
+
 TABLE_NAME = 'Dish_ingredients'
+MEAL_DISHES_TABLE = 'Meal_dishes'
+ING_TABLE = 'Ingredients'
 
 
 def insert(dish_id, ing_id, amount):
@@ -39,7 +42,8 @@ def get_dish_with_ing(dish, ing_id):
                                                                              ing_id=ing_id['ing_id'])
     return query
 
- # TODO check if needed##
+
+# TODO check if needed##
 def get_dish_without_ing(ing_id):
     if ing_id is None:
         return False
@@ -52,9 +56,22 @@ def get_dish_without_ing(ing_id):
 
 def get_dish_without_ings(ing_ids_lst):
     if ing_ids_lst is None:
-        return False # maybe change to the simple get dish#
+        return False  # maybe change to the simple get dish#
     query = 'SELECT DISTINCT id FROM {table}'.format(table=TABLE_NAME)
     for ing_id in ing_ids_lst:
         query += 'EXCEPT SELECT DISTINCT id FROM {table} WHERE ing_id="{ing_id}"'.format(table=TABLE_NAME,
                                                                                          ing_id=ing_id['ing_id'])
+    return query
+
+
+def meal_ingredients(meal_id):
+    query = 'SELECT {Meal_dish}.meal_id, {table}.ing_id, SUM({table}.amount) as num, {ing}.name ' \
+            'FROM {table}, {Meal_dish}, {ing} WHERE {Meal_dish}.meal_id = {meal_id} ' \
+            'AND {Meal_dish}.dish_id = {table}.dish_id ' \
+            'AND {ing}.ing_id = {table}.ing_id ' \
+            'GROUP BY {ing}.ing_id ' \
+            'ORDER BY {ing}.name'.format(table=TABLE_NAME,
+                                         ing=ING_TABLE,
+                                         Meal_dish=MEAL_DISHES_TABLE,
+                                         meal_id=meal_id)
     return query

@@ -19,17 +19,6 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
     };
 
 
-    let removeRecipe = function (recipeRes) {
-        let tempList = [];
-        $scope.myRecipe.forEach((recipe) => {
-            if (recipe && recipe.name === recipeRes.name) {
-                tempList.push(recipe);
-            }
-        });
-        $scope.myRecipe = tempList;
-    };
-
-
     $scope.deleteRecipe = function () {
         let uibModal = $uibModal.open({
             templateUrl: './static/template/modals/deleteModal.html',
@@ -43,10 +32,14 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
             }
         });
         uibModal.result.then(function (name) {
-            console.log(name);
-            apiService.deleteRecipe(name)
+            let req = {
+                user_id: $rootScope.user.id,
+                dish_id: $scope.showRecipe.id
+
+            };
+            apiService.deleteRecipe(req)
                 .then((res) => {
-                    removeRecipe($scope.showRecipe);
+                    getMyRecipes();
                     $scope.showRecipe = null;
                     $rootScope.alert("success");
                 })
@@ -59,8 +52,6 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
     let getMyRecipes = function () {
         apiService.getMyRecipes($rootScope.user.id)
             .then(res => {
-                debugger;
-
                 res.forEach(function (dish) {
                     if (dish.recipe) {
                         dish.recipe = dish.recipe.split('.');
@@ -95,7 +86,6 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
             size: 'lg'
         });
         uibModal.result.then(function (res) {
-            debugger;
             res.user = $rootScope.user.id;
             res.dish_id = $scope.showRecipe.id;
             addEditRecipeCallback(res);
@@ -123,8 +113,15 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
         });
 
         uibModal.result.then(function (res) {
-            // addEditRecipeCallback(res);
+            res.user = $rootScope.user.id;
+            apiService.addRecipe(res)
+                .then((res) => {
+                    $rootScope.alert('success')
+                }, (err) => {
+                    $rootScope.alert("fail", err);
+                });
         })
+
     };
 
 

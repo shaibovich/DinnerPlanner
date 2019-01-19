@@ -695,7 +695,7 @@ body {
 }
 
 .form-wrap form .checkbox {
-    visibility: hidden;
+    /*visibility: hidden;*/
     padding: 20px;
     margin: .5em 0 1.5em;
 }
@@ -707,9 +707,10 @@ body {
 }
 
 .form-wrap form label[for] {
-    position: relative;
+    /*position: relative;*/
     padding-left: 20px;
     cursor: pointer;
+
 }
 
 .form-wrap form label[for]:before {

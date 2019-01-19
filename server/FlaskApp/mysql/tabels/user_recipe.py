@@ -47,6 +47,11 @@ def update_recipe(obj):
     )
     return query
 
+def delete_user_recipe(user_id, dish_id):
+    query = 'DELETE FROM {table} WHERE dish_id={dish_id} AND user_id={user_id}'.format(table=TABLE_NAME,
+                                                                                       user_id=user_id,
+                                                                                       dish_id=dish_id)
+    return query
 
 def validate_insert_obj(obj):
     if 'user' not in obj:

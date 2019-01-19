@@ -16,7 +16,10 @@ def validate_request(request):
 
 
 def validate_get_request(request, params):
+    if request is None:
+        raise ErrorHandler(403, "no param ")
+    if request.args is None:
+        raise ErrorHandler(403, "no param ")
     for param in params:
         if request.args.get(param) is None:
             raise ErrorHandler(403, "no param : {}".format(param))
-

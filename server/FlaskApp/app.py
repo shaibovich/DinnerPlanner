@@ -67,7 +67,7 @@ def get_user_meals():
 
 @app.route('/deleteMeal', methods=['DELETE'])
 def delete_user_meal():
-    print(request.args)
+    validate_get_request(request, ['user_id', 'meal_id'])
     meal_id = request.args.get('meal_id')
     user_id = request.args.get('user_id')
     return meal_service.delete_user_meal(meal_id, user_id)
@@ -96,10 +96,12 @@ def edit_recipe():
     return user_recipe_service.add_or_update_dish(request.json)
 
 
-@app.route('/deleteDish', methods=['DELETE'])
-def delete_dish():
-    validate_get_request(request, ['user_id', 'dish_id'])
-    # return dish_service.delee
+@app.route('/deleteRecipe', methods=['DELETE'])
+def delete_user_recipe():
+    validate_get_request(request, ['user_id','dish_id'])
+    user_id = request.args.get('user_id')
+    dish_id = request.args.get('dish_id')
+    return user_recipe_service.delete_dish_recipe(user_id, dish_id)
 
 
 @app.route('/searchDish', methods=['POST'])
@@ -117,6 +119,8 @@ def search_user_recipes():
 @app.errorhandler(ErrorHandler)
 def all_exception_handler(error):
     return error.return_response()
+
+
 
 
 if __name__ == "__main__":
