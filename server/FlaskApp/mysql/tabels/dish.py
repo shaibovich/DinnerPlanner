@@ -30,6 +30,16 @@ def get(dish):
     return query
 
 
+def get_with_sliders(dish, calories, cookingTime):
+    validate_dish_search(dish)
+    query = 'SELECT * FROM {table} WHERE name LIKE "%{name}% AND' \
+            ' calories <= {calories}" AND cookingTime <= {cookingTime}"'.format(table=TABLE_NAME,
+                                                                                name=dish['text'],
+                                                                                calories=dish[calories],
+                                                                                cookingTime=dish[cookingTime])
+    return query
+
+
 def validate_dish_search(dish):
     if 'text' not in dish:
         raise ErrorHandler(403, "validation failed")

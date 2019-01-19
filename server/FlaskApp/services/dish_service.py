@@ -87,23 +87,24 @@ class dish_service(abstrac_service):
             0, dish['name'], dish['recipe'], dish['peopleCount'], dish['cookingTime'], dish['calires'],
             dish['photoLink'])
 
-#### TODO ###
 
-# def search_dish_without_ings(self, dish, ing_lst):
-#     if ing_lst is None:
-#         return self.search_dish(self, dish)
-#     query = get(dish)
-#     result = self.db.get(query)
-#     obj = self.convert_result_to_obj(result)
-#     for ing in ing_lst:
-#         query2 = get_dish_with_ing(ing)
-#         result2 = self.db.get(query2)
-#         obj2 = self.convert_result_to_obj(result2)
-#         for res in result:
-#             if res[0]
-#
-#     for item in obj:
-#         dish_ing_list = self.ing_service.get_all_dish_ingerients(item['id'])
-#         if dish_ing_list:
-#             item['ingredients'] = dish_ing_list
-#     return self.return_success(obj)
+    def search_dish_without_ings(self, dish, ing_lst):
+        if ing_lst is None:
+            return self.search_dish(dish)
+        query = get(dish)
+        result1 = self.db.get(query)
+        obj = self.convert_result_to_obj(result1)
+        for ing in ing_lst:
+            query2 = get_dish_with_ing(dish, ing)
+            result2 = self.db.get(query2)
+            obj2 = self.convert_result_to_obj(result2)
+            for element in obj:
+                if element in obj2:
+                    obj.remove(element)
+        for item in obj:
+            dish_ing_list = self.ing_service.get_all_dish_ingerients(item['id'])
+            if dish_ing_list:
+                item['ingredients'] = dish_ing_list
+        return self.return_success(obj)
+
+

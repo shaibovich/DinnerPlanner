@@ -31,16 +31,15 @@ def validate_onj(dish_id, ing_id, amount):
         return False
     return isinstance(dish_id, int) and isinstance(ing_id, int) and isinstance(amount, int) and amount > 0
 
-#### TODO#####
 
-def get_dish_with_ing(ing_id):
+def get_dish_with_ing(dish, ing_id):
     if ing_id is None:
         return False
     query = 'SELECT DISTINCT id FROM {table} WHERE ing_id="{ing_id}"'.format(table=TABLE_NAME,
                                                                              ing_id=ing_id['ing_id'])
     return query
 
-
+ # TODO check if needed##
 def get_dish_without_ing(ing_id):
     if ing_id is None:
         return False
