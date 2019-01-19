@@ -35,7 +35,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="(key,value) in showList.ingList">
-                    <th class="modalText" scope="row">{{key}}</th>
+                    <th class="modalText" scope="row">{{key+1}}</th>
                     <td class="modalText">{{value.name}}</td>
                     <td class="modalText">{{value.sum}}</td>
                 </tr>
@@ -56,7 +56,7 @@
                 <div class="card u-clearfix col-lg-12">
                     <div class="card-body row col-lg-12">
                         <div class="card-title col-lg-12 row">
-                            <img src="https://s15.postimg.cc/temvv7u4r/recipe.jpg" alt="" class="card-media col-lg-4"/>
+                            <img src="{{value.photoLink}}" alt="" class="card-media col-lg-4"/>
                             <!--<img src="https://s15.postimg.cc/temvv7u4r/recipe.jpg" alt="" class="card-media col-lg-4"/>-->
                             <div class="card-title col-lg-8">
                                 <h2 class="card-title col-lg-8">{{value.name}}</h2>

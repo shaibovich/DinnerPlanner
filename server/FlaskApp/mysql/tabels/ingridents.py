@@ -41,6 +41,11 @@ def get_by_dish_id(dish_id):
         dish_id=dish_id)
     return query
 
+def get_by_name(name):
+    query = 'SELECT * FROM {table} where name="{name}"'.format(table=TABLE_NAME,
+                                                             name=name)
+    return query
+
 
 def validate_object(ing):
     if 'name' not in ing:

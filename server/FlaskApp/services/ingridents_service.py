@@ -1,5 +1,5 @@
 from FlaskApp.services.abstract_service import abstrac_service
-from FlaskApp.mysql.tabels.ingridents import insert, get_all, exists, insert_many, get_by_dish_id
+from FlaskApp.mysql.tabels.ingridents import insert, get_all, exists, insert_many, get_by_dish_id, get_by_name
 
 
 class ingridents_service(abstrac_service):
@@ -38,6 +38,21 @@ class ingridents_service(abstrac_service):
         query = get_by_dish_id(dish_id)
         result = self.db.get(query)
         return self.convert_dish_ingerdient_to_list(result)
+
+    def search_ing(self, name):
+        query = get_by_name(name)
+        result = self.convert_ing(self.db.get(query))
+        return self.return_success(result)
+
+    def convert_ing(self, result):
+        lst = []
+        for res in result:
+            lst.append({
+                'id' : res[0],
+                'name': res[1]
+            })
+
+        return lst
 
     def convert_dish_ingerdient_to_list(self, result):
         lst = []

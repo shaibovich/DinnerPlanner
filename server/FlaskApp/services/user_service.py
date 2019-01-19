@@ -19,7 +19,7 @@ class user_service(abstrac_service):
             }
             return self.return_success(response)
         else:
-            return self.return_internal_err("db error for query : {}".format(query))
+            return self.return_internal_err("Invalid Email / Password")
 
     def signup(self, user):
         self.validate_signup(user)

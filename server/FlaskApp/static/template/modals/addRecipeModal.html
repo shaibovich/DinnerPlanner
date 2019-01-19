@@ -32,9 +32,10 @@
             <input type="number" class="form-control col-lg-3" id="dishCookingTime" placeholder="Cooking Time"
                    ng-model="dish.cookingTime" required>
             <label class="col-lg-3 " for="newIng">Add New Ingredient</label>
-            <input type="text" class="form-control col-lg-2" id="newIng" placeholder="Cooking Time"
-                   ng-model="newIng" >
-            <button class="btn btn-warning" type="button" ng-click="addIng()"></button>
+            <input type="text" class="form-control col-lg-2" id="newIng" placeholder="Add Ingredient"
+                   ng-model="newIng">
+            <button class="btn col-lg-1 removeButton" type="button" ng-click="addIng()"><i
+                    class="fa fa-plus "></i></button>
 
         </div>
 
@@ -45,11 +46,18 @@
 
         </div>
         <div class="col-lg-12 row" ng-if="!isEdit">
-
-            <div class="col-lg-3 row" ng-repeat="(key, value) in ingredients">
-                <label class="col-lg-2" for="ingName">{{ingredients[key].name}}</label>
-
-                <input type="number" id="ingName" class="form-control" aria-label="..."
+            <div class="form-group col-lg-12 row">
+                <label class="col-lg-2" for="searchIng">Search Ingredient</label>
+                <input min="2" max="50" type="text" id="searchIng" class="form-control col-lg-6 offset-lg-1"
+                       placeholder="Search ingredient by name" ng-model="searchForIng">
+                <button type="button" ng-click="searchIngredientByName(searchForIng)" class="btn col-lg-1 removeButton"><i
+                        class="fa fa-search"></i></button>
+                <button type="button" ng-click="getIngredients()" class="btn col-lg-1 removeButton"><i
+                        class="fa fa-search-plus"></i></button>
+            </div>
+            <div class="col-lg-4 row" ng-repeat="(key, value) in ingredients">
+                <label class="col-lg-6 text-truncate" for="ingName">{{ingredients[key].name}}</label>
+                <input type="number" id="ingName" class="form-control col-lg-6" aria-label="..."
                        ng-model="ingredients[key].count">
             </div>
 

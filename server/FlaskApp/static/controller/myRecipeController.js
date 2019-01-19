@@ -79,6 +79,8 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
                         peopleCount: $scope.showRecipe.peopleCount,
                         details: $scope.showRecipe.recipe,
                         ingredients: $scope.showRecipe.ingredients,
+                        recipe : $scope.showRecipe.recipe,
+                        cookingTime:$scope.showRecipe.cookingTime,
                         isEdit: true
                     }
                 }

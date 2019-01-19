@@ -76,15 +76,21 @@ def delete_user_meal():
 #####################
 #    INGREDIENTS    #
 #####################
+
 @app.route('/getIngredients', methods=['GET'])
 def get_all_ing():
-    return ingridents_service.get_all_ingridents()
+    if request.args and request.args.get('name'):
+        return ingridents_service.search_ing(request.args.get('name'))
+    else:
+        return ingridents_service.get_all_ingridents()
 
 
 @app.route('/addIngredient', methods=['POST'])
 def add_ing():
     validate_request(request)
     return ingridents_service.add_ingrident(request.json)
+
+
 
 
 #####################

@@ -20,7 +20,11 @@ class sql_driver:
         except Exception as e:
             print("INSERT : error received from sql for query {query} with error {error}".format(query=query,
                                                                                                  error=e))
-            raise ErrorHandler(500, e)
+
+            if e.args[0] == 1062:
+                raise ErrorHandler(400, "Already Exists")
+            else :
+                raise ErrorHandler(500, e)
 
     def is_exists(self, query):
         try:

@@ -6,8 +6,9 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
             promise.resolve(res && res.data);
         })
             .catch(function (err) {
+                debugger;
                 console.log('err');
-                promise.reject(err.data);
+                promise.reject(err && err.data && err.data.err);
             });
         return promise.promise;
 
@@ -20,7 +21,7 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
                 promise.resolve(res && res.data);
             })
             .catch((err) => {
-                promise.reject(err);
+                promise.reject(err && err.data && err.data.err);
             });
 
         return promise.promise;
@@ -131,9 +132,9 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
         return promise.promise;
     };
 
-    this.getIngredients = function () {
+    this.getIngredients = function (req) {
         let promise = $q.defer();
-        $http.get('/getIngredients')
+        $http.get('/getIngredients', req)
             .then((res) => {
                 promise.resolve((res && res.data) || [])
             })
