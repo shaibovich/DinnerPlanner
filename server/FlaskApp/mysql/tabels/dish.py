@@ -68,9 +68,9 @@ def get_dish_with_calories_range(min_calories, max_calories):
     min_query = ''
     max_query = ''
     if min_calories != '' and min_calories > 0:
-        min_query = ' AND calories > {min}'.format(min=min_calories)
+        min_query = ' AND calories > {min} '.format(min=min_calories)
     if max_calories != '' and max_calories > 0:
-        max_query = ' AND calories < {max}'.format(max=max_calories)
+        max_query = ' AND calories < {max} '.format(max=max_calories)
     return min_query + max_query
 
 
