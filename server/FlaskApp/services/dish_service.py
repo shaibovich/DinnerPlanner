@@ -6,14 +6,12 @@ from FlaskApp.mysql.tabels.dish_ingridents import get_dish_with_ing
 from FlaskApp.services.ingridents_service import ingridents_service as ingridents_services
 
 
-# from FlaskApp.services.meal_service import meal_service
 
 
 class dish_service(abstrac_service):
     def __init__(self, my_sql):
         abstrac_service.__init__(self, my_sql)
         self.ing_service = ingridents_services(my_sql)
-        # self.meal_service = meal_service(my_sql)
 
     def add_dish(self, dish):
         query = insert(dish)

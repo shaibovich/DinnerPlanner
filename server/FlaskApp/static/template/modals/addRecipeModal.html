@@ -31,6 +31,10 @@
             <label class="col-lg-3 " for="dishCookingTime">Cooking Time</label>
             <input type="number" class="form-control col-lg-3" id="dishCookingTime" placeholder="Cooking Time"
                    ng-model="dish.cookingTime" required>
+            <label class="col-lg-3 " for="newIng">Add New Ingredient</label>
+            <input type="text" class="form-control col-lg-2" id="newIng" placeholder="Cooking Time"
+                   ng-model="newIng" >
+            <button class="btn btn-warning" type="button" ng-click="addIng()"></button>
 
         </div>
 
@@ -40,23 +44,17 @@
                       placeholder="Dish Recipe" required></textarea>
 
         </div>
-        <div class="col-lg-12 row">
-            <div class="col-lg-3 row" ng-repeat="(key, value) in ingredients">
+        <div class="col-lg-12 row" ng-if="!isEdit">
 
-                <!--<label class="modalText">{{ingredients[key].name}}</label>-->
-                <!--<input class="" type="checkbox" ng-change="onIngredientsChange(key, value)"-->
-                <!--ng-model="ingredients[key].checked">-->
-                <!--<label class="col-lg-2" for="ingInputName">{{ingredients[key].name}}</label>-->
-                <!--<input type="number" class="form-control col-lg-1" id="ingInputName" placeholder="Dish Name"-->
-                <!--ng-model="ingredients[key].count">-->
+            <div class="col-lg-3 row" ng-repeat="(key, value) in ingredients">
                 <label class="col-lg-2" for="ingName">{{ingredients[key].name}}</label>
 
                 <input type="number" id="ingName" class="form-control" aria-label="..."
                        ng-model="ingredients[key].count">
-
-
             </div>
+
         </div>
+
 
         <div class="modal-footer">
             <button class="btn btn-warning" type="button" ng-click="ok()">OK</button>

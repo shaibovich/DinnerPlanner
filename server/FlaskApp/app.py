@@ -81,6 +81,12 @@ def get_all_ing():
     return ingridents_service.get_all_ingridents()
 
 
+@app.route('/addIngredient', methods=['POST'])
+def add_ing():
+    validate_request(request)
+    return ingridents_service.add_ingrident(request.json)
+
+
 #####################
 #       Dishes      #
 #####################
@@ -98,7 +104,7 @@ def edit_recipe():
 
 @app.route('/deleteRecipe', methods=['DELETE'])
 def delete_user_recipe():
-    validate_get_request(request, ['user_id','dish_id'])
+    validate_get_request(request, ['user_id', 'dish_id'])
     user_id = request.args.get('user_id')
     dish_id = request.args.get('dish_id')
     return user_recipe_service.delete_dish_recipe(user_id, dish_id)
@@ -119,8 +125,6 @@ def search_user_recipes():
 @app.errorhandler(ErrorHandler)
 def all_exception_handler(error):
     return error.return_response()
-
-
 
 
 if __name__ == "__main__":

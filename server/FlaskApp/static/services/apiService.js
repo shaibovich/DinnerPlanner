@@ -93,6 +93,18 @@ angular.module('apiServiceModule', []).service('apiService', ['$http', '$q', fun
         return promise.promise;
     };
 
+    this.addIngredient = function(req){
+        let promise = $q.defer();
+        $http.post('/addIngredient', req)
+            .then(res=>{
+                promise.resolve(res && res.data);
+            })
+            .catch(err=>{
+                promise.reject(err);
+            });
+        return promise.promise;
+    };
+
     this.editRecipe = function (req) {
         let promise = $q.defer();
 

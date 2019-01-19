@@ -1,6 +1,7 @@
 angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', 'params', 'apiService', function ($scope, $uibModalInstance, params, apiService) {
     $scope.ok = function () {
         let ingList = [];
+        $scope.newIng = "";
         $scope.ingredients.forEach((ing) => {
             if (ing && ing.count) {
                 ingList.push(ing);
@@ -14,6 +15,18 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
         $uibModalInstance.dismiss('cancel');
     };
 
+    $scope.addIng = function() {
+        debugger;
+        apiService.addIngredient({name:$scope.newIng})
+            .then(res=>{
+                $scope.newIng = "";
+                $scope.ingredients.push(res);
+            })
+            .catch(err=>{
+                $scope.newIng = "";
+                console.error(err);
+            })
+    };
 
 
     let markIngredients = function (list) {
@@ -25,10 +38,10 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
     };
 
     let init = function () {
-        $scope.title = params && params.isEdit ? "Edit Recipe" : "Adding New Recipe";
-
+        $scope.isEdit = !!(params && params.isEdit);
+        $scope.title = $scope.isEdit ? "Edit Recipe" : "Adding New Recipe";
         $scope.ingredients = [];
-
+        getIngredients();
         $scope.dish = {
             name: params && params.name || "",
             calories: params && params.calories || 0,
@@ -40,6 +53,10 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
 
         };
 
+
+    };
+
+    let getIngredients = function (){
         apiService.getIngredients()
             .then(function (res) {
                 $scope.ingredients = res;
@@ -53,8 +70,7 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
             .catch(function (err) {
                 $scope.ingredients = [];
             });
-    };
-
+    }
 
     $scope.onIngredientsChange = function (key, value) {
         console.log(key, value);

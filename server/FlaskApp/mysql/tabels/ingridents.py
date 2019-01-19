@@ -4,8 +4,7 @@ TABLE_NAME = "Ingredients"
 
 def insert(ing):
     if not validate_object(ing):
-        return False  # error
-    # TODO possibly add {if !exits(ing)}
+        raise ErrorHandler(403, "validation error")
     query = "INSERT INTO {table} VALUES(0, '{name}')".format(table=TABLE_NAME,
                                                              name=ing['name'])
     return query
