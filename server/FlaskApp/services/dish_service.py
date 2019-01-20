@@ -2,7 +2,7 @@ from FlaskApp.services.abstract_service import abstrac_service
 from FlaskApp.mysql.tabels.dish import insert, get_dish_id, get, full_get_dish
 from FlaskApp.mysql.tabels import dish_ingridents
 from FlaskApp.mysql.tabels import user_recipe
-from FlaskApp.mysql.tabels.dish_ingridents import get_dish_with_ing
+
 from FlaskApp.services.ingridents_service import ingridents_service as ingridents_services
 
 
@@ -14,16 +14,16 @@ class dish_service(abstrac_service):
         self.ing_service = ingridents_services(my_sql)
 
     def add_dish(self, dish):
-        query = insert(dish)
-        id = self.db.insert(query)
+        query, params = insert(dish)
+        id = self.db.insert(query, params)
         if len(list(dish['ingredients'])):
-            query = dish_ingridents.insert_many(id, dish['ingredients'])
-            self.db.insert(query)
+            query, params = dish_ingridents.insert_many(id, dish['ingredients'])
+            self.db.insert(query,params)
         return self.return_success(dish)
 
     def search_dish(self, dish):
         query = full_get_dish(dish, dish['filter']['calories'], dish['filter']['cookingTime'],dish['filter']['withIngredient'], dish['filter']['withoutIngredient'])
-        result = self.db.get(query)
+        result = self.db.get(query, ())
         obj = self.convert_result_to_obj(result)
         for item in obj:
             dish_ing_list = self.ing_service.get_all_dish_ingerients(item['id'])
@@ -32,16 +32,15 @@ class dish_service(abstrac_service):
         return self.return_success(obj)
 
     def get_user_recipes(self, user_id):
-        query = user_recipe.get_all_user_recipes(user_id)
-        result = self.convert_result_to_obj(self.db.get(query))
+        query, params = user_recipe.get_all_user_recipes(user_id)
+        result = self.convert_result_to_obj(self.db.get(query, params))
         for dish in result:
             dish_ing_list = self.ing_service.get_all_dish_ingerients(dish['id'])
             if dish_ing_list:
                 dish['ingredients'] = dish_ing_list
         return self.return_success(result)
 
-    # def delete_user_recipe(self, user_id, dish_id):
-    #     query =
+
 
     def to_recipes_list(self, recipes):
         lst = []
@@ -85,21 +84,4 @@ class dish_service(abstrac_service):
             0, dish['name'], dish['recipe'], dish['peopleCount'], dish['cookingTime'], dish['calires'],
             dish['photoLink'])
 
-    def search_dish_without_ings(self, dish, ing_lst):
-        if ing_lst is None:
-            return self.search_dish(dish)
-        query = get(dish)
-        result1 = self.db.get(query)
-        obj = self.convert_result_to_obj(result1)
-        for ing in ing_lst:
-            query2 = get_dish_with_ing(dish, ing)
-            result2 = self.db.get(query2)
-            obj2 = self.convert_result_to_obj(result2)
-            for element in obj:
-                if element in obj2:
-                    obj.remove(element)
-        for item in obj:
-            dish_ing_list = self.ing_service.get_all_dish_ingerients(item['id'])
-            if dish_ing_list:
-                item['ingredients'] = dish_ing_list
-        return self.return_success(obj)
+

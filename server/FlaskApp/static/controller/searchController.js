@@ -54,24 +54,48 @@ angular.module('routerApp').controller('searchController', ['$rootScope', '$scop
     $scope.startSearch = function () {
         $scope.isLoading = true;
         $scope.search.user = $rootScope.user.id;
-        apiService.searchRecipes($scope.search)
-            .then(function (res) {
-                $scope.searchResult = res;
-                $scope.isLoading = false;
-            })
-            .catch(function (err) {
-                $scope.isLoading = false;
-                $rootScope.alert("fail", err);
-            });
+        if (checkRangeFilters($scope.search.filter)) {
+            apiService.searchRecipes($scope.search)
+                .then(function (res) {
+                    $scope.searchResult = res;
+                    $scope.isLoading = false;
+                })
+                .catch(function (err) {
+                    $scope.isLoading = false;
+                    $rootScope.alert("fail", err);
+                });
+        }
+    };
 
+    let checkRangeFilters = function (filter) {
+        if (!checkMinAndMaxFilter(filter.calories)) {
+            $rootScope.alert("fail", "Invalid filter value, Minimum value must be smaller that Maximum value");
+            return false;
+        }
+        if (!checkMinAndMaxFilter(filter.cookingTime)) {
+            $rootScope.alert("fail", "Invalid filter value, Minimum value must be smaller that Maximum value");
+            return false;
+        }
+        return true;
+
+    };
+
+    let checkMinAndMaxFilter = function (filter) {
+        filter.max = filter.max == null ? '' : filter.max;
+        filter.min = filter.min == null ? '' : filter.min;
+        if (filter.max === '' || filter.min === '') {
+            return true;
+        } else {
+            return filter.min < filter.max;
+        }
 
     };
 
     let clearMyList = function () {
-        $scope.recpies.forEach((recipe) => {
+        Object.values($scope.myList, recipe => {
             recipe.done = false;
         });
-        $scope.myList = [];
+        $scope.myList = {};
     };
 
     $scope.onChangeRecepie = function (value, isImg) {

@@ -8,8 +8,8 @@ class user_service(abstrac_service):
 
     def login(self, user):
         self.validate_login_and_convert(user)
-        query = get(user)
-        result = self.db.get(query)
+        query , params= get(user)
+        result = self.db.get(query, params)
         if result and len(result):
             response = {
                 'id': result[0][0],
@@ -23,8 +23,8 @@ class user_service(abstrac_service):
 
     def signup(self, user):
         self.validate_signup(user)
-        query = insert(user)
-        id = self.db.insert(query)
+        query, params = insert(user)
+        id = self.db.insert(query, params)
         response = {
             'id': id,
             'email': user['email'],

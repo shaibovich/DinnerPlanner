@@ -7,29 +7,27 @@ TABLE_NAME = 'Meal_dishes'
 def insert(meal_id, dish_id):
     creation_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     validate_insert(meal_id, dish_id, creation_date)
-    query = 'INSERT INTO {table} VALUES({meal_id}, {dish_id}, "{creation_date}")'.format(table=TABLE_NAME,
-                                                                                         meal_id=meal_id,
-                                                                                         dish_id=dish_id,
-                                                                                         creation_date=creation_date)
-    return query
+    query = 'INSERT INTO {table} VALUES(%s, %s, %s)'.format(table=TABLE_NAME)
+    return query, (meal_id, dish_id, creation_date)
 
 
 def insert_many(meal_id, dish_list):
     query = 'INSERT INTO {table} (meal_id, dish_id) VALUES '.format(table=TABLE_NAME)
+    values = ()
     for index, dish in enumerate(dish_list):
-        query += '({meal_id}, {dish_id})'.format(meal_id=meal_id,
-                                                 dish_id=dish)
+        query += '(%s, %s)'
+        values += (meal_id, dish)
         if index == len(dish_list) - 1:
             query += ';'
         else:
             query += ','
-    return query
+    return query, values
 
 
 def delete_all_meal_dishes(meal_id):
-    query = 'DELETE FROM {table} WHERE meal_id={meal_id}'.format(table=TABLE_NAME,
-                                                                 meal_id=meal_id)
-    return query
+    query = 'DELETE FROM {table} WHERE meal_id=%s'.format(table=TABLE_NAME)
+
+    return query, (meal_id)
 
 
 def validate_insert(meal_id, dish_id, creation_date):
@@ -44,10 +42,9 @@ def validate_get(meal_id):
 
 def get_dishes(meal_id):
     validate_get(meal_id)
-    query = 'SELECT Dish.dish_id,  Dish.name, Dish.calories, Dish.recipe, Dish.peopleCount, Dish.cookingTime, Dish.photoLink FROM {table}, Dish  WHERE {table}.meal_id={meal_id} AND {table}.dish_id = Dish.dish_id '.format(
-        table=TABLE_NAME,
-        meal_id=meal_id)
-    return query
+    query = 'SELECT Dish.dish_id,  Dish.name, Dish.calories, Dish.recipe, Dish.peopleCount, Dish.cookingTime, Dish.photoLink FROM {table}, Dish  WHERE {table}.meal_id=%s AND {table}.dish_id = Dish.dish_id '.format(
+        table=TABLE_NAME)
+    return query, (meal_id)
 
 
 def add_edited_dishes(user_id, query):
@@ -60,9 +57,8 @@ def add_edited_dishes(user_id, query):
 
 
 def remove_dish_from_meal(meal_id, dish_id):
-    if not validate_insert(meal_id, dish_id):
+    if not validate_insert(meal_id, dish_id, None):
         return None
-    query = 'DELETE FROM {table} WHERE(meal_id = {meal_id} AND dish_id = {dish_id})'.format(table=TABLE_NAME,
-                                                                                            meal_id=meal_id,
-                                                                                            dish_id=dish_id)
-    return query
+    query = 'DELETE FROM {table} WHERE(meal_id = %s AND dish_id = %s)'.format(table=TABLE_NAME)
+
+    return query, (meal_id, dish_id)

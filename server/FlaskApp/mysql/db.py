@@ -1,6 +1,7 @@
 from flaskext.mysql import MySQL
 from FlaskApp.services.errorHandler import ErrorHandler
 
+
 class sql_driver:
     def __init__(self, app):
         self.mysql = MySQL()
@@ -12,9 +13,9 @@ class sql_driver:
         self.conn = self.mysql.connect()
         self.cursor = self.conn.cursor()
 
-    def insert(self, query):
+    def insert(self, query, params):
         try:
-            self.cursor.execute(query)
+            self.cursor.execute(query, params)
             self.conn.commit()
             return self.cursor.lastrowid
         except Exception as e:
@@ -23,21 +24,24 @@ class sql_driver:
 
             if e.args[0] == 1062:
                 raise ErrorHandler(400, "Already Exists")
-            else :
+            else:
                 raise ErrorHandler(500, e)
 
-    def is_exists(self, query):
+    def is_exists(self, query, params):
         try:
-            self.cursor.execute(query)
+            self.cursor.execute(query, params)
             result = self.cursor.fetchall()
             return len(result) > 0
         except Exception as e:
             print("SELECT : error received from sql for query {query}".format(query=query))
             raise ErrorHandler(500, e)
 
-    def get(self, query):
+    def get(self, query, params):
         try:
-            self.cursor.execute(query)
+            if params == ():
+                self.cursor.execute(query)
+            else:
+                self.cursor.execute(query, params)
             result = self.cursor.fetchall()
             return result
         except Exception as e:
@@ -45,9 +49,9 @@ class sql_driver:
                                                                                                 err=e))
             raise ErrorHandler(500, e)
 
-    def delete(self, query):
+    def delete(self, query, params):
         try:
-            self.cursor.execute(query)
+            self.cursor.execute(query, params)
             self.conn.commit()
             return True
         except Exception as e:

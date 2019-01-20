@@ -12,46 +12,43 @@ class meal_service(abstrac_service):
         self.ing_service = ingridents_services(my_sql)
 
     def add_meal(self, meal):
-        query = user_meal.insert(meal['user'], meal['name'])
-        my_meal = self.db.insert(query)
+        query, params = user_meal.insert(meal['user'], meal['name'])
+        my_meal = self.db.insert(query, params)
         if 'dinnerList' in meal and len(list(meal['dinnerList'])):
-            # query = user_recipe.insert(meal['user'], id, dish['recipe'])
-            # self.db.insert(query)
-            query = meal_dishes.insert_many(my_meal, meal['dinnerList'])
-
-            self.db.insert(query)
+            query, params = meal_dishes.insert_many(my_meal, meal['dinnerList'])
+            self.db.insert(query, params)
             return self.return_success(meal)
 
     def get_user_meals(self, user_id):
-        query = user_meal.get(user_id)
-        result = self.convert_result_to_obj(self.db.get(query))
+        query, params = user_meal.get(user_id)
+        result = self.convert_result_to_obj(self.db.get(query, params))
         if result and len(result):
             for res in result:
                 lst = []
-                dish_query = meal_dishes.get_dishes(res['meal_id'])
+                dish_query, params = meal_dishes.get_dishes(res['meal_id'])
                 dish_query = meal_dishes.add_edited_dishes(user_id, dish_query)
-                dish_lst = self.convert_dish(self.db.get(dish_query))
+                dish_lst = self.convert_dish(self.db.get(dish_query, params))
                 for dish in dish_lst:
                     dish_ing_list = self.ing_service.get_all_dish_ingerients(dish['id'])
                     if dish_ing_list:
                         dish['ingredients'] = dish_ing_list
                     lst.append(dish)
                 res['foods'] = lst
-                query = dish_ingridents.meal_ingredients(res['meal_id'])
-                meal_ing = self.convert_meal_ing(self.db.get(query))
+                query, params = dish_ingridents.meal_ingredients(res['meal_id'])
+                meal_ing = self.convert_meal_ing(self.db.get(query, params))
                 res['ingList'] = meal_ing
 
         return self.return_success(result)
 
     def get_user_edited_dishes(self, user_id):
         user_dishes = []
-        query = user_meal.get(user_id)
-        result = self.convert_result_to_obj(self.db.get(query))
+        query, params = user_meal.get(user_id)
+        result = self.convert_result_to_obj(self.db.get(query, params))
         if result and len(result):
             for meal in result:
-                dish_query = meal_dishes.get_dishes(meal['meal_id'])
+                dish_query, params = meal_dishes.get_dishes(meal['meal_id'])
                 dish_query = meal_dishes.add_edited_dishes(user_id, dish_query)
-                dish_lst = self.convert_dish(self.db.get(dish_query))
+                dish_lst = self.convert_dish(self.db.get(dish_query, params))
                 for dish in dish_lst:
                     dish_ing_list = self.ing_service.get_all_dish_ingerients(dish['id'])
                     if dish_ing_list:
@@ -59,16 +56,12 @@ class meal_service(abstrac_service):
                     user_dishes.append(dish)
         return self.return_success(user_dishes)
 
-
-
     def delete_user_meal(self, meal_id, user_id):
-        query = meal_dishes.delete_all_meal_dishes(meal_id)
-        self.db.delete(query)
-        query = user_meal.remove_meal(user_id, meal_id)
-        self.db.delete(query)
+        query, params = meal_dishes.delete_all_meal_dishes(meal_id)
+        self.db.delete(query, params)
+        query, params = user_meal.remove_meal(user_id, meal_id)
+        self.db.delete(query, params)
         return self.return_success("success")
-
-
 
     def convert_dish(self, result):
         lst = []
@@ -99,8 +92,8 @@ class meal_service(abstrac_service):
         lst = []
         for res in result:
             lst.append({
-                'ing_id':res[1],
-                'name':int(res[2]),
-                'sum':res[3]
+                'ing_id': res[1],
+                'name': int(res[2]),
+                'sum': res[3]
             })
         return lst

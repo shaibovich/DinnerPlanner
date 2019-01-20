@@ -110,10 +110,7 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
                 }
             },
             size: 'lg'
-
-
         });
-
         uibModal.result.then(function (res) {
             res.user = $rootScope.user.id;
             apiService.addRecipe(res)

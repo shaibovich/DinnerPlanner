@@ -15,21 +15,24 @@ def insert(dish):
         peopleCount=dish['peopleCount'],
         cookingTime=dish['cookingTime'],
         photoLink=dish['photoLink'])
-    return query
+    query = 'INSERT INTO {table} VALUES(0, %s, %s, %s, %s, %s, %s'.format(
+        table=TABLE_NAME)
+    return query, (dish['name'], dish['calories'], dish['recipe'], dish['peopleCount'], dish['cookingTime'], dish['photoLink'])
 
 
 def get_dish_id(dish):
     if not validate_dish(dish):
         return False
-    query = 'SELECT id FROM {table} WHERE name="{name}"'.format(table=TABLE_NAME, name=dish['name'])
-    return query
+    # query = 'SELECT id FROM {table} WHERE name="{name}"'.format(table=TABLE_NAME, name=dish['name'])
+    query = 'SELECT id FROM {table} WHERE name=%s'.format(table=TABLE_NAME)
+    return query, (dish['name'])
 
 
 def get(dish):
     validate_dish_search(dish)
-    query = 'SELECT * FROM {table} WHERE name LIKE "%{name}%"'.format(table=TABLE_NAME,
-                                                                      name=dish['text'])
-    return query
+    query = 'SELECT * FROM {table} WHERE name LIKE "%%s%"'.format(table=TABLE_NAME)
+                                                                      # name=dish['text'])
+    return query, (dish['text'])
 
 
 def get_dish_with_sliders(dish):
@@ -68,9 +71,9 @@ def get_dish_with_calories_range(min_calories, max_calories):
     min_query = ''
     max_query = ''
     if min_calories != '' and min_calories > 0:
-        min_query = ' AND calories > {min} '.format(min=min_calories)
+        min_query = ' AND calories >= {min} '.format(min=min_calories)
     if max_calories != '' and max_calories > 0:
-        max_query = ' AND calories < {max} '.format(max=max_calories)
+        max_query = ' AND calories <= {max} '.format(max=max_calories)
     return min_query + max_query
 
 
@@ -80,9 +83,9 @@ def get_dish_with_cooking_time_range(min_cooking, max_cooking):
     min_query = ''
     max_query = ''
     if min_cooking != '' and min_cooking > 0:
-        min_query = ' AND cookingTime > {min} '.format(min=min_cooking)
+        min_query = ' AND cookingTime >= {min} '.format(min=min_cooking)
     if max_cooking != '' and max_cooking > 0:
-        max_query = ' AND cookingTime < {max} '.format(max=max_cooking)
+        max_query = ' AND cookingTime <= {max} '.format(max=max_cooking)
     return min_query + max_query
 
 
