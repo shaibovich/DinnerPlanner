@@ -11,11 +11,13 @@ class sql_driver:
         app.config['MYSQL_DATABASE_HOST'] = 'localhost'
         self.mysql.init_app(app)
         self.conn = self.mysql.connect()
-        self.cursor = self.conn.cursor()
+        self.cursor = None
 
     def insert(self, query, params):
         try:
+            self.cursor = self.conn.cursor()
             self.cursor.execute(query, params)
+            self.cursor.close()
             self.conn.commit()
             return self.cursor.lastrowid
         except Exception as e:
@@ -29,8 +31,10 @@ class sql_driver:
 
     def is_exists(self, query, params):
         try:
+            self.cursor = self.conn.cursor()
             self.cursor.execute(query, params)
             result = self.cursor.fetchall()
+            self.cursor.close()
             return len(result) > 0
         except Exception as e:
             print("SELECT : error received from sql for query {query}".format(query=query))
@@ -38,11 +42,13 @@ class sql_driver:
 
     def get(self, query, params):
         try:
+            self.cursor = self.conn.cursor()
             if params == ():
                 self.cursor.execute(query)
             else:
                 self.cursor.execute(query, params)
             result = self.cursor.fetchall()
+            self.cursor.close()
             return result
         except Exception as e:
             print("SELECT : error received from sql for query {query} ׳with error {err}".format(query=query,
@@ -51,7 +57,9 @@ class sql_driver:
 
     def delete(self, query, params):
         try:
+            self.cursor = self.conn.cursor()
             self.cursor.execute(query, params)
+            self.cursor.close()
             self.conn.commit()
             return True
         except Exception as e:

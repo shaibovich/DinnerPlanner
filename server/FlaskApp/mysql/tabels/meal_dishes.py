@@ -76,7 +76,8 @@ def get_distinct_dishes(user_id):
             ' Dish.recipe,' \
             ' Dish.peopleCount,' \
             ' Dish.cookingTime,' \
-            ' Dish.photoLink' \
+            ' Dish.photoLink,' \
+            ' 0 as fromMeal' \
             ' FROM Meal_dishes, Dish, (' \
             ' SELECT meal_id FROM User_meals WHERE user_id = %s) as meals' \
             ' WHERE Meal_dishes.dish_id = Dish.dish_id' \
@@ -92,7 +93,8 @@ def get_distinct_dishes(user_id):
             ' User_recipe.recipe,' \
             ' User_recipe.peopleCount,' \
             ' User_recipe.cookingTime,' \
-            ' User_recipe.photoLink' \
+            ' User_recipe.photoLink,' \
+            ' 1 as fromMeal' \
             ' FROM User_recipe, Dish , Meal_dishes,' \
             ' (SELECT meal_id FROM User_meals WHERE user_id = %s) as meals' \
             ' WHERE User_recipe.user_id=%s' \

@@ -10,8 +10,8 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
         console.log(res);
         apiService.editRecipe(res)
             .then((res) => {
+                getMyRecipes();
                 $rootScope.alert("success");
-
             }, (err) => {
                 $rootScope.alert("fail", err);
             });

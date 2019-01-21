@@ -42,7 +42,7 @@ class meal_service(abstrac_service):
 
     def get_user_edited_dishes(self, user_id):
         query, params = meal_dishes.get_distinct_dishes(user_id)
-        result = self.convert_dish(self.db.get(query, params))
+        result = self.convert_dish(self.db.get(query, params), True)
         return self.return_success(result)
 
     def delete_user_meal(self, meal_id, user_id):
@@ -52,10 +52,10 @@ class meal_service(abstrac_service):
         self.db.delete(query, params)
         return self.return_success("success")
 
-    def convert_dish(self, result):
+    def convert_dish(self, result, with_meal=False):
         lst = []
         for res in result:
-            lst.append({
+            obj = {
                 'id': res[0],
                 'name': res[1],
                 'calories': res[2],
@@ -63,7 +63,10 @@ class meal_service(abstrac_service):
                 'peopleCount': res[4],
                 'cookingTime': res[5],
                 'photoLink': res[6]
-            })
+            }
+            if with_meal:
+                obj['withMeal'] = res[7]
+            lst.append(obj)
         return lst
 
     def convert_result_to_obj(self, result):

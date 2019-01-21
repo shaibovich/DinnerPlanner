@@ -825,7 +825,12 @@ nav img {
     color: black;
     text-align: center;
     font-size: 30px;
-    font-weight: bold
+    font-weight: bold;
+    white-space:nowrap;
+}
+
+.whiteSpace {
+    white-space:nowrap;
 }
 
 h3 {
