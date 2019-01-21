@@ -39,7 +39,7 @@ angular.module('routerApp').controller('loginController', ['$rootScope', '$scope
                 $rootScope.isConnected = true;
                 $rootScope.isLoading = false;
                 $rootScope.user = res;
-                $state.go('search', $scope.user, {location: 'replace'})
+                $state.go('searchPage', $scope.user, {location: 'replace'})
             }, function (err) {
                 $scope.errMsg = 'User ' + err;
                 $rootScope.isLoading = false;
