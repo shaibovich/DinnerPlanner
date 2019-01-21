@@ -1,0 +1,78 @@
+<div class="leftMenuPosition col-lg-2">
+    <div class="row buttonRow col-lg-12">
+        <h3 class="col-lg-12 menuTitle border-bottom">
+            My List
+        </h3>
+    </div>
+    <div class="row">
+        <div class="shoppingListItem col-lg-12 row justify-content-between panel panel-default"
+             ng-repeat="(key, value) in myRecipe">
+            <button ng-click="showUserRecipe(value)"
+                    class=" btn col-lg-9 offset-lg-1 shoppingButton text-truncate panel-heading">
+                {{value.name}}
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid col-lg-10">
+    <h1>
+        My Page
+    </h1>
+    <div id="myPage" class="marginBottom30">
+        <div class="row col-lg-12">
+            <div class="card-container col-lg-12 row" ng-if="showRecipe">
+
+                <div class="card u-clearfix col-lg-12">
+                    <div class="card-body row col-lg-12">
+                        <div class="col-lg-12 ">
+                            <button class="btn editButton removeButton float-right" ng-click="editRecipe()">
+                                <i class="fa fa-pencil"></i></button>
+                            <button ng-if="showRecipe.withMeal" type="button" class="btn editButton removeButton float-right" ng-click="deleteRecipe()"><i
+                                    class="fa fa-close"></i></button>
+                        </div>
+                        <div class="card-title col-lg-12 row">
+                            <img src="{{showRecipe.photoLink}}" alt="" class="card-media col-lg-4"/>
+                            <div class="card-title col-lg-8">
+                                <h2 class="card-title col-lg-8 whiteSpace">{{showRecipe.name}}</h2>
+                                <ul class="media  card-description dinnerData col-lg-8">
+                                    <li><i class="fa fa-clock-o "></i> {{showRecipe.cookingTime}} Minutes</li>
+                                    <li><i class="fa fa-leaf"></i> {{showRecipe.calories}} Calories</li>
+                                    <li><i class="fa fa-cutlery"></i> {{showRecipe.peopleCount}} People</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="border col-lg-12"></div>
+                        <div id="ingStep" class="card-body col-lg-12 row">
+                            <div class="card-read col-lg-12 subtle text-center ">Ingredients</div>
+                            <ul>
+                                <li class="col-lg-2" ng-repeat="(key, value) in showRecipe.ingredients">
+                                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                    {{value.name}} : {{value.count}}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div id="recipeStep" class="card-body col-lg-12 row">
+                            <div class="card-read col-lg-12 subtle text-center ">Recipe</div>
+                            <ol class="col-lg-12">
+                                <li class="col-lg-12" ng-repeat="(key, value) in showRecipe.recipe">
+                                    {{value}}
+                                </li>
+                            </ol>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="card-shadow">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

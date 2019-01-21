@@ -1,0 +1,31 @@
+
+<div class="modal-body myModal">
+    <div class="modal-header">
+        <h3 class="modal-title modalTitle border-bottom">{{name}}</h3>
+    </div>
+    <div class="row modal-body modalText">
+        <div class="modal-body modalText">
+        <span>
+            Cooking Time: {{cookingTime}}
+        </span>
+        </div>
+        <div class="modal-body modalText">
+        <span>
+            Calories: {{calories}}
+        </span>
+        </div>
+        <div class="modal-body modalText">
+        <span>
+            People: {{peopleCount}}
+        </span>
+
+        </div>
+    </div>
+    <div class="modal-body modalText">
+        {{recipe}}
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning" type="button" ng-click="ok()">OK</button>
+    </div>
+</div>

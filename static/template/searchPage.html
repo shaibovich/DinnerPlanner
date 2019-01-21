@@ -1,0 +1,196 @@
+<div class="leftMenuPosition col-lg-2">
+    <div class="col-lg-12 border-bottom row justify-content-between shoppingListItem panel panel-default">
+        <h3 class="col-lg-12 menuTitle ">
+            My List
+        </h3>
+    </div>
+    <div class="col-lg-12 row">
+        <button ng-disabled="!chooseDish" type="button" ng-click="saveList()"
+                class="topButton btn btn-warning  col-lg-5 offset-lg-1 text-truncate shoppingButton">Save List
+        </button>
+        <button type="button" ng-click="openAddRecipeModal()"
+                class="topButton btn btn-warning col-lg-5 offset-lg-1 text-truncate shoppingButton">Add Recipe
+        </button>
+    </div>
+    <div class="row col-lg-12">
+        <div class="shoppingListItem col-lg-12 row justify-content-between panel panel-default"
+             ng-repeat="(key, value) in myList">
+            <button ng-click="openDishModal(value)"
+                    class=" btn col-lg-9 offset-lg-1 shoppingButton text-truncate panel-heading">
+                {{value.name}}
+            </button>
+            <button type="button" class="col-lg-2 btn removeButton" ng-click="removeItem(key)"><i
+                    class="fa fa-close"></i></button>
+        </div>
+    </div>
+</div>
+<div class="col-lg-10">
+    <h1 class="modalTitle1">
+        Search Page
+    </h1>
+    <div class="border"></div>
+    <div class="container-fluid marginBottom30" id="content">
+        <h2 class="modalTitle2">
+            Search
+        </h2>
+        <div id="searchFields">
+            <div class="row col-lg-12 searchGroup ">
+                <input ng-pattern="/^[\w -]*$/" type="search" class="form-control col-lg-8 " aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-lg" ng-model="search.text">
+                <button type="button" class="btn btn-warning btn-primary col-lg-2 offset-lg-2 shoppingButton"
+                        ng-click="startSearch()">Search
+                </button>
+                <div class="modalError" ng-if="errMsg">
+                    {{errMsg}}
+                </div>
+            </div>
+            <div class="accordion col-lg-12 accordionFilter" id="accordionExample">
+                <div class="card col-lg-12 cardHolder ">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn cardButton" type="button" data-toggle="collapse"
+                                    data-target="#collapseOne"
+                                    aria-expanded="false" aria-controls="collapseOne">
+                                With Ingredient
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseOne" class="collapse col-lg-12 container filterContainer row"
+                         aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="row col-lg-3 ingredient filterBox" ng-repeat="(key, value) in withIngredient">
+                            <input class="col-lg-2 " type="checkbox" ng-change="onIngredientsFilterChange(key, value, 'with')"
+                                   ng-model="withIngredient[key].checked">
+                            <span class="modalText">
+                            {{withIngredient[key].name}}
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-12 cardHolder ">
+                    <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn cardButton" type="button" data-toggle="collapse"
+                                    data-target="#collapseThree"
+                                    aria-expanded="false" aria-controls="collapseThree">
+                                Without Ingredient
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse col-lg-12 container filterContainer row"
+                         aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="row col-lg-3 ingredient filterBox" ng-repeat="(key, value) in withoutIngredient">
+                            <input class="col-lg-2 " type="checkbox" ng-change="onIngredientsFilterChange(key, value, 'without')"
+                                   ng-model="withoutIngredient[key].checked">
+                            <span class="modalText">
+                            {{withoutIngredient[key].name}}
+                        </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card col-lg-12 cardHolder">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn cardButton collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Cooking Time & Calories
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseTwo" class="collapse col-lg-12 container filterContainer row marginBottom5"
+                         aria-labelledby="headingTwo" data-parent="#accordion">
+
+                        <div class="form-group col-lg-12 filterBox">
+                            <label class="col-lg-2">Calories</label>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                      <span class="input-group-addon">
+                                        <label class="">Min</label>
+                                      </span>
+                                        <input type="number" ng-model="search.filter.calories.min"
+                                               class="form-control" aria-label="...">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+
+                                        <input type="number" class="form-control"
+                                               ng-model="search.filter.calories.max" aria-label="...">
+                                        <span class="input-group-addon">
+                                        <label class="">Max</label>
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-12 filterBox">
+                            <label class="col-lg-2">Cooking Time</label>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                      <span class="input-group-addon">
+                                        <label class="">Min</label>
+                                      </span>
+                                        <input type="number" ng-model="search.filter.cookingTime.min"
+                                               class="form-control" aria-label="...">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control"
+                                               ng-model="search.filter.cookingTime.max" aria-label="...">
+                                        <span class="input-group-addon">
+                                        <label class="">Max</label>
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <div class="border"></div>
+    <div class="container-fluid" id="content">
+        <h2 class="modalTitle2">
+            Results
+        </h2>
+        <div ng-if="!searchResult" class="col-lg-12">
+        <span class="modalText col-lg-12">
+            No results
+        </span>
+        </div>
+        <div ng-if="isLoading" class="col-lg-12">
+            <img src="static/vendor/images/loader.svg">
+        </div>
+        <div ng-if="searchResult && searchResult.length" class="recipe" ng-repeat="(key, value) in searchResult">
+            <div class="image">
+                <img ng-click="onChangeRecepie(value,true)" src="{{value.photoLink}}">
+                <div class="likes">
+                    <input type="checkbox" ng-change='onChangeRecepie(value, false)' ng-model="value.done">
+                </div>
+                <div class="name">
+                    <h3>
+                        {{value.name}}
+                    </h3>
+                </div>
+            </div>
+            <ul class="media">
+                <li><i class="fa fa-clock-o"></i> {{value.cookingTime}} Minutes</li>
+                <li><i class="fa fa-leaf"></i> {{value.calories}} Calories</li>
+                <li><i class="fa fa-cutlery"></i> {{value.peopleCount}} People</li>
+            </ul>
+        </div>
+        </img>
+
+    </div>
+</div>
