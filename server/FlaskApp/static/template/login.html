@@ -1,18 +1,18 @@
-
-
-
 <div class="form-wrap">
     <div class="tabs">
-        <h3 class="signup-tab"><a class="" ng-class="{active : isLogin()}"  ng-click="changeLayout()">Sign Up</a></h3>
-        <h3 class="login-tab"><a class="" ng-class="{active : !isLogin()}" ng-click="changeLayout()" >Login</a></h3>
+        <h3 class="signup-tab"><a class="" ng-class="{active : isLogin()}" ng-click="changeLayout()">Sign Up</a></h3>
+        <h3 class="login-tab"><a class="" ng-class="{active : !isLogin()}" ng-click="changeLayout()">Login</a></h3>
     </div><!--.tabs-->
 
     <div class="tabs-content">
         <div id="signup-tab-content" class="" ng-class="{active: isLogin()}">
             <form name="signUpForm" class="signup-form" ng-submit="validationLogin(signUpForm) && signUp()">
-                <input min="2" max="50" ng-model="user.email" type="email" class="input" id="user_email" autocomplete="off" placeholder="Email" required>
-                <input min="2" max="50" ng-model="user.user" type="text" class="input" id="user_name" autocomplete="off" placeholder="Username" required>
-                <input pattern="^[a-zA-Z0-9_.-]*$" min="2" max="50" ng-model="user.password" type="password" class="input" id="user_pass1" autocomplete="off" placeholder="Password" required>
+                <input min="2" max="50" ng-model="user.email" type="email" class="input" id="user_email"
+                       autocomplete="off" placeholder="Email" required>
+                <input min="2" max="50" ng-model="user.user" type="text" class="input" id="user_name" autocomplete="off"
+                       placeholder="Username" required>
+                <input pattern="^[a-zA-Z0-9_.-]*$" min="2" max="50" ng-model="user.password" type="password"
+                       class="input" id="user_pass1" autocomplete="off" placeholder="Password" required>
                 <input type="submit" class="button shoppingButton" value="Sign Up" ng-disabled="isLoading">
             </form>
             <div class="help-text">
@@ -24,13 +24,12 @@
             </div>
         </div>
 
-        <div id="login-tab-content"  ng-class="{active: !isLogin()}">
-            <form name="loginForm" class="login-form" ng-submit="validationLogin(loginForm) && continue()" >
-                <input min="2" max="50" ng-model="user.email" type="email" class="input" id="user_login" autocomplete="off" placeholder="Email or Username" required>
-                <input pattern="^[a-zA-Z0-9_.-]*$" min="2" max="50" ng-model="user.password" type="password" class="input" id="user_pass" autocomplete="off" placeholder="Password" required>
-                <input ng-model="user.rememberMe" type="checkbox" class="checkbox" id="remember_me">
-                <label for="remember_me">Remember me</label>
-
+        <div id="login-tab-content" ng-class="{active: !isLogin()}">
+            <form name="loginForm" class="login-form" ng-submit="validationLogin(loginForm) && continue()">
+                <input min="2" max="50" ng-model="user.email" type="email" class="input" id="user_login"
+                       autocomplete="off" placeholder="Email or Username" required>
+                <input pattern="^[a-zA-Z0-9_.-]*$" min="2" max="50" ng-model="user.password" type="password"
+                       class="input" id="user_pass" autocomplete="off" placeholder="Password" required>
                 <input type="submit" class="button shoppingButton" ng-disabled="isLoading" value="Login">
             </form>
             <div class="modalError" ng-if="errMsg">

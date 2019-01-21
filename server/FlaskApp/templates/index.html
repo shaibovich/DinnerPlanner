@@ -47,7 +47,7 @@
         </div>
         <div class="navbar-nav">
             <a class="nav-item nav-link myNavigator" ng-if="!isConnected" ui-sref="login">Login</a>
-            <a class="nav-item nav-link myNavigator" ng-if="isConnected" ui-sref="search">Search</a>
+            <a class="nav-item nav-link myNavigator" ng-if="isConnected" ui-sref="searchPage">Search</a>
             <a class="nav-item nav-link myNavigator" ng-if="isConnected" ui-sref="userPage">My Page</a>
             <a class="nav-item nav-link myNavigator" ng-if="isConnected" ui-sref="myRecipe">My Recipe</a>
             <button ng-if="isConnected" class="nav-item nav-link myNavigator leftHeaderButton" ng-click="logOut()">Log Out</button>

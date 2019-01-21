@@ -1,11 +1,11 @@
-angular.module('routerApp').controller('loginController', ['$rootScope' , '$scope', '$state', '$q','apiService',function ($rootScope, $scope, $state, $q, apiService) {
+angular.module('routerApp').controller('loginController', ['$rootScope', '$scope', '$state', '$q', 'apiService', function ($rootScope, $scope, $state, $q, apiService) {
 
     let init = function () {
         $scope.user = {
             email: "",
             password: "",
-            user: "",
-            rememberMe: false
+            user: ""
+
         };
         $scope.loginLayout = false;
     };
@@ -15,17 +15,16 @@ angular.module('routerApp').controller('loginController', ['$rootScope' , '$scop
         console.log($scope.user);
         $rootScope.isLoading = true;
         apiService.login($scope.user)
-            .then(function (res){
-
-                if ($scope.user.rememberMe) {
-                    $rootScope.saveToLocaleStorage('user', res);
-                }
+            .then(function (res) {
+                $rootScope.saveToLocaleStorage('user', res);
                 $rootScope.isConnected = true;
                 $rootScope.user = res;
 
                 $rootScope.isLoading = false;
-                $state.go('search', $scope.user, {location: 'replace'});
-            }, function (err){
+                $state.go('searchPage', $scope.user, {
+                    location: 'replace', inherit: true
+                });
+            }, function (err) {
                 $scope.errMsg = err;
                 $rootScope.isConnected = false;
                 $rootScope.isLoading = false;
@@ -36,12 +35,14 @@ angular.module('routerApp').controller('loginController', ['$rootScope' , '$scop
         console.log($scope.user);
         $rootScope.isLoading = true;
         apiService.signup($scope.user)
-            .then(function (res){
+            .then(function (res) {
                 $rootScope.isConnected = true;
                 $rootScope.isLoading = false;
                 $rootScope.user = res;
-                $state.go('search', $scope.user, {location: 'replace'})
-            }, function(err){
+                $state.go('search', $scope.user, {
+                    location: 'replace', inherit: true
+                })
+            }, function (err) {
                 $scope.errMsg = 'User ' + err;
                 $rootScope.isLoading = false;
                 $rootScope.isConnected = false;
@@ -54,11 +55,11 @@ angular.module('routerApp').controller('loginController', ['$rootScope' , '$scop
         $scope.loginLayout = !$scope.loginLayout;
     };
 
-    $scope.isLogin = function() {
+    $scope.isLogin = function () {
         return $scope.loginLayout;
     };
 
-    $scope.validationLogin = function(form){
+    $scope.validationLogin = function (form) {
         return form.$valid;
     };
 

@@ -10,7 +10,7 @@ angular.module('routerApp').controller('userPageController', ['$rootScope', '$sc
     $scope.showDinnerList = function (dinnerRow) {
         console.log(dinnerRow);
         dinnerRow.foods.forEach(dinner => {
-            if (dinner && dinner.recipe && typeof(dinner.recipe) === "string"){
+            if (dinner && dinner.recipe && typeof (dinner.recipe) === "string") {
                 dinner.recipe = dinner.recipe.split('.')
             }
         });
@@ -27,7 +27,7 @@ angular.module('routerApp').controller('userPageController', ['$rootScope', '$sc
             'user_id': $rootScope.user.id
         })
             .then((res) => {
-                if ($scope.myList.length == 1) {
+                if ($scope.myList.length === 1) {
                     $scope.myList = [];
                     $scope.showList = {};
                 } else {

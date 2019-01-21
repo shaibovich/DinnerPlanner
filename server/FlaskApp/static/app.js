@@ -12,7 +12,7 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
                 templateUrl: './static/template/login.html',
                 controller: 'loginController'
             })
-            .state('search', {
+            .state('searchPage', {
                 url: '/search',
                 templateUrl: './static/template/searchPage.html',
                 controller: 'searchController'
@@ -23,9 +23,9 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
                 controller: "userPageController"
             })
             .state('myRecipe', {
-                url:'/myRecipe',
-                templateUrl :'./static/template/myRecipe.html',
-                controller:'myRecipeController'
+                url: '/myRecipe',
+                templateUrl: './static/template/myRecipe.html',
+                controller: 'myRecipeController'
             });
 
         $urlRouterProvider.otherwise('/home');
@@ -33,61 +33,54 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
     }])
 
 
-    .run(function ($rootScope , $state, $uibModal) {
+    .run(function ($rootScope, $state, $uibModal) {
         $rootScope.isLoading = false;
         $rootScope.isConnected = false;
-        console.log($state);
 
-        $rootScope.isLogin = function(){
-            let localUser = $rootScope.getLocaleStorage('user');
-            if (localUser && localUser.id){
-                $rootScope.isConnected = true;
-                $rootScope.user = localUser;
-                $state.go('search', {}, {location:'replace'});
-            }
-        };
-
-
-
-        $rootScope.saveToLocaleStorage = function(key, value){
+        $rootScope.saveToLocaleStorage = function (key, value) {
             window.localStorage[key] = JSON.stringify(value);
 
         };
 
-        $rootScope.getLocaleStorage = function(key){
+        $rootScope.getLocaleStorage = function (key) {
             return window.localStorage[key] || null;
         };
 
-        $rootScope.deleteLocalStorage = function(key){
-            if ($rootScope.getLocaleStorage(key)){
+        $rootScope.deleteLocalStorage = function (key) {
+            if ($rootScope.getLocaleStorage(key)) {
                 delete window.localStorage[key];
             }
         };
 
 
-        if ($rootScope.getLocaleStorage('user')) {
-            $rootScope.isConnected = true;
-            $rootScope.user = JSON.parse($rootScope.getLocaleStorage('user'));
-            $state.go('search', {} ,{location:'replace'})
-        } else {
-            $state.go('home', {}, {location:'replace'})
-        }
+        $rootScope.isUserConnection = function () {
+            if ($rootScope.getLocaleStorage('user')) {
+                $rootScope.isConnected = true;
+                $rootScope.user = JSON.parse($rootScope.getLocaleStorage('user'));
+                $state.go('searchPage', {}, {location: 'replace'});
+            } else {
+                $state.go('home', {}, {reload: true});
 
-        $rootScope.logOut = function(){
-            $rootScope.deleteLocalStorage('user');
-            $rootScope.isConnected = false;
-            $state.go('home', {}, {location:'replace'});
+            }
         };
 
-        $rootScope.alert = function (type ,errMsg){
+        $rootScope.isUserConnection();
+
+        $rootScope.logOut = function () {
+            $rootScope.deleteLocalStorage('user');
+            $rootScope.isConnected = false;
+            $state.go('home', {}, {location: 'replace'});
+        };
+
+        $rootScope.alert = function (type, errMsg) {
             $uibModal.open({
                 templateUrl: './static/template/modals/alertModal.html',
                 controller: 'alertModalController',
                 resolve: {
                     params: function () {
-                        return  {
-                            type:type,
-                            errMsg:errMsg
+                        return {
+                            type: type,
+                            errMsg: errMsg
                         }
                     }
                 },
@@ -97,7 +90,7 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
 
 
     })
-    .controller('NameModalCtrl', function( $scope, $uibModalInstance){
+    .controller('NameModalCtrl', function ($scope, $uibModalInstance) {
         $scope.ok = function () {
             $uibModalInstance.close($scope.name);
         };
@@ -106,6 +99,6 @@ angular.module('routerApp', ['ui.router', 'ui.bootstrap', 'apiServiceModule'])
             $uibModalInstance.dismiss('cancel');
         };
 
-        $scope.name =  "";
+        $scope.name = "";
 
     });

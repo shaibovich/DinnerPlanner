@@ -5,25 +5,15 @@ DISH_ING_TABLE = 'Dish_ingredients'
 
 
 def insert(dish):
-    if not validate_dish(dish):
-        return False
-    query = 'INSERT INTO {table} VALUES(0,"{name}", {calories}, "{recipes}", {peopleCount}, {cookingTime}, "{photoLink}")'.format(
-        table=TABLE_NAME,
-        name=dish['name'],
-        calories=dish['calories'],
-        recipes=dish['recipe'],
-        peopleCount=dish['peopleCount'],
-        cookingTime=dish['cookingTime'],
-        photoLink=dish['photoLink'])
-    query = 'INSERT INTO {table} VALUES(0, %s, %s, %s, %s, %s, %s'.format(
+    validate_dish(dish)
+    query = 'INSERT INTO {table} VALUES(0, %s, %s, %s, %s, %s, %s)'.format(
         table=TABLE_NAME)
-    return query, (dish['name'], dish['calories'], dish['recipe'], dish['peopleCount'], dish['cookingTime'], dish['photoLink'])
+    return query, (
+        dish['name'], dish['calories'], dish['recipe'], dish['peopleCount'], dish['cookingTime'], dish['photoLink'])
 
 
 def get_dish_id(dish):
-    if not validate_dish(dish):
-        return False
-    # query = 'SELECT id FROM {table} WHERE name="{name}"'.format(table=TABLE_NAME, name=dish['name'])
+    validate_dish(dish)
     query = 'SELECT id FROM {table} WHERE name=%s'.format(table=TABLE_NAME)
     return query, (dish['name'])
 
@@ -31,7 +21,7 @@ def get_dish_id(dish):
 def get(dish):
     validate_dish_search(dish)
     query = 'SELECT * FROM {table} WHERE name LIKE "%%s%"'.format(table=TABLE_NAME)
-                                                                      # name=dish['text'])
+    # name=dish['text'])
     return query, (dish['text'])
 
 
@@ -56,9 +46,9 @@ def get_dish_with_ings(ing_ids_lst):
 
 def get_dish_without_ing(ing_ids_lst):
     query = 'AND dish_id NOT IN (SELECT DISTINCT dish_id FROM {DISH_TABLE} WHERE '.format(DISH_TABLE=DISH_ING_TABLE)
-    for index, ing in  enumerate(ing_ids_lst):
+    for index, ing in enumerate(ing_ids_lst):
         query += 'ing_id={ing_id}'.format(ing_id=ing)
-        if index == len(ing_ids_lst) -1:
+        if index == len(ing_ids_lst) - 1:
             query += ')'
         else:
             query += ' AND '
@@ -110,15 +100,14 @@ def validate_dish_search(dish):
 
 def validate_dish(dish):
     if 'name' not in dish:
-        return False
+        raise ErrorHandler(403, "validation failed, not name")
     if 'recipe' not in dish:
-        return False
+        raise ErrorHandler(403, "validation failed, not recipe")
     if 'peopleCount' not in dish:
-        return False
+        raise ErrorHandler(403, "validation failed, not peopleCount")
     if 'cookingTime' not in dish:
-        return False
+        raise ErrorHandler(403, "validation failed, not cookingTime")
     if 'photoLink' not in dish:
-        return False
+        raise ErrorHandler(403, "validation failed, not photoLink")
     if 'calories' not in dish:
-        return False
-    return True
+        raise ErrorHandler(403, "validation failed, not calories")

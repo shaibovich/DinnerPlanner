@@ -106,7 +106,7 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
             controller: 'ModalInstanceCtrl',
             resolve: {
                 params: function () {
-                    return $scope.user
+                    return {user:$scope.user}
                 }
             },
             size: 'lg'
