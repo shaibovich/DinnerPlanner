@@ -10,7 +10,6 @@ angular.module('routerApp').controller('myRecipeController', ['$rootScope', '$sc
         console.log(res);
         apiService.editRecipe(res)
             .then((res) => {
-                $scope.myRecipe.push(res);
                 $rootScope.alert("success");
 
             }, (err) => {

@@ -26,7 +26,7 @@ class meal_service(abstrac_service):
             for res in result:
                 lst = []
                 dish_query, params = meal_dishes.get_dishes(res['meal_id'])
-                dish_query = meal_dishes.add_edited_dishes(user_id, dish_query)
+                dish_query = meal_dishes.add_edited_dishes(user_id, res['meal_id'], dish_query)
                 dish_lst = self.convert_dish(self.db.get(dish_query, params))
                 for dish in dish_lst:
                     dish_ing_list = self.ing_service.get_all_dish_ingerients(dish['id'])
@@ -41,20 +41,9 @@ class meal_service(abstrac_service):
         return self.return_success(result)
 
     def get_user_edited_dishes(self, user_id):
-        user_dishes = []
-        query, params = user_meal.get(user_id)
-        result = self.convert_result_to_obj(self.db.get(query, params))
-        if result and len(result):
-            for meal in result:
-                dish_query, params = meal_dishes.get_dishes(meal['meal_id'])
-                dish_query = meal_dishes.add_edited_dishes(user_id, dish_query)
-                dish_lst = self.convert_dish(self.db.get(dish_query, params))
-                for dish in dish_lst:
-                    dish_ing_list = self.ing_service.get_all_dish_ingerients(dish['id'])
-                    if dish_ing_list:
-                        dish['ingredients'] = dish_ing_list
-                    user_dishes.append(dish)
-        return self.return_success(user_dishes)
+        query, params = meal_dishes.get_distinct_dishes(user_id)
+        result = self.convert_dish(self.db.get(query, params))
+        return self.return_success(result)
 
     def delete_user_meal(self, meal_id, user_id):
         query, params = meal_dishes.delete_all_meal_dishes(meal_id)

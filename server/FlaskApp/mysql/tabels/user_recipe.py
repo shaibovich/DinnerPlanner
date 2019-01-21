@@ -37,7 +37,7 @@ def update_recipe(obj):
 
 def delete_user_recipe(user_id, dish_id):
     query = 'DELETE FROM {table} WHERE dish_id=%s AND user_id=%s'.format(table=TABLE_NAME)
-    return query, (user_id, dish_id)
+    return query, (dish_id,user_id)
 
 
 def validate_insert_obj(obj):

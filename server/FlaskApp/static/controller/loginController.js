@@ -19,7 +19,6 @@ angular.module('routerApp').controller('loginController', ['$rootScope', '$scope
                 $rootScope.saveToLocaleStorage('user', res);
                 $rootScope.isConnected = true;
                 $rootScope.user = res;
-
                 $rootScope.isLoading = false;
                 $state.go('searchPage', $scope.user, {
                     location: 'replace', inherit: true
@@ -36,12 +35,11 @@ angular.module('routerApp').controller('loginController', ['$rootScope', '$scope
         $rootScope.isLoading = true;
         apiService.signup($scope.user)
             .then(function (res) {
+                $rootScope.saveToLocaleStorage('user', res);
                 $rootScope.isConnected = true;
                 $rootScope.isLoading = false;
                 $rootScope.user = res;
-                $state.go('search', $scope.user, {
-                    location: 'replace', inherit: true
-                })
+                $state.go('search', $scope.user, {location: 'replace'})
             }, function (err) {
                 $scope.errMsg = 'User ' + err;
                 $rootScope.isLoading = false;

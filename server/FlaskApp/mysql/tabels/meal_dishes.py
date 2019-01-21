@@ -47,13 +47,48 @@ def get_dishes(meal_id):
     return query, (meal_id)
 
 
-def add_edited_dishes(user_id, query):
+def add_edited_dishes(user_id, meal_id, query):
     query = '(' + query + 'AND Dish.dish_id '
     query += 'NOT IN (SELECT dish_id FROM User_recipe WHERE user_id={user_id}))'.format(user_id=user_id)
     query += ' UNION '
-    query += '(SELECT Dish.dish_id, Dish.name, User_recipe.calories, User_recipe.recipe, User_recipe.peopleCount, User_recipe.cookingTime, User_recipe.photoLink FROM User_recipe, Dish WHERE user_id={user_id} AND Dish.dish_id = User_recipe.dish_id)'.format(
-        user_id=user_id)
+    query += '(SELECT Dish.dish_id, Dish.name, User_recipe.calories, User_recipe.recipe, User_recipe.peopleCount, User_recipe.cookingTime, User_recipe.photoLink FROM User_recipe, Dish, {table} WHERE user_id={user_id} AND Dish.dish_id = User_recipe.dish_id AND {table}.meal_id AND {table}.dish_id=Dish.dish_id)'.format(
+        user_id=user_id,
+        table=TABLE_NAME,
+        meal_id=meal_id)
     return query
+
+
+def get_distinct_dishes(user_id):
+    query = ' (SELECT Dish.dish_id,' \
+            ' Dish.name,' \
+            ' Dish.calories,' \
+            ' Dish.recipe,' \
+            ' Dish.peopleCount,' \
+            ' Dish.cookingTime,' \
+            ' Dish.photoLink' \
+            ' FROM Meal_dishes, Dish, (' \
+            ' SELECT meal_id FROM User_meals WHERE user_id = %s) as meals' \
+            ' WHERE Meal_dishes.dish_id = Dish.dish_id' \
+            ' AND meals.meal_id = Meal_dishes.meal_id' \
+            ' AND Dish.dish_id NOT IN' \
+            ' (SELECT dish_id' \
+            ' FROM User_recipe' \
+            ' WHERE user_id=%s))' \
+            ' UNION' \
+            ' (SELECT Dish.dish_id,' \
+            ' Dish.name,' \
+            ' User_recipe.calories,' \
+            ' User_recipe.recipe,' \
+            ' User_recipe.peopleCount,' \
+            ' User_recipe.cookingTime,' \
+            ' User_recipe.photoLink' \
+            ' FROM User_recipe, Dish , Meal_dishes,' \
+            ' (SELECT meal_id FROM User_meals WHERE user_id = %s) as meals' \
+            ' WHERE user_id=%s' \
+            ' AND Dish.dish_id = User_recipe.dish_id' \
+            ' AND Meal_dishes.meal_id = meals.meal_id' \
+            ' AND Meal_dishes.dish_id = Dish.dish_id)'
+    return query, (user_id, user_id, user_id,user_id)
 
 
 def remove_dish_from_meal(meal_id, dish_id):
