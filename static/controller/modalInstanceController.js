@@ -77,6 +77,7 @@ angular.module('routerApp').controller('ModalInstanceCtrl', ['$scope', '$uibModa
                 })
                 .catch(err => {
                     $scope.newIng = "";
+                    $scope.errMsg = "Ingredient Is " + err;
                     console.error(err);
                 })
         }

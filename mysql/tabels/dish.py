@@ -20,8 +20,7 @@ def get_dish_id(dish):
 
 def get(dish):
     validate_dish_search(dish)
-    query = 'SELECT * FROM {table} WHERE name LIKE "%%s%"'.format(table=TABLE_NAME)
-    # name=dish['text'])
+    query = 'SELECT * FROM {table} WHERE name LIKE "%s%"'.format(table=TABLE_NAME)
     return query, (dish['text'])
 
 
