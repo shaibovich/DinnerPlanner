@@ -84,18 +84,21 @@ class dish_service(abstrac_service):
     def import_dishes(self, dishes):
         print("Starting importing dishes")
         for dish in dishes:
-            print("Import dish : {}".format(dish['name']))
-            for ing in dish['ingredients']:
-                result = self.ing_service.search_ing(ing['name'])
-                if result is not None and result.is_json and result.json and isinstance(result.json, list) and len(result.json) > 0:
-                    print("ingredient with name : {} - found".format(ing['name']))
-                    ing['id'] = result.json[0]['id']
-                else:
-                    print("No ingredient with name : {} - adding".format(ing['name']))
-                    id = self.ing_service.add_ingrident(ing)
-                    ing['id'] = id.json['id']
+            try :
+                print("Import dish : {}".format(dish['name']))
+                for ing in dish['ingredients']:
+                    result = self.ing_service.search_ing(ing['name'])
+                    if result is not None and result.is_json and result.json and isinstance(result.json, list) and len(result.json) > 0:
+                        print("ingredient with name : {} - found".format(ing['name']))
+                        ing['id'] = result.json[0]['id']
+                    else:
+                        print("No ingredient with name : {} - adding".format(ing['name']))
+                        id = self.ing_service.add_ingrident(ing)
+                        ing['id'] = id.json['id']
 
-            self.add_dish(dish)
-            print("Finish import dish : {}".format(dish['name']))
+                self.add_dish(dish)
+                print("Finish import dish : {}".format(dish['name']))
+            except Exception as e:
+                print(e)
 
         return self.return_success("success")

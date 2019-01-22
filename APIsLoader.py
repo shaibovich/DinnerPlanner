@@ -1,10 +1,11 @@
 import requests
 import json
+import re
 
 YummlyAPI_appID = "4219c174"
 YummlyAPI_appKEY = "6de0076d510d794329a6b2157302912a"
 
-YummlyAPI_maxReslts = "&maxResult=100&start=100"
+YummlyAPI_maxReslts = "&maxResult=100&start={start}"
 
 Yummly_URL = "http://api.yummly.com/v1/api/recipes?_app_id=" + YummlyAPI_appID + "&_app_key=" + YummlyAPI_appKEY + "&allowedCuisine[]=cuisine^cuisine-"
 
@@ -23,34 +24,54 @@ cuisines_list = [
 
 IDs = []
 
-def convert_to_add_dish_obj(recipe):
+
+def convert_to_add_dish_obj(recipe, ing_lst):
     obj = {
         'name': recipe['name'],
         'photoLink': get_phoot_link(recipe['images']),
         'calories': get_recipe_calories(recipe['nutritionEstimates']),
         'peopleCount': recipe['numberOfServings'],
-        'ingredients': get_ingredient_list(recipe['ingredientLines']),
-        'recipe': get_recipe_text(recipe['source']['sourceRecipeUrl']),
-        'cookingTime': recipe['totalTime']
+        'ingredients': get_ingredient_list(recipe['ingredientLines'], ing_lst),
+        'recipe': recipe['source']['sourceRecipeUrl'],
+        'cookingTime': get_recipe_cooking_time(recipe)
     }
     return obj
 
 
-def get_recipe_text(recipe_link):
-    result = requests.get(recipe_link).text
-    sub_result = result[result.find('recipeInstructions'):]
-    sub_result = sub_result[:sub_result.find("\n")]
-    print(sub_result)
-    return sub_result
+def get_recipe_cooking_time(recipe):
+    if 'totalTime' not in recipe:
+        return 0
+    else:
+        try:
+            return int(recipe['totalTime'].split(' ')[0])
+        except Exception:
+            return 0
 
 
 
-def get_ingredient_list(ing_list):
+def get_recipe_text(result):
+    sub_result = result[result.find('recipeInstructions') + len('recipeInstructions'):]
+    sub_result = sub_result[sub_result.find('['):sub_result.find(']')]
+    sub_result = sub_result.replace('\r', '')
+    sub_result = sub_result.replace('\n', '')
+    sub_result = sub_result.replace('\t', '')
+
+    return re.sub('[^A-Za-z0-9 .]+', '', sub_result)
+
+
+def get_ingredient_list(ing_list, meta_ing_lst):
     lst = []
-    for ing in ing_list:
+    for index, ing in enumerate(ing_list):
+        if index == len(meta_ing_lst):
+            break
+        text = ing.split(' ')[0]
+        try:
+            count = int(text)
+        except Exception:
+            count = 1
         lst.append({
-            'name': ing,
-            'count': 1
+            'name': meta_ing_lst[index],
+            'count': count
         })
     return lst
 
@@ -75,17 +96,31 @@ def get_recipe_calories(nut_list):
     return 0
 
 
+def check_if_recipe_appear(recipe):
+    result = requests.get(recipe['recipe'])
+    if result.status_code != 200:
+        return None
+    if 'recipeInstructions' in result.text:
+        recipe['recipe'] = get_recipe_text(result.text)
+        return True
+
+
+def add_to_server(lst):
+    requests.post('http://localhost:5050', lst)
+
+
 for cuisine in cuisines_list:
-    lst = []
-    res = requests.get(Yummly_URL + cuisine + YummlyAPI_maxReslts)
-    json = res.json()
+    for i in range(1,11):
+        lst = []
+        res = requests.get(Yummly_URL + cuisine + YummlyAPI_maxReslts.format(start=i*100))
+        json = res.json()
 
-    for recipe in json['matches']:
-        recipe_id = recipe['id']
-        recipe_res = requests.get(Yummly_recipe_url.format(id=recipe_id)).json()
-        lst.append(convert_to_add_dish_obj(recipe_res))
-
-    print(lst)
-
-
+        for recipe in json['matches']:
+            recipe_id = recipe['id']
+            recipe_res = requests.get(Yummly_recipe_url.format(id=recipe_id)).json()
+            obj = convert_to_add_dish_obj(recipe_res, recipe['ingredients'])
+            text_recipe = check_if_recipe_appear(obj)
+            if text_recipe is not None:
+                lst.append(obj)
+        print(json.dumps(lst))
 

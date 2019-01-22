@@ -1,16 +1,19 @@
-from flaskext.mysql import MySQL
+# -*- coding: utf-8 -*-
+
+import MySQLdb
+
 from services.errorHandler import ErrorHandler
 
 
 class sql_driver:
     def __init__(self, app):
-        self.mysql = MySQL()
-        app.config['MYSQL_DATABASE_USER'] = 'DbMysql10'
-        app.config['MYSQL_DATABASE_PASSWORD'] = 'DbMysql10'
-        app.config['MYSQL_DATABASE_DB'] = 'DbMysql10'
-        app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-        self.mysql.init_app(app)
-        self.conn = self.mysql.connect()
+        self.mysql = MySQLdb.connect(
+            host="localhost",
+            user="DbMysql10",
+            passwd="DbMysql10",
+            db="DbMysql10"
+        )
+        self.conn = self.mysql
         self.cursor = None
 
     def insert(self, query, params):
