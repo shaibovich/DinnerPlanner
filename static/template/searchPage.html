@@ -57,7 +57,7 @@
                         <div class="row col-lg-3 ingredient filterBox" ng-repeat="(key, value) in withIngredient">
                             <input class="col-lg-2 " type="checkbox" ng-change="onIngredientsFilterChange(key, value, 'with')"
                                    ng-model="withIngredient[key].checked">
-                            <span class="modalText">
+                            <span class="modalText text-truncate col-lg-9 ">
                             {{withIngredient[key].name}}
                         </span>
                         </div>
@@ -78,7 +78,7 @@
                         <div class="row col-lg-3 ingredient filterBox" ng-repeat="(key, value) in withoutIngredient">
                             <input class="col-lg-2 " type="checkbox" ng-change="onIngredientsFilterChange(key, value, 'without')"
                                    ng-model="withoutIngredient[key].checked">
-                            <span class="modalText">
+                            <span class="modalText text-truncate col-lg-9 ">
                             {{withoutIngredient[key].name}}
                         </span>
                         </div>
