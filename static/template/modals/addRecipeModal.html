@@ -55,11 +55,14 @@
                 <button type="button" ng-click="getIngredients()" class="btn col-lg-1 removeButton"><i
                         class="fa fa-search-plus"></i></button>
             </div>
-            <div class="col-lg-4 row" ng-repeat="(key, value) in ingredients">
-                <label class="col-lg-6 text-truncate" for="ingName">{{ingredients[key].name}}</label>
-                <input type="number" id="ingName" class="form-control col-lg-6" aria-label="..."
-                       ng-model="ingredients[key].count">
+            <div class="row scroll">
+                <div class="col-lg-4" ng-repeat="(key, value) in ingredients">
+                    <label class="col-lg-6 text-truncate" for="ingName">{{ingredients[key].name}}</label>
+                    <input type="number" id="ingName" class="form-control col-lg-6" aria-label="..."
+                           ng-model="ingredients[key].count">
+                </div>
             </div>
+
 
         </div>
         <div class="modalError" ng-if="errMsg">

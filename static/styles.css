@@ -36,7 +36,7 @@
 }
 
 body {
-    background: #FFF5EE	;
+    background: #FFF5EE;
     /*background:url('https://subtlepatterns.com/patterns/gplaypattern.png');*/
     /*background: url('https://subtlepatterns.com/patterns/gplaypattern.png');*/
 }
@@ -78,24 +78,24 @@ h3 {
 
 }
 
-.modalErrorText{
-    color:red;
-    font-size:25px;
+.modalErrorText {
+    color: red;
+    font-size: 25px;
     vertical-align: middle;
-    line-height:90px;
+    line-height: 90px;
 
 }
 
-.alertImg{
-    width:100px;
-    height:100px;
+.alertImg {
+    width: 100px;
+    height: 100px;
 }
 
 .modalSuccess {
-    font-size:25px;
-    color:black;
+    font-size: 25px;
+    color: black;
     vertical-align: middle;
-    line-height:90px;
+    line-height: 90px;
 
 }
 
@@ -432,7 +432,15 @@ p {
 }
 
 .filterContainer.show {
+    overflow: scroll;
     display: flex;
+    max-height: 200px;
+}
+
+.scroll {
+    overflow: scroll;
+    display: flex;
+    max-height: 200px;
 }
 
 .filterBox {
@@ -512,7 +520,7 @@ p {
 
 #myPage .subtle {
     color: #aaa;
-    font-size:20px;
+    font-size: 20px;
 }
 
 
@@ -772,7 +780,6 @@ body {
 }
 
 
-
 #recipeStep li:before {
     color: #444;
     content: counter(LIST-ITEMS) ".";
@@ -825,11 +832,11 @@ nav img {
     text-align: center;
     font-size: 30px;
     font-weight: bold;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 .whiteSpace {
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 h3 {
@@ -872,7 +879,7 @@ h3 {
     background-size: cover;
 }
 
-.thirdImage{
+.thirdImage {
     background: url("./vendor/images/newfood2.jpg");
     background-repeat: no-repeat;
     background-position: center center;
@@ -888,11 +895,11 @@ h3 {
 }
 
 #homePage h1 {
-    color:black;
-    font-size:5em;
-    text-align:center;
-    margin:auto;
-    padding-top:2em;
+    color: black;
+    font-size: 5em;
+    text-align: center;
+    margin: auto;
+    padding-top: 2em;
     vertical-align: middle;
     padding-right: 1em;
     padding-left: 1em;
@@ -900,24 +907,24 @@ h3 {
 }
 
 #homePage h2 {
-    color:black;
-    font-size:3.5em;
-    text-align:center;
-    margin:auto;
-    padding-top:1.5em;
+    color: black;
+    font-size: 3.5em;
+    text-align: center;
+    margin: auto;
+    padding-top: 1.5em;
     padding-right: 1em;
     padding-left: 1em;
     font-weight: bolder;
 }
 
 #homePage button {
-    position:relative;
+    position: relative;
     margin: 0 auto;
-    font-size:1.5em;
+    font-size: 1.5em;
     height: 2em;
     opacity: 0.9;
-    background-color:transparent;
-    color:white;
+    background-color: transparent;
+    color: white;
     font-weight: bolder;
 
 }
