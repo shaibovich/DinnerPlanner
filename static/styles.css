@@ -431,9 +431,14 @@ p {
     display: inline;
 }
 
+.filterContainer {
+    max-height: 200px;
+
+}
+
 .filterContainer.show {
-    overflow: scroll;
     display: flex;
+    overflow: scroll;
     max-height: 200px;
 }
 
