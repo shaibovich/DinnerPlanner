@@ -21,7 +21,6 @@ def validate_get(user_id):
         raise ErrorHandler(403, "User Meal : validation failed, no user id")
 
 
-
 def get(user_id):
     validate_get(user_id)
     query = 'SELECT * FROM {table} WHERE user_id=%s'.format(table=TABLE_NAME)

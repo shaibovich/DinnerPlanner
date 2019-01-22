@@ -9,7 +9,7 @@ class ingridents_service(abstrac_service):
     def add_ingrident(self, ing):
         self.validate_and_convert_ing(ing)
         query, params = insert(ing)
-        id = self.db.insert(query,params)
+        id = self.db.insert(query, params)
         ing['id'] = id
         return self.return_success(ing)
 
@@ -17,8 +17,8 @@ class ingridents_service(abstrac_service):
         new_insert_list = []
         for ing in ing_list:
             self.validate_and_convert_ing(ing_list[ing])
-            query , params= exists(ing_list[ing])
-            if self.db.is_exists(query,params) is False:
+            query, params = exists(ing_list[ing])
+            if self.db.is_exists(query, params) is False:
                 new_insert_list.append(ing_list[ing])
         if len(new_insert_list) == 0:
             return None
@@ -48,7 +48,7 @@ class ingridents_service(abstrac_service):
         lst = []
         for res in result:
             lst.append({
-                'id' : res[0],
+                'id': res[0],
                 'name': res[1]
             })
 

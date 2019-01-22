@@ -42,7 +42,16 @@ def validate_get(meal_id):
 
 def get_dishes(meal_id):
     validate_get(meal_id)
-    query = 'SELECT Dish.dish_id,  Dish.name, Dish.calories, Dish.recipe, Dish.peopleCount, Dish.cookingTime, Dish.photoLink FROM {table}, Dish  WHERE {table}.meal_id=%s AND {table}.dish_id = Dish.dish_id '.format(
+    query = 'SELECT Dish.dish_id,  ' \
+            'Dish.name, ' \
+            'Dish.calories, ' \
+            'Dish.recipe, ' \
+            'Dish.peopleCount, ' \
+            'Dish.cookingTime, ' \
+            'Dish.photoLink ' \
+            'FROM {table}, Dish  ' \
+            'WHERE {table}.meal_id=%s ' \
+            'AND {table}.dish_id = Dish.dish_id '.format(
         table=TABLE_NAME)
     return query, (meal_id)
 
@@ -62,10 +71,7 @@ def add_edited_dishes(user_id, meal_id, query):
              'WHERE user_id={user_id} ' \
              'AND Dish.dish_id = User_recipe.dish_id ' \
              'AND {table}.meal_id = {meal_id} ' \
-             'AND {table}.dish_id=Dish.dish_id)'.format(
-        user_id=user_id,
-        table=TABLE_NAME,
-        meal_id=meal_id)
+             'AND {table}.dish_id=Dish.dish_id)'.format(user_id=user_id, table=TABLE_NAME, meal_id=meal_id)
     return query
 
 

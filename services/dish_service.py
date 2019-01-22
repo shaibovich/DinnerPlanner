@@ -6,8 +6,6 @@ from mysql.tabels import user_recipe
 from services.ingridents_service import ingridents_service as ingridents_services
 
 
-
-
 class dish_service(abstrac_service):
     def __init__(self, my_sql):
         abstrac_service.__init__(self, my_sql)
@@ -18,11 +16,12 @@ class dish_service(abstrac_service):
         id = self.db.insert(query, params)
         if len(list(dish['ingredients'])):
             query, params = dish_ingridents.insert_many(id, dish['ingredients'])
-            self.db.insert(query,params)
+            self.db.insert(query, params)
         return self.return_success(dish)
 
     def search_dish(self, dish):
-        query = full_get_dish(dish, dish['filter']['calories'], dish['filter']['cookingTime'],dish['filter']['withIngredient'], dish['filter']['withoutIngredient'])
+        query = full_get_dish(dish, dish['filter']['calories'], dish['filter']['cookingTime'],
+                              dish['filter']['withIngredient'], dish['filter']['withoutIngredient'])
         result = self.db.get(query, ())
         obj = self.convert_result_to_obj(result)
         for item in obj:
@@ -39,8 +38,6 @@ class dish_service(abstrac_service):
             if dish_ing_list:
                 dish['ingredients'] = dish_ing_list
         return self.return_success(result)
-
-
 
     def to_recipes_list(self, recipes):
         lst = []
@@ -84,4 +81,20 @@ class dish_service(abstrac_service):
             0, dish['name'], dish['recipe'], dish['peopleCount'], dish['cookingTime'], dish['calires'],
             dish['photoLink'])
 
+    def import_dishes(self, dishes):
+        print("Starting importing dishes")
+        for dish in dishes:
+            print("Import dish : {}".format(dish['name']))
+            for ing in dishes['ingredients']:
+                result = self.ing_service.search_ing(ing['name'])
+                if result is None:
+                    print("No ingredient with name : {} - adding".format(ing['name']))
+                    id = self.ing_service.add_ingrident(ing)
+                    ing['id'] = id
+                else:
+                    ing['id'] = result['id']
 
+            self.add_dish(dish)
+            print("Finish import dish : {}".format(dish['name']))
+
+        return self.return_success("success")

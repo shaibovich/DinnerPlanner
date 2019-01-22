@@ -14,7 +14,16 @@ def insert(obj):
 
 
 def get_all_user_recipes(user_id):
-    query = 'SELECT {DISH_TABLE}.dish_id, {DISH_TABLE}.name, {DISH_TABLE}.calories, {table}.recipe, {DISH_TABLE}.peopleCount, {DISH_TABLE}.cookingTime, {DISH_TABLE}.photoLink FROM {table}, {DISH_TABLE} WHERE {table}.user_id = %s AND {table}.dish_id = {DISH_TABLE}.dish_id'.format(
+    query = 'SELECT {DISH_TABLE}.dish_id, ' \
+            '{DISH_TABLE}.name, ' \
+            '{DISH_TABLE}.calories, ' \
+            '{table}.recipe, ' \
+            '{DISH_TABLE}.peopleCount, ' \
+            '{DISH_TABLE}.cookingTime, ' \
+            '{DISH_TABLE}.photoLink ' \
+            'FROM {table}, {DISH_TABLE} ' \
+            'WHERE {table}.user_id = %s ' \
+            'AND {table}.dish_id = {DISH_TABLE}.dish_id'.format(
         table=TABLE_NAME,
         DISH_TABLE=DISH_TABLE)
 

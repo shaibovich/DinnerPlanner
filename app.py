@@ -128,6 +128,11 @@ def search_user_recipes():
     return meal_service.get_user_edited_dishes(request.args.get('user_id'))
 
 
+@app.route('/importDish', methods=['POST'])
+def import_dishes():
+    validate_request(request)
+    return dish_service.import_dishes(request.json)
+
 @app.errorhandler(ErrorHandler)
 def all_exception_handler(error):
     return error.return_response()

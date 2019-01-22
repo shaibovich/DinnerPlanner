@@ -35,15 +35,19 @@ def exists(ing):
 
 
 def get_by_dish_id(dish_id):
-    query = 'SELECT I.ing_id, I.name, {table}.amount FROM {table}, Ingredients as I WHERE {table}.dish_id=%s AND {table}.ing_id = I.ing_id'.format(
-        table='Dish_ingredients')
+    query = 'SELECT I.ing_id, ' \
+            'I.name, ' \
+            '{table}.amount ' \
+            'FROM {table}, Ingredients as I ' \
+            'WHERE {table}.dish_id=%s ' \
+            'AND {table}.ing_id = I.ing_id'.format(table='Dish_ingredients')
     return query, (dish_id)
 
 
 def get_by_name(name):
-    query = 'SELECT * FROM {table} where name LIKE "{name}%"'.format(table=TABLE_NAME,
-                                                                     name=name)
-    return query, ()
+    query = 'SELECT * FROM {table} WHERE MATCH(name) AGAINST(%s)'.format(table=TABLE_NAME)
+
+    return query, (name)
 
 
 def validate_object(ing):
